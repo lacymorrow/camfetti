@@ -32,7 +32,7 @@ struct AddCameraView: View {
                 }
             }
             .navigationTitle(result != nil ? "Looks Good" : picked != nil ? "Sign In" : "Add Camera")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { preview?.stop(); dismiss() }
@@ -74,12 +74,11 @@ struct AddCameraView: View {
             }
             Section {
                 TextField("Address or rtsp:// link", text: $address)
-                    .textInputAutocapitalization(.never)
+                    .plainTextEntry(url: true)
                     .autocorrectionDisabled()
-                    .keyboardType(.URL)
                     .accessibilityIdentifier("addressField")
                 TextField("Username", text: $username)
-                    .textInputAutocapitalization(.never)
+                    .plainTextEntry()
                     .autocorrectionDisabled()
                     .accessibilityIdentifier("usernameField")
                 SecureField("Password", text: $password)
@@ -105,7 +104,7 @@ struct AddCameraView: View {
                 LabeledContent("Camera", value: camera.name)
                 if !camera.isThingino {
                     TextField("Username", text: $username)
-                        .textInputAutocapitalization(.never)
+                        .plainTextEntry()
                         .autocorrectionDisabled()
                 }
                 SecureField(camera.isThingino ? "Web password" : "Password", text: $password)

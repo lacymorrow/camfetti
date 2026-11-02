@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 /// One camera in the grid. Streams only while visible.
 struct CameraTile: View {
@@ -14,8 +13,8 @@ struct CameraTile: View {
         Rectangle().fill(Brand.ink)
             .aspectRatio(16.0 / 9.0, contentMode: .fit)
             .overlay {
-                if let data = stream?.thumbnail, let image = UIImage(data: data) {
-                    Image(uiImage: image).resizable().scaledToFill()
+                if let data = stream?.thumbnail, let image = Image(imageData: data) {
+                    image.resizable().scaledToFill()
                         .opacity(stream?.phase == .live ? 1 : 0.55)
                 }
             }

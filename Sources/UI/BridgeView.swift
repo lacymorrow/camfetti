@@ -1,3 +1,4 @@
+#if os(iOS)
 import SwiftUI
 
 /// Full screen while this device is the Away bridge. Meant to sit on a charger for weeks,
@@ -122,3 +123,4 @@ struct BridgeView: View {
         }
     }
 }
+#endif

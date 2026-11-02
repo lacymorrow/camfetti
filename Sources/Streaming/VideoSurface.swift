@@ -1,8 +1,13 @@
 import AVFoundation
-import AVKit
+#if os(iOS)
+import UIKit
+#else
+import AppKit
+#endif
 import SwiftUI
 
 /// Shows a LiveStream's display layer inside SwiftUI.
+#if os(iOS)
 struct VideoSurface: UIViewRepresentable {
     let stream: LiveStream
     var fill = true
@@ -42,6 +47,50 @@ struct VideoSurface: UIViewRepresentable {
         }
     }
 }
+#else
+struct VideoSurface: NSViewRepresentable {
+    let stream: LiveStream
+    var fill = true
+
+    func makeNSView(context: Context) -> Host { Host() }
+
+    func updateNSView(_ view: Host, context: Context) {
+        view.attach(stream.layer, fill: fill)
+    }
+
+    final class Host: NSView {
+        private weak var attached: CALayer?
+
+        override init(frame: NSRect) {
+            super.init(frame: frame)
+            wantsLayer = true
+            layer?.masksToBounds = true
+        }
+
+        required init?(coder: NSCoder) { fatalError("not used") }
+
+        func attach(_ video: AVSampleBufferDisplayLayer, fill: Bool) {
+            video.videoGravity = fill ? .resizeAspectFill : .resizeAspect
+            guard attached !== video else { return }
+            attached?.removeFromSuperlayer()
+            layer?.addSublayer(video)
+            attached = video
+            needsLayout = true
+        }
+
+        override func layout() {
+            super.layout()
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            attached?.frame = bounds
+            CATransaction.commit()
+        }
+    }
+}
+#endif
+
+#if os(iOS)
+import AVKit
 
 /// Picture in Picture for a live stream. Starts automatically when the person swipes home.
 @MainActor
@@ -81,3 +130,4 @@ final class PiPController: NSObject, AVPictureInPictureSampleBufferPlaybackDeleg
     nonisolated func pictureInPictureController(_ c: AVPictureInPictureController, didTransitionToRenderSize newRenderSize: CMVideoDimensions) {}
     nonisolated func pictureInPictureController(_ c: AVPictureInPictureController, skipByInterval skipInterval: CMTime) async {}
 }
+#endif

@@ -1,9 +1,14 @@
 import SwiftUI
+#if os(macOS)
+import AppKit
+#endif
 
 @main
 struct CamFettiApp: App {
     @State private var model: AppModel
-    @Environment(\.scenePhase) private var scenePhase
+    #if os(macOS)
+    @NSApplicationDelegateAdaptor(MacAppDelegate.self) private var delegate
+    #endif
 
     init() {
         if ProcessInfo.processInfo.arguments.contains("-resetForTesting") {
@@ -57,6 +62,7 @@ struct CamFettiApp: App {
     #endif
 
     var body: some Scene {
+        #if os(iOS)
         WindowGroup {
             Group {
                 if model.bridgeMode {
@@ -68,5 +74,31 @@ struct CamFettiApp: App {
             .environment(model)
             .tint(Brand.pink)
         }
+        #else
+        Window("CamFetti", id: "main") {
+            Group {
+                #if DEBUG
+                if ProcessInfo.processInfo.arguments.contains("-awayMenuPreview") {
+                    AwayMenuPreview()
+                } else {
+                    CamerasView()
+                }
+                #else
+                CamerasView()
+                #endif
+            }
+            .frame(minWidth: 520, minHeight: 360)
+            .environment(model)
+            .tint(Brand.pink)
+        }
+        .defaultSize(width: 960, height: 640)
+        Settings {
+            SettingsView()
+                .environment(model)
+                .frame(width: 480, height: 420)
+                .tint(Brand.pink)
+        }
+        AwayMenuScene()
+        #endif
     }
 }

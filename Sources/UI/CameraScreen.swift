@@ -1,15 +1,15 @@
 import SwiftUI
-import UIKit
 
 /// Full screen. Primary action: watch. Controls fade away on their own.
 struct CameraScreen: View {
     @Environment(AppModel.self) private var model
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     let camera: Camera
 
     @State private var stream: LiveStream?
+    #if os(iOS)
     @State private var pip = PiPController()
+    #endif
     @State private var controlsVisible = true
     @State private var hideTask: Task<Void, Never>?
     @State private var zoom: CGFloat = 1
@@ -46,12 +46,14 @@ struct CameraScreen: View {
                 .transition(.opacity)
             }
         }
-        .statusBarHidden(!controlsVisible)
-        .persistentSystemOverlays(controlsVisible ? .automatic : .hidden)
+        .immersive(!controlsVisible)
+        .background { backShortcut }
         .onAppear(perform: begin)
         .onDisappear(perform: end)
         .onChange(of: stream?.phase) { _, phase in
+            #if os(iOS)
             if phase == .live, let stream { pip.attach(to: stream) }
+            #endif
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { stream?.start() }
@@ -60,8 +62,8 @@ struct CameraScreen: View {
 
     @ViewBuilder private var video: some View {
         ZStack {
-            if let data = stream?.thumbnail, let image = UIImage(data: data), stream?.phase != .live {
-                Image(uiImage: image).resizable().aspectRatio(contentMode: fill ? .fill : .fit).opacity(0.7)
+            if let data = stream?.thumbnail, let image = Image(imageData: data), stream?.phase != .live {
+                image.resizable().aspectRatio(contentMode: fill ? .fill : .fit).opacity(0.7)
             }
             if let stream {
                 VideoSurface(stream: stream, fill: fill)
@@ -84,7 +86,7 @@ struct CameraScreen: View {
         case .failed(.wrongPassword):
             failure("Wrong password", action: "Sign In Again") {
                 model.editing = camera
-                dismiss()
+                close()
             }
         case .failed:
             failure("No video from this camera", action: "Try Again") { stream?.retry() }
@@ -103,13 +105,13 @@ struct CameraScreen: View {
     private var controls: some View {
         VStack {
             HStack {
-                Button { dismiss() } label: { ControlIcon(symbol: "xmark") }
-                    .accessibilityLabel("Close")
+                Button { close() } label: { ControlIcon(symbol: Self.closeSymbol) }
+                    .accessibilityLabel(Self.closeLabel)
                     .accessibilityIdentifier("closeCamera")
                 Spacer()
                 Text(camera.name).font(.headline).foregroundStyle(.white).shadow(radius: 4).lineLimit(1)
                 Spacer()
-                Button { model.editing = camera; dismiss() } label: { ControlIcon(symbol: "info") }
+                Button { model.editing = camera; close() } label: { ControlIcon(symbol: "info") }
                     .accessibilityLabel("Details")
             }
             Spacer()
@@ -123,6 +125,7 @@ struct CameraScreen: View {
                 Button { Task { await snapshot() } } label: { ControlIcon(symbol: "camera.fill") }
                     .accessibilityLabel("Save snapshot")
                     .accessibilityIdentifier("snapshotButton")
+                #if os(iOS)
                 if camera.kind == .thingino, CameraSecrets(id: camera.id).apiKey != nil {
                     Menu {
                         ForEach(ThinginoClient.DayNight.allCases, id: \.self) { mode in
@@ -140,12 +143,50 @@ struct CameraScreen: View {
                     Button { pip.toggle() } label: { ControlIcon(symbol: "pip.enter") }
                         .accessibilityLabel("Picture in Picture")
                 }
+                #endif
             }
             .padding(.bottom, 8)
         }
         .padding(16)
+        .buttonStyle(.plain)
     }
 
+    /// Dragging to turn a camera is a touch gesture. The Mac has no PTZ in v1.
+    private static var hasMotors: Bool {
+        #if os(iOS)
+        true
+        #else
+        false
+        #endif
+    }
+
+    private static var closeSymbol: String {
+        #if os(iOS)
+        "xmark"
+        #else
+        "chevron.backward"
+        #endif
+    }
+
+    private static var closeLabel: String {
+        #if os(iOS)
+        "Close"
+        #else
+        "Back"
+        #endif
+    }
+
+    /// Returns to the grid. Always present, so Esc works even after the controls fade away.
+    private var backShortcut: some View {
+        Button("Back") { close() }
+            .keyboardShortcut(.cancelAction)
+            .opacity(0)
+            .accessibilityHidden(true)
+    }
+
+    private func close() { model.focused = nil }
+
+    #if os(iOS)
     private func symbol(for mode: ThinginoClient.DayNight) -> String {
         switch mode {
         case .auto: "circle.lefthalf.filled"
@@ -153,6 +194,8 @@ struct CameraScreen: View {
         case .night: "moon.fill"
         }
     }
+
+    #endif
 
     // MARK: Gestures
 
@@ -172,7 +215,7 @@ struct CameraScreen: View {
                 if zoom > 1 {
                     offset = CGSize(width: offsetBase.width + value.translation.width,
                                     height: offsetBase.height + value.translation.height)
-                } else if camera.onvif?.ptzURL != nil, !ptzActive {
+                } else if Self.hasMotors, camera.onvif?.ptzURL != nil, !ptzActive {
                     ptzActive = true
                     onvifMove(value.translation)
                 }
@@ -180,7 +223,7 @@ struct CameraScreen: View {
             .onEnded { value in
                 if zoom > 1 {
                     offsetBase = offset
-                } else if camera.canPan {
+                } else if Self.hasMotors, camera.canPan {
                     finishPan(value.translation)
                 }
             }
@@ -223,7 +266,9 @@ struct CameraScreen: View {
 
     private func end() {
         hideTask?.cancel()
+        #if os(iOS)
         pip.detach()
+        #endif
         stream?.stop()
     }
 

@@ -23,12 +23,19 @@ struct CamerasView: View {
                 if !model.isOnline { OfflineBanner() }
             }
             .navigationTitle("Cameras")
+            #if os(macOS)
+            .toolbar(model.focused == nil ? .automatic : .hidden, for: .windowToolbar)
+            #endif
+            #if os(iOS)
             .toolbarTitleDisplayMode(.inlineLarge)
+            #endif
             .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    #if os(iOS)
                     Button { showSettings = true } label: { Image(systemName: "gearshape") }
                         .accessibilityLabel("Settings")
                         .accessibilityIdentifier("settingsButton")
+                    #endif
                     Button { showAdd = true } label: { Image(systemName: "plus") }
                         .accessibilityLabel("Add camera")
                         .accessibilityIdentifier("addButton")
@@ -40,7 +47,7 @@ struct CamerasView: View {
         }
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(item: $model.editing) { CameraDetailsView(camera: $0) }
-        .fullScreenCover(item: $model.focused) { CameraScreen(camera: $0) }
+        .cameraPresentation(item: $model.focused)
         .overlay {
             if model.celebrate {
                 ConfettiBurst()
@@ -64,11 +71,26 @@ struct CamerasView: View {
             finder.start()
             #if DEBUG
             if ProcessInfo.processInfo.arguments.contains("-openSettings") { showSettings = true }
+            let args = ProcessInfo.processInfo.arguments
+            if let i = args.firstIndex(of: "-focusCamera"), i + 1 < args.count {
+                try? await Task.sleep(for: .seconds(1))
+                model.focused = model.store.cameras.first { $0.name == args[i + 1] }
+            }
             #endif
         }
     }
 
     private var grid: some View {
+        #if os(macOS)
+        // A resizable window: as many columns as fit, tiles stay 16:9.
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 280, maximum: 640), spacing: GridLayout.spacing)],
+                      spacing: GridLayout.spacing) {
+                ForEach(model.store.cameras) { CameraTile(camera: $0) }
+            }
+            .padding(GridLayout.spacing)
+        }
+        #else
         GeometryReader { geo in
             let cameras = model.store.cameras
             let layout = GridLayout.best(count: cameras.count, width: geo.size.width - 16, height: geo.size.height - 16)
@@ -84,6 +106,26 @@ struct CamerasView: View {
             }
             .scrollBounceBehavior(.basedOnSize)
         }
+        #endif
+    }
+}
+
+extension View {
+    /// A camera opened large. Full screen on iPhone; on the Mac it takes over the window, and
+    /// Esc or Back returns to the grid.
+    @ViewBuilder func cameraPresentation(item: Binding<Camera?>) -> some View {
+        #if os(iOS)
+        fullScreenCover(item: item) { CameraScreen(camera: $0) }
+        #else
+        overlay {
+            if let camera = item.wrappedValue {
+                CameraScreen(camera: camera)
+                    .id(camera.id)
+                    .background(.black)
+                    .transition(.opacity)
+            }
+        }
+        #endif
     }
 }
 

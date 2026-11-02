@@ -24,9 +24,8 @@ struct CameraDetailsView: View {
                     TextField("Tailscale name or address", text: Binding(
                         get: { camera.awayHost ?? "" },
                         set: { camera.awayHost = $0.isEmpty ? nil : $0 }))
-                        .textInputAutocapitalization(.never)
+                        .plainTextEntry(url: true)
                         .autocorrectionDisabled()
-                        .keyboardType(.URL)
                         .accessibilityIdentifier("awayField")
                 } header: {
                     Text("Away from Home")
@@ -62,7 +61,7 @@ struct CameraDetailsView: View {
                 }
             }
             .navigationTitle("Details")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {

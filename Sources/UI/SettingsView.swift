@@ -7,9 +7,18 @@ struct SettingsView: View {
     @State private var tips = TipJar()
     @State private var routeThroughRelay = AwayConfig.routeThroughRelay
 
+    private static let tailscaleURL: URL = {
+        #if os(iOS)
+        URL(string: "https://tailscale.com/download/ios")!
+        #else
+        URL(string: "https://tailscale.com/download")!
+        #endif
+    }()
+
     var body: some View {
         NavigationStack {
             Form {
+                #if os(iOS)
                 if AwayConfig.isAvailable {
                     Section {
                         Toggle("Watch Through Away", isOn: $routeThroughRelay)
@@ -27,8 +36,9 @@ struct SettingsView: View {
                         Text("Plays every camera through the CamFetti relay and the bridge at home, even on Wi-Fi.")
                     }
                 }
+                #endif
                 Section {
-                    Link("Get Tailscale", destination: URL(string: "https://tailscale.com/download/ios")!)
+                    Link("Get Tailscale", destination: Self.tailscaleURL)
                 } header: {
                     Text("Watch from Anywhere")
                 } footer: {
@@ -58,10 +68,14 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
+            .inlineNavigationTitle()
+            #if os(iOS)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
             }
+            #else
+            .formStyle(.grouped)
+            #endif
             .task { await tips.load() }
         }
     }

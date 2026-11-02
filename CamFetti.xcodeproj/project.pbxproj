@@ -33,11 +33,15 @@
 		9209421332264A1001AAC213 /* CamerasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C4BCD17F6BB08B17863301 /* CamerasView.swift */; };
 		93B497DFACD141F69CB5CF00 /* LiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849FE83A1817BEDAE6D2A4B9 /* LiveStream.swift */; };
 		99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8B7EEC94B263392E9256 /* BrandTemplates.swift */; };
+		A05BA50F2EF99334CF069D37 /* AwayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210A47F34A7C39FB816476BC /* AwayController.swift */; platformFilters = (macos, ); };
 		A35B91014C855F8E3FDC1C9D /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37B3A0490833AF68636EE64 /* Camera.swift */; };
 		AC914AA0B875E18CA88FCB21 /* AudioOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3447670B2BB555F88ABA85A7 /* AudioOut.swift */; };
+		B24F5416D9B4F2B23A621392 /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2984C36AFBB31A6A796E439 /* DeviceInfo.swift */; };
+		B868AC0A747BA9C8FFB9FCCF /* Compat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC404E0CF52274043214D619 /* Compat.swift */; };
 		C1E808FBD973FDCDBB6491A9 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7594412CD555C765D23E9E /* Pipe.swift */; };
 		C3E439F29FA25C21368B5A04 /* AddCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07156A31F0240645EDFB7337 /* AddCameraView.swift */; };
 		C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */; };
+		DCF54DE62068BCB14C5DFDDF /* AwayMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111EA1D9446454727EA81DF /* AwayMenu.swift */; platformFilters = (macos, ); };
 		DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C796516D06463C0715479659 /* AppModel.swift */; };
 		E1E6A8F7A197FAF484BBEE50 /* AwayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE442F00254689461024956 /* AwayConfig.swift */; };
 		EC4D83D0C7557F1FF5451379 /* H26xTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52F1D0C9019C8343182E16 /* H26xTests.swift */; };
@@ -69,6 +73,7 @@
 		0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B84AC2A1D148FA67883099D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AC405B87E75857AD6EDF6E3 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		210A47F34A7C39FB816476BC /* AwayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayController.swift; sourceTree = "<group>"; };
 		2613C84D5C2C7993F5488C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		33E7B771925A60BBA2F2553D /* FrameGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameGrabber.swift; sourceTree = "<group>"; };
 		3447670B2BB555F88ABA85A7 /* AudioOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOut.swift; sourceTree = "<group>"; };
@@ -95,13 +100,16 @@
 		AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
 		B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnvifClient.swift; sourceTree = "<group>"; };
 		BDD13A76821ACBB47B939768 /* AwayTunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayTunnel.swift; sourceTree = "<group>"; };
+		C111EA1D9446454727EA81DF /* AwayMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayMenu.swift; sourceTree = "<group>"; };
 		C796516D06463C0715479659 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealCameraTests.swift; sourceTree = "<group>"; };
 		CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScreenshots.swift; sourceTree = "<group>"; };
 		CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiApp.swift; sourceTree = "<group>"; };
+		D2984C36AFBB31A6A796E439 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		E0C4BCD17F6BB08B17863301 /* CamerasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamerasView.swift; sourceTree = "<group>"; };
 		E438A482E765942F7E236712 /* CameraProber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraProber.swift; sourceTree = "<group>"; };
 		E97FCD48B6E106A432881F33 /* CameraFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFinder.swift; sourceTree = "<group>"; };
+		EC404E0CF52274043214D619 /* Compat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compat.swift; sourceTree = "<group>"; };
 		F13D3A981B2AE6B2A21FB1F3 /* BridgeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeService.swift; sourceTree = "<group>"; };
 		F37B3A0490833AF68636EE64 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,6 +126,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0741E7D8444462332ACF41CF /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				210A47F34A7C39FB816476BC /* AwayController.swift */,
+				C111EA1D9446454727EA81DF /* AwayMenu.swift */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
 		281AD7F0C5C160937E4A548B /* Integrations */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,7 +155,9 @@
 				713EB44BB7F3D1ABBB036D5E /* Away */,
 				8C472F4583EBBD07A5447B4B /* Discovery */,
 				281AD7F0C5C160937E4A548B /* Integrations */,
+				0741E7D8444462332ACF41CF /* Mac */,
 				614704CFAD21D71BE32F221C /* Model */,
+				94632869E0D3447773830329 /* Platform */,
 				91F1CA2505DD5A8B7C5C321C /* Streaming */,
 				7CCF5E7955D37CC5C6582646 /* UI */,
 			);
@@ -181,6 +200,7 @@
 				8DE442F00254689461024956 /* AwayConfig.swift */,
 				BDD13A76821ACBB47B939768 /* AwayTunnel.swift */,
 				F13D3A981B2AE6B2A21FB1F3 /* BridgeService.swift */,
+				D2984C36AFBB31A6A796E439 /* DeviceInfo.swift */,
 				3A7594412CD555C765D23E9E /* Pipe.swift */,
 			);
 			path = Away;
@@ -219,6 +239,14 @@
 				5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */,
 			);
 			path = Streaming;
+			sourceTree = "<group>";
+		};
+		94632869E0D3447773830329 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				EC404E0CF52274043214D619 /* Compat.swift */,
+			);
+			path = Platform;
 			sourceTree = "<group>";
 		};
 		AA42EE81175E99683F97EF52 /* Products */ = {
@@ -408,6 +436,8 @@
 				DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */,
 				AC914AA0B875E18CA88FCB21 /* AudioOut.swift in Sources */,
 				E1E6A8F7A197FAF484BBEE50 /* AwayConfig.swift in Sources */,
+				A05BA50F2EF99334CF069D37 /* AwayController.swift in Sources */,
+				DCF54DE62068BCB14C5DFDDF /* AwayMenu.swift in Sources */,
 				0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */,
 				3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */,
 				99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */,
@@ -422,6 +452,8 @@
 				8260143BA6A12DA146AF9F86 /* CameraStore.swift in Sources */,
 				3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */,
 				9209421332264A1001AAC213 /* CamerasView.swift in Sources */,
+				B868AC0A747BA9C8FFB9FCCF /* Compat.swift in Sources */,
+				B24F5416D9B4F2B23A621392 /* DeviceInfo.swift in Sources */,
 				5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */,
 				F9407639C36B4F6414F37236 /* H26x.swift in Sources */,
 				FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */,
@@ -523,6 +555,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -602,6 +635,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -636,7 +670,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Mac/CamFetti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"ENABLE_APP_SANDBOX[sdk=macosx*]" = YES;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -644,6 +681,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -670,7 +711,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_ENTITLEMENTS[sdk=macosx*]" = Mac/CamFetti.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"ENABLE_APP_SANDBOX[sdk=macosx*]" = YES;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -678,6 +722,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

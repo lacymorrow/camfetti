@@ -2,7 +2,6 @@ import Foundation
 import Network
 import Observation
 import os
-import UIKit
 
 /// Home side of Away. Holds one link to the relay and, when a phone asks for a camera,
 /// dials the camera on the home network and a fresh link back to the relay, then joins them.
@@ -36,7 +35,8 @@ final class BridgeService {
     func start() {
         guard !running else { return }
         running = true
-        UIDevice.current.isBatteryMonitoringEnabled = true
+        status = .connecting
+        DeviceInfo.startMonitoring()
         connect()
     }
 
@@ -171,17 +171,11 @@ final class BridgeService {
     }
 
     private func heartbeatFields() -> [String: Any] {
-        let device = UIDevice.current
-        let charging: String = switch device.batteryState {
-        case .charging: "charging"
-        case .full: "full"
-        case .unplugged: "unplugged"
-        default: "unknown"
-        }
+        let power = DeviceInfo.power()
         return [
             "hb": 1,
-            "battery": (Double(device.batteryLevel) * 100).rounded(),
-            "power": charging,
+            "battery": power.battery,
+            "power": power.source,
             "thermal": ProcessInfo.processInfo.thermalState.rawValue,
             "lowPower": ProcessInfo.processInfo.isLowPowerModeEnabled,
             "app_s": Int(Date().timeIntervalSince(started)),
@@ -192,10 +186,5 @@ final class BridgeService {
         ]
     }
 
-    private static var deviceName: String {
-        var info = utsname()
-        uname(&info)
-        let model = withUnsafeBytes(of: &info.machine) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
-        return "\(model) iOS \(UIDevice.current.systemVersion)"
-    }
+    private static var deviceName: String { DeviceInfo.name }
 }

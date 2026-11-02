@@ -2,7 +2,11 @@ import AVFoundation
 import Foundation
 import Network
 import Observation
+#if os(iOS)
 import Photos
+#else
+import AppKit
+#endif
 
 /// App-wide state: the camera list, the grid's streams, and network status.
 @MainActor @Observable
@@ -33,9 +37,11 @@ final class AppModel {
     }
 
     static func configureAudioSession() {
+        #if os(iOS)
         // Mixes with other audio, so a silent grid never stops the person's music.
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback, options: [.mixWithOthers])
         try? AVAudioSession.sharedInstance().setActive(true)
+        #endif
     }
 
     func gridStream(for camera: Camera) -> LiveStream {
@@ -107,6 +113,7 @@ final class AppModel {
 
     enum SaveResult { case saved, denied, failed }
 
+    #if os(iOS)
     func save(jpeg: Data) async -> SaveResult {
         let status = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
         guard status == .authorized || status == .limited else { return .denied }
@@ -123,4 +130,14 @@ final class AppModel {
     nonisolated private static func addPhotoChange(_ jpeg: Data) -> @Sendable () -> Void {
         { PHAssetCreationRequest.forAsset().addResource(with: .photo, data: jpeg, options: nil) }
     }
+    #else
+    /// On the Mac a snapshot goes where the person says, through the standard save panel.
+    func save(jpeg: Data) async -> SaveResult {
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.jpeg]
+        panel.nameFieldStringValue = "CamFetti Snapshot.jpg"
+        guard panel.runModal() == .OK, let url = panel.url else { return .denied }
+        return (try? jpeg.write(to: url)) != nil ? .saved : .failed
+    }
+    #endif
 }

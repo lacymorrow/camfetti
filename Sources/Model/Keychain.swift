@@ -5,28 +5,43 @@ import Security
 enum Keychain {
     private static let service = "sh.lacy.camfetti"
 
-    static func set(_ value: String?, for key: String) {
-        let base: [String: Any] = [
+    /// On the Mac the data protection keychain is the one that matches iOS: items belong to the
+    /// app, not to a login keychain file that prompts. It needs a signed build, so a build
+    /// without a team falls back to the file keychain.
+    nonisolated(unsafe) private static var useDataProtection = true
+
+    private static func base(_ key: String) -> [String: Any] {
+        var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: key,
         ]
+        #if os(macOS)
+        if useDataProtection { query[kSecUseDataProtectionKeychain as String] = true }
+        #endif
+        return query
+    }
+
+    static func set(_ value: String?, for key: String) {
+        let base = base(key)
         SecItemDelete(base as CFDictionary)
         guard let value, !value.isEmpty else { return }
         var add = base
         add[kSecValueData as String] = Data(value.utf8)
         add[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-        SecItemAdd(add as CFDictionary, nil)
+        let status = SecItemAdd(add as CFDictionary, nil)
+        #if os(macOS)
+        if status == errSecMissingEntitlement, useDataProtection {
+            useDataProtection = false
+            set(value, for: key)
+        }
+        #endif
     }
 
     static func get(_ key: String) -> String? {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: service,
-            kSecAttrAccount as String: key,
-            kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne,
-        ]
+        var query = base(key)
+        query[kSecReturnData as String] = true
+        query[kSecMatchLimit as String] = kSecMatchLimitOne
         var out: AnyObject?
         guard SecItemCopyMatching(query as CFDictionary, &out) == errSecSuccess,
               let data = out as? Data else { return nil }
