@@ -2,9 +2,9 @@ import AVFoundation
 import Foundation
 import Network
 import Observation
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import Photos
-#else
+#elseif os(macOS)
 import AppKit
 #endif
 
@@ -37,7 +37,7 @@ final class AppModel {
     }
 
     static func configureAudioSession() {
-        #if os(iOS)
+        #if os(iOS) || os(visionOS)
         // Mixes with other audio, so a silent grid never stops the person's music.
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback, options: [.mixWithOthers])
         try? AVAudioSession.sharedInstance().setActive(true)
@@ -113,7 +113,7 @@ final class AppModel {
 
     enum SaveResult { case saved, denied, failed }
 
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
     func save(jpeg: Data) async -> SaveResult {
         let status = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
         guard status == .authorized || status == .limited else { return .denied }
@@ -130,7 +130,7 @@ final class AppModel {
     nonisolated private static func addPhotoChange(_ jpeg: Data) -> @Sendable () -> Void {
         { PHAssetCreationRequest.forAsset().addResource(with: .photo, data: jpeg, options: nil) }
     }
-    #else
+    #elseif os(macOS)
     /// On the Mac a snapshot goes where the person says, through the standard save panel.
     func save(jpeg: Data) async -> SaveResult {
         let panel = NSSavePanel()
@@ -139,5 +139,8 @@ final class AppModel {
         guard panel.runModal() == .OK, let url = panel.url else { return .denied }
         return (try? jpeg.write(to: url)) != nil ? .saved : .failed
     }
+    #else
+    /// Apple TV has nowhere to put a snapshot, and the button is hidden there.
+    func save(jpeg: Data) async -> SaveResult { .failed }
     #endif
 }

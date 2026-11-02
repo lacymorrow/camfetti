@@ -25,12 +25,10 @@ struct CameraScreen: View {
     var body: some View {
         ZStack {
             Theme.videoBackground.ignoresSafeArea(edges: Theme.videoSafeAreaEdges)
-            video
+            zoomable
                 .scaleEffect(zoom)
                 .offset(offset)
                 .ignoresSafeArea(edges: Theme.videoSafeAreaEdges)
-                .gesture(magnify)
-                .simultaneousGesture(drag)
                 .onTapGesture(count: 2) { withAnimation(fade(Theme.Motion.quick)) { doubleTap() } }
                 .onTapGesture { toggleControls() }
             status
@@ -48,7 +46,7 @@ struct CameraScreen: View {
             }
         }
         .immersive(!controlsVisible)
-        .background { backShortcut }
+        .backShortcut { close() }
         .onAppear(perform: begin)
         .onDisappear(perform: end)
         .onChange(of: stream?.phase) { _, phase in
@@ -59,6 +57,15 @@ struct CameraScreen: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { stream?.start() }
         }
+    }
+
+    /// The picture, with pinch and drag where the device has fingers. The TV remote has neither.
+    @ViewBuilder private var zoomable: some View {
+        #if os(tvOS)
+        video.focusable()
+        #else
+        video.gesture(magnify).simultaneousGesture(drag)
+        #endif
     }
 
     @ViewBuilder private var video: some View {
@@ -123,9 +130,11 @@ struct CameraScreen: View {
                     }
                     .accessibilityLabel(stream?.muted == false ? "Mute" : "Listen")
                 }
-                Button { Task { await snapshot() } } label: { ControlIcon(symbol: "camera.fill") }
-                    .accessibilityLabel("Save snapshot")
-                    .accessibilityIdentifier("snapshotButton")
+                if Platform.canSaveSnapshot {
+                    Button { Task { await snapshot() } } label: { ControlIcon(symbol: "camera.fill") }
+                        .accessibilityLabel("Save snapshot")
+                        .accessibilityIdentifier("snapshotButton")
+                }
                 #if os(iOS)
                 if camera.kind == .thingino, CameraSecrets(id: camera.id).apiKey != nil {
                     Menu {
@@ -177,14 +186,6 @@ struct CameraScreen: View {
         #endif
     }
 
-    /// Returns to the grid. Always present, so Esc works even after the controls fade away.
-    private var backShortcut: some View {
-        Button("Back") { close() }
-            .keyboardShortcut(.cancelAction)
-            .opacity(0)
-            .accessibilityHidden(true)
-    }
-
     private func close() { model.focused = nil }
 
     private func fade(_ duration: Double) -> Animation? {
@@ -204,6 +205,7 @@ struct CameraScreen: View {
 
     // MARK: Gestures
 
+    #if !os(tvOS)
     private var magnify: some Gesture {
         MagnifyGesture()
             .onChanged { zoom = max(1, min(6, zoomBase * $0.magnification)) }
@@ -233,6 +235,8 @@ struct CameraScreen: View {
                 }
             }
     }
+
+    #endif
 
     private func doubleTap() {
         if zoom > 1 {

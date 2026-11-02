@@ -1,5 +1,5 @@
 import AVFoundation
-#if os(iOS)
+#if canImport(UIKit)
 import UIKit
 #else
 import AppKit
@@ -7,7 +7,7 @@ import AppKit
 import SwiftUI
 
 /// Shows a LiveStream's display layer inside SwiftUI.
-#if os(iOS)
+#if canImport(UIKit)
 struct VideoSurface: UIViewRepresentable {
     let stream: LiveStream
     var fill = true

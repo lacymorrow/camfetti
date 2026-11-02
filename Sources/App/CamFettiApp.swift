@@ -62,18 +62,30 @@ struct CamFettiApp: App {
     #endif
 
     var body: some Scene {
-        #if os(iOS)
+        #if os(iOS) || os(tvOS) || os(visionOS)
         WindowGroup {
             Group {
+                #if os(iOS)
                 if model.bridgeMode {
                     BridgeView()
                 } else {
                     CamerasView()
                 }
+                #else
+                CamerasView()
+                #endif
             }
             .environment(model)
             .tint(Theme.accent)
+            .platformWindowBackground()
         }
+        #if os(visionOS)
+        .defaultSize(width: Theme.windowDefault.width, height: Theme.windowDefault.height)
+        #endif
+        #if os(visionOS)
+        // A camera opened from the grid gets its own large window.
+        CameraWindowScene(model: model)
+        #endif
         #else
         Window("CamFetti", id: "main") {
             Group {

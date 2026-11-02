@@ -17,6 +17,7 @@
 		288A41E0E17A8BF9778F6CAA /* IntegrationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */; };
 		3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */; };
 		32025DAF63C7B208674F4DD6 /* CameraDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */; };
+		371FE9A3E782AD05B4C219C6 /* CameraWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA0E61DF03520D67AF8A28 /* CameraWindow.swift */; };
 		42C2B1FC7A03AFFC69F3FF3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B84AC2A1D148FA67883099D /* Assets.xcassets */; };
 		4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531BA091864AFBA41BEDD472 /* ThinginoClient.swift */; };
 		4CA7D58DCCCB788094B0452E /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CCC4B9AD3D08C0450C067 /* BridgeView.swift */; };
@@ -106,6 +107,7 @@
 		CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScreenshots.swift; sourceTree = "<group>"; };
 		CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiApp.swift; sourceTree = "<group>"; };
 		D2984C36AFBB31A6A796E439 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		D7CA0E61DF03520D67AF8A28 /* CameraWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraWindow.swift; sourceTree = "<group>"; };
 		E0C4BCD17F6BB08B17863301 /* CamerasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamerasView.swift; sourceTree = "<group>"; };
 		E438A482E765942F7E236712 /* CameraProber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraProber.swift; sourceTree = "<group>"; };
 		E97FCD48B6E106A432881F33 /* CameraFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFinder.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */,
 				E0C4BCD17F6BB08B17863301 /* CamerasView.swift */,
 				633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */,
+				D7CA0E61DF03520D67AF8A28 /* CameraWindow.swift */,
 				6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */,
 				2AABC52D50A0B17BAF6EBEFB /* Theme.swift */,
 			);
@@ -450,6 +453,7 @@
 				17E54E35542944DA6DA2DFA6 /* CameraScreen.swift in Sources */,
 				8260143BA6A12DA146AF9F86 /* CameraStore.swift in Sources */,
 				3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */,
+				371FE9A3E782AD05B4C219C6 /* CameraWindow.swift in Sources */,
 				9209421332264A1001AAC213 /* CamerasView.swift in Sources */,
 				B868AC0A747BA9C8FFB9FCCF /* Compat.swift in Sources */,
 				B24F5416D9B4F2B23A621392 /* DeviceInfo.swift in Sources */,
@@ -566,6 +570,8 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -645,6 +651,8 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -681,11 +689,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator xros xrsimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = 1;
+				"TARGETED_DEVICE_FAMILY[sdk=appletv*]" = 3;
+				"TARGETED_DEVICE_FAMILY[sdk=xr*]" = 7;
 			};
 			name = Debug;
 		};
@@ -722,11 +732,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator xros xrsimulator macosx";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = 1;
+				"TARGETED_DEVICE_FAMILY[sdk=appletv*]" = 3;
+				"TARGETED_DEVICE_FAMILY[sdk=xr*]" = 7;
 			};
 			name = Release;
 		};

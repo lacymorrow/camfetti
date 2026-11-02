@@ -66,6 +66,10 @@ enum Theme {
     static let tileMinWidth: CGFloat = {
         #if os(macOS)
         280
+        #elseif os(tvOS)
+        360
+        #elseif os(visionOS)
+        240
         #else
         150
         #endif
@@ -73,16 +77,20 @@ enum Theme {
     static let tileMaxWidth: CGFloat = 640
     /// Gap between tiles.
     static let gridSpacing: CGFloat = {
-        #if os(macOS)
+        #if os(macOS) || os(visionOS)
         16
+        #elseif os(tvOS)
+        40
         #else
         8
         #endif
     }()
     /// Space between the grid and the window or screen edge.
     static let gridInset: CGFloat = {
-        #if os(macOS)
+        #if os(macOS) || os(visionOS)
         24
+        #elseif os(tvOS)
+        60
         #else
         8
         #endif
@@ -101,32 +109,93 @@ enum Theme {
         #endif
     }()
     static let readableWidth: CGFloat = 320
-    static let controlSize: CGFloat = 46
+    /// Width of explanatory text on an empty screen.
+    static let emptyTextWidth: CGFloat = {
+        #if os(tvOS)
+        900
+        #else
+        480
+        #endif
+    }()
+    static let controlSize: CGFloat = {
+        #if os(tvOS)
+        88
+        #else
+        46
+        #endif
+    }()
+    /// A focused tile on Apple TV: how much it grows and how far its shadow reaches.
+    static let focusScale: CGFloat = 1.08
+    static let focusShadowRadius: CGFloat = 24
     static let heroSymbolSize: CGFloat = 64
     /// Gap below a full-screen toast, clear of the control row.
-    static let toastBottomInset: CGFloat = 96
+    static let toastBottomInset: CGFloat = {
+        #if os(tvOS)
+        180
+        #else
+        96
+        #endif
+    }()
     static let popoverWidth: CGFloat = 290
     static let windowMin = CGSize(width: 520, height: 360)
-    static let windowDefault = CGSize(width: 960, height: 640)
+    static let windowDefault: CGSize = {
+        #if os(visionOS)
+        CGSize(width: 1100, height: 700)
+        #else
+        CGSize(width: 960, height: 640)
+        #endif
+    }()
+    /// A camera opened in its own Vision Pro window: 16:9.
+    static let cameraWindowDefault = CGSize(width: 1280, height: 720)
     static let settingsSize = CGSize(width: 480, height: 420)
 
     // MARK: Type
 
     static let wordmarkSize: CGFloat = 34
-    static let wordmarkHeroSize: CGFloat = 44
+    static let wordmarkHeroSize: CGFloat = {
+        #if os(tvOS)
+        96
+        #else
+        44
+        #endif
+    }()
     static let titleFont = Font.title2.bold()
     static let subtitleFont = Font.title3
     static let bodyFont = Font.body
     static let headlineFont = Font.headline
-    static let tileLabelFont = Font.caption.weight(.semibold)
-    static let tileDetailFont = Font.caption2
-    static let tileMessageFont = Font.caption.weight(.medium)
+    static let tileLabelFont: Font = {
+        #if os(tvOS)
+        Font.title3.weight(.semibold)
+        #else
+        Font.caption.weight(.semibold)
+        #endif
+    }()
+    static let tileDetailFont: Font = {
+        #if os(tvOS)
+        Font.callout
+        #else
+        Font.caption2
+        #endif
+    }()
+    static let tileMessageFont: Font = {
+        #if os(tvOS)
+        Font.headline
+        #else
+        Font.caption.weight(.medium)
+        #endif
+    }()
     static let captionFont = Font.caption
     static let pillFont = Font.subheadline.weight(.semibold)
     static let bannerFont = Font.footnote.weight(.semibold)
     static let footnoteFont = Font.footnote
     static let statusLineFont = Font.callout
-    static let controlGlyphFont = Font.system(size: 17, weight: .semibold)
+    static let controlGlyphFont: Font = {
+        #if os(tvOS)
+        Font.system(size: 36, weight: .semibold)
+        #else
+        Font.system(size: 17, weight: .semibold)
+        #endif
+    }()
     static let heroSymbolFont = Font.system(size: heroSymbolSize, weight: .regular)
 
     // MARK: Motion
@@ -144,7 +213,13 @@ enum Theme {
     /// Waits and hold times, in seconds.
     enum Timing {
         /// Full-screen controls fade this long after the last touch.
-        static let controlsHide = 3.0
+        static let controlsHide: Double = {
+            #if os(tvOS)
+            10.0
+            #else
+            3.0
+            #endif
+        }()
         static let toastHold = 1.8
         /// A silent camera gets a plain message after this long.
         static let cameraSilent = 8.0

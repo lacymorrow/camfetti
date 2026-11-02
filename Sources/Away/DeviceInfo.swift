@@ -1,3 +1,5 @@
+// The bridge role runs on iPhone and Mac only.
+#if os(iOS) || os(macOS)
 import Foundation
 #if os(iOS)
 import UIKit
@@ -75,3 +77,4 @@ enum DeviceInfo {
         #endif
     }
 }
+#endif

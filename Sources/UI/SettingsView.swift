@@ -1,3 +1,5 @@
+// Apple TV has no settings: it only adds and removes cameras.
+#if !os(tvOS)
 import StoreKit
 import SwiftUI
 
@@ -18,7 +20,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                #if os(iOS)
+                #if os(iOS) || os(visionOS)
                 if AwayConfig.isAvailable {
                     Section {
                         Toggle("Watch Through Away", isOn: $routeThroughRelay)
@@ -26,9 +28,11 @@ struct SettingsView: View {
                                 AwayConfig.routeThroughRelay = on
                                 model.resetAllStreams()
                             }
-                        Button("Use This Device as Bridge") {
-                            dismiss()
-                            model.bridgeMode = true
+                        if Platform.canBridge {
+                            Button("Use This Device as Bridge") {
+                                dismiss()
+                                model.bridgeMode = true
+                            }
                         }
                     } header: {
                         Text("Away Preview")
@@ -69,11 +73,11 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .inlineNavigationTitle()
-            #if os(iOS)
+            #if os(iOS) || os(visionOS)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
             }
-            #else
+            #elseif os(macOS)
             .formStyle(.grouped)
             #endif
             .task { await tips.load() }
@@ -97,13 +101,19 @@ final class TipJar {
             return
         }
         #endif
+        #if !os(visionOS)
         products = ((try? await Product.products(for: Self.ids)) ?? []).sorted { $0.price < $1.price }
+        #endif
     }
 
+    /// Vision Pro buys through a different StoreKit call and has no tip rows yet, so the section stays hidden there.
     func buy(_ product: Product) async {
+        #if !os(visionOS)
         guard case let .success(verification)? = try? await product.purchase(),
               case let .verified(transaction) = verification else { return }
         await transaction.finish()
         thanked = true
+        #endif
     }
 }
+#endif

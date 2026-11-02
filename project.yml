@@ -4,6 +4,8 @@ options:
   deploymentTarget:
     iOS: "18.0"
     macOS: "15.0"
+    tvOS: "18.0"
+    visionOS: "2.0"
   xcodeVersion: "27.1"
   createIntermediateGroups: true
 packages:
@@ -22,7 +24,7 @@ targets:
   CamFetti:
     type: application
     platform: iOS
-    supportedDestinations: [iOS, macOS]
+    supportedDestinations: [iOS, macOS, tvOS, visionOS]
     sources:
       - path: Sources
         excludes: ["Mac/**"]
@@ -63,6 +65,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: sh.lacy.camfetti
         TARGETED_DEVICE_FAMILY: "1"
+        TARGETED_DEVICE_FAMILY[sdk=appletv*]: "3"
+        TARGETED_DEVICE_FAMILY[sdk=xr*]: "7"
         CODE_SIGN_ENTITLEMENTS[sdk=macosx*]: Mac/CamFetti.entitlements
         ENABLE_HARDENED_RUNTIME[sdk=macosx*]: YES
         ENABLE_APP_SANDBOX[sdk=macosx*]: YES

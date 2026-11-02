@@ -24,16 +24,20 @@ struct CamerasView: View {
             }
             #if os(macOS)
             .navigationTitle(model.focused?.name ?? "Cameras")
+            #elseif os(tvOS)
+            .navigationTitle("Cameras")
             #else
             .navigationTitle("Cameras")
             .toolbarTitleDisplayMode(.inlineLarge)
             #endif
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
-                    #if os(iOS)
-                    Button { showSettings = true } label: { Image(systemName: "gearshape") }
-                        .accessibilityLabel("Settings")
-                        .accessibilityIdentifier("settingsButton")
+                    #if !os(macOS)
+                    if Platform.hasSettings {
+                        Button { showSettings = true } label: { Image(systemName: "gearshape") }
+                            .accessibilityLabel("Settings")
+                            .accessibilityIdentifier("settingsButton")
+                    }
                     #endif
                     // Adding a camera belongs to the grid, not to a camera shown large.
                     if model.focused == nil {
@@ -47,7 +51,9 @@ struct CamerasView: View {
         .sheet(isPresented: $showAdd) {
             AddCameraView(finder: finder)
         }
+        #if !os(tvOS)
         .sheet(isPresented: $showSettings) { SettingsView() }
+        #endif
         .sheet(item: $model.editing) { CameraDetailsView(camera: $0) }
         .cameraPresentation(item: $model.focused)
         .overlay {
@@ -116,8 +122,10 @@ extension View {
     /// A camera opened large. Full screen on iPhone; on the Mac it takes over the window, and
     /// Esc or Back returns to the grid.
     @ViewBuilder func cameraPresentation(item: Binding<Camera?>) -> some View {
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
         fullScreenCover(item: item) { CameraScreen(camera: $0) }
+        #elseif os(visionOS)
+        modifier(CameraWindowOpener(item: item))
         #else
         overlay {
             if let camera = item.wrappedValue {
@@ -188,6 +196,13 @@ struct EmptyCamerasView: View {
                     .font(.subheadline.weight(.medium))
             }
             Spacer()
+            if Platform.usesFocus {
+                Text("Add cameras on your iPhone and they will appear here. CamFetti also finds Thingino cameras on your Wi-Fi.")
+                    .font(Theme.bodyFont)
+                    .foregroundStyle(Theme.secondaryText)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: Theme.emptyTextWidth)
+            }
             Button { showAdd = true } label: {
                 Text(finder.found.isEmpty ? "Add a Camera" : "Add Your Cameras")
                     .font(.headline)

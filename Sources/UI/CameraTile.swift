@@ -27,7 +27,7 @@ struct CameraTile: View {
             .overlay { overlay }
         .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.tile, style: .continuous))
         .contentShape(RoundedRectangle(cornerRadius: Theme.Radius.tile, style: .continuous))
-        .onTapGesture { model.focused = camera }
+        .tileButton { model.focused = camera }
         .contextMenu {
             Button("Details", systemImage: "info.circle") { model.editing = camera }
             Button("Move Earlier", systemImage: "arrow.backward") { model.store.move(camera, by: -1) }
