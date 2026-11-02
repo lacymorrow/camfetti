@@ -1,0 +1,6 @@
+build/
+*.xcuserdatad/
+xcuserdata/
+DerivedData/
+.DS_Store
+.vercel

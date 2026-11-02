@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="stylesheet" href="/style.css"><title>CamFetti Help</title><meta name="description" content="Help for CamFetti."></head><body>
+<header class="top wrap"><a class="brand" href="/"><img src="/icon.png" alt=""><span>Cam<b>Fetti</b></span></a><nav><a href="/support">Help</a><a href="/privacy">Privacy</a></nav></header>
+<main class="wrap doc">
+<h1>Help</h1>
+<p id="testflight">CamFetti is on its way to the App Store. If you want to try it before then, email <a href="mailto:me@lacymorrow.com?subject=CamFetti%20beta">me@lacymorrow.com</a> and I'll send a TestFlight invite.</p>
+<h2>My Thingino camera doesn't show up</h2>
+<p>Your phone and the camera need to be on the same Wi-Fi. Thingino cameras announce themselves on the network, so they normally appear within a few seconds. If yours doesn't, tap the plus button and type the camera's IP address.</p>
+<h2>Which password do I use for Thingino?</h2>
+<p>Use the password for the camera's web page, the one you log in with as root. CamFetti uses it once to create an API key and then forgets it.</p>
+<h2>Adding another brand</h2>
+<p>Type the camera's IP address with its username and password. CamFetti tries ONVIF first and then the usual stream addresses for Reolink, Hikvision, Dahua and Tapo. If that doesn't work, paste the full rtsp:// link from the camera's manual.</p>
+<h2>Watching away from home</h2>
+<p>Install Tailscale on your phone and on a computer or server at home that can see your cameras. Then open a camera's details in CamFetti and add its Tailscale address under Away from Home. CamFetti tries the home address first and switches automatically.</p>
+<h2>Stock Wyze cameras</h2>
+<p>Wyze's own firmware doesn't offer a standard video stream. Flash the camera with <a href="https://thingino.com">Thingino</a> or run docker-wyze-bridge, and then add it like any other camera.</p>
+<h2>Still stuck?</h2>
+<p>Email <a href="mailto:me@lacymorrow.com">me@lacymorrow.com</a> with your camera model, and I'll take a look.</p>
+</main>
+<footer class="wrap"><span>CamFetti is free and open source. Made by Lacy Morrow.</span><span><a href="/support">Help</a> · <a href="/privacy">Privacy</a> · <a href="mailto:me@lacymorrow.com">me@lacymorrow.com</a></span></footer>
+</body></html>

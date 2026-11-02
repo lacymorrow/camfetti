@@ -1,0 +1,53 @@
+import Foundation
+import Security
+
+/// Small wrapper over the Keychain for camera secrets. Items stay on this device.
+enum Keychain {
+    private static let service = "sh.lacy.camfetti"
+
+    static func set(_ value: String?, for key: String) {
+        let base: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: key,
+        ]
+        SecItemDelete(base as CFDictionary)
+        guard let value, !value.isEmpty else { return }
+        var add = base
+        add[kSecValueData as String] = Data(value.utf8)
+        add[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        SecItemAdd(add as CFDictionary, nil)
+    }
+
+    static func get(_ key: String) -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: key,
+            kSecReturnData as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+        ]
+        var out: AnyObject?
+        guard SecItemCopyMatching(query as CFDictionary, &out) == errSecSuccess,
+              let data = out as? Data else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+}
+
+/// Typed access to one camera's secrets.
+struct CameraSecrets: Sendable {
+    let id: UUID
+    var password: String? {
+        get { Keychain.get("\(id).rtsp") }
+        nonmutating set { Keychain.set(newValue, for: "\(id).rtsp") }
+    }
+    /// Thingino API key (sent as X-API-Key).
+    var apiKey: String? {
+        get { Keychain.get("\(id).api") }
+        nonmutating set { Keychain.set(newValue, for: "\(id).api") }
+    }
+    func removeAll() {
+        Keychain.set(nil, for: "\(id).rtsp")
+        Keychain.set(nil, for: "\(id).api")
+    }
+}

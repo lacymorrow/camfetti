@@ -1,0 +1,40 @@
+# CamFetti test rig: fake cameras. Run ./start.sh
+logLevel: warn
+rtspAddress: :8554
+rtpAddress: :8000
+rtcpAddress: :8001
+hls: no
+webrtc: no
+srt: no
+rtmp: no
+api: no
+authInternalUsers:
+  - user: thingino
+    pass: thingino
+    ips: []
+    permissions:
+      - action: read
+      - action: publish
+paths:
+  ch0:
+    runOnInit: >
+      ffmpeg -hide_banner -loglevel error -re -f lavfi -i testsrc=size=1280x720:rate=25
+      -f lavfi -i sine=frequency=440:sample_rate=16000
+      -c:v libx264 -preset ultrafast -tune zerolatency -g 25 -pix_fmt yuv420p -b:v 1500k
+      -c:a pcm_mulaw -ar 8000 -ac 1
+      -f rtsp rtsp://thingino:thingino@127.0.0.1:8554/ch0
+    runOnInitRestart: yes
+  ch1:
+    runOnInit: >
+      ffmpeg -hide_banner -loglevel error -re -f lavfi -i testsrc2=size=640x360:rate=15
+      -c:v libx264 -preset ultrafast -tune zerolatency -g 15 -pix_fmt yuv420p -b:v 400k -an
+      -f rtsp rtsp://thingino:thingino@127.0.0.1:8554/ch1
+    runOnInitRestart: yes
+  hevc:
+    runOnInit: >
+      ffmpeg -hide_banner -loglevel error -re -f lavfi -i smptehdbars=size=1920x1080:rate=25
+      -f lavfi -i sine=frequency=660:sample_rate=48000
+      -c:v libx265 -preset ultrafast -tune zerolatency -x265-params keyint=25:log-level=error -pix_fmt yuv420p -b:v 2000k
+      -c:a aac -b:a 64k
+      -f rtsp rtsp://thingino:thingino@127.0.0.1:8554/hevc
+    runOnInitRestart: yes

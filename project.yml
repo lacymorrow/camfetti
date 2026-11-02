@@ -1,0 +1,101 @@
+name: CamFetti
+options:
+  bundleIdPrefix: sh.lacy
+  deploymentTarget:
+    iOS: "18.0"
+  xcodeVersion: "27.1"
+  createIntermediateGroups: true
+packages:
+  IPCamKit:
+    url: https://github.com/steelbrain/IPCamKit.git
+    from: 0.3.2
+settings:
+  base:
+    DEVELOPMENT_TEAM: DPFY6AHP57
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  CamFetti:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: Resources
+        excludes: ["*.storekit"]
+    dependencies:
+      - package: IPCamKit
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: CamFetti
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationCategoryType: public.app-category.utilities
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIBackgroundModes:
+          - audio
+        NSLocalNetworkUsageDescription: CamFetti looks for cameras on your Wi-Fi and plays their video.
+        NSBonjourServices:
+          - _thingino._tcp
+          - _rtsp._tcp
+          - _rtsps._tcp
+        NSPhotoLibraryAddUsageDescription: CamFetti saves snapshots you take to your photo library.
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+          NSAllowsLocalNetworking: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: sh.lacy.camfetti
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+  CamFettiTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: CamFetti
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: sh.lacy.camfetti.tests
+        GENERATE_INFOPLIST_FILE: YES
+  CamFettiUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: CamFetti
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: sh.lacy.camfetti.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: CamFetti
+schemes:
+  CamFetti:
+    build:
+      targets:
+        CamFetti: all
+        CamFettiTests: [test]
+        CamFettiUITests: [test]
+    run:
+      config: Debug
+      storeKitConfiguration: Resources/CamFetti.storekit
+    test:
+      config: Debug
+      storeKitConfiguration: Resources/CamFetti.storekit
+      targets:
+        - CamFettiTests
+        - CamFettiUITests
+    archive:
+      config: Release

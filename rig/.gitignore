@@ -1,0 +1,4 @@
+.run/
+.snap-*.jpg
+auto.crt
+auto.key

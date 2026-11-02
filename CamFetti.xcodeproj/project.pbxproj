@@ -1,0 +1,718 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A89701D5CF1603D4A6021B8 /* CameraProber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438A482E765942F7E236712 /* CameraProber.swift */; };
+		0BAECD039979A000D7E67004 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A1E813FCAF189A84BA44E0 /* XML.swift */; };
+		17E54E35542944DA6DA2DFA6 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */; };
+		1AE8E461FB56167F0E409704 /* CameraFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97FCD48B6E106A432881F33 /* CameraFinder.swift */; };
+		1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */; };
+		288A41E0E17A8BF9778F6CAA /* IntegrationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */; };
+		3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */; };
+		32025DAF63C7B208674F4DD6 /* CameraDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */; };
+		3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC405B87E75857AD6EDF6E3 /* Brand.swift */; };
+		42C2B1FC7A03AFFC69F3FF3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B84AC2A1D148FA67883099D /* Assets.xcassets */; };
+		4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531BA091864AFBA41BEDD472 /* ThinginoClient.swift */; };
+		4DDED12405493198B99D247C /* OnvifClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */; };
+		5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E7B771925A60BBA2F2553D /* FrameGrabber.swift */; };
+		5D2DA32F03150354C7D7512A /* RealCameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */; };
+		77679D683020C3AA95A7088A /* IPCamKit in Frameworks */ = {isa = PBXBuildFile; productRef = CA88FB965796D6BC0D283E9A /* IPCamKit */; };
+		7F3A94DAC92F590B7228EA45 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893849674B70015061665239 /* ModelTests.swift */; };
+		7F58B84B37B8F8BA28873920 /* StoreScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */; };
+		8260143BA6A12DA146AF9F86 /* CameraStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A034DAD254130BA61AECAE54 /* CameraStore.swift */; };
+		8F4A00ED555D5E8999BD3788 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */; };
+		903B9EB3F2749B9B4C3A12F3 /* CamFettiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */; };
+		913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */; };
+		9209421332264A1001AAC213 /* CamerasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C4BCD17F6BB08B17863301 /* CamerasView.swift */; };
+		93B497DFACD141F69CB5CF00 /* LiveStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849FE83A1817BEDAE6D2A4B9 /* LiveStream.swift */; };
+		99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8B7EEC94B263392E9256 /* BrandTemplates.swift */; };
+		A35B91014C855F8E3FDC1C9D /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37B3A0490833AF68636EE64 /* Camera.swift */; };
+		AC914AA0B875E18CA88FCB21 /* AudioOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3447670B2BB555F88ABA85A7 /* AudioOut.swift */; };
+		C3E439F29FA25C21368B5A04 /* AddCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07156A31F0240645EDFB7337 /* AddCameraView.swift */; };
+		C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */; };
+		DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C796516D06463C0715479659 /* AppModel.swift */; };
+		EC4D83D0C7557F1FF5451379 /* H26xTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52F1D0C9019C8343182E16 /* H26xTests.swift */; };
+		F9407639C36B4F6414F37236 /* H26x.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C253F55BB19D9EF0149F280 /* H26x.swift */; };
+		FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFBD78987905F15660414FA /* Keychain.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2ABE1557889C3642B352DA9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25D8BEB049FEEFB5B2FBE49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 475F3F3EC270B13FF81701D1;
+			remoteInfo = CamFetti;
+		};
+		F989BB8BBE38C9A9A92ABA9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25D8BEB049FEEFB5B2FBE49D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 475F3F3EC270B13FF81701D1;
+			remoteInfo = CamFetti;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		011F8B7EEC94B263392E9256 /* BrandTemplates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandTemplates.swift; sourceTree = "<group>"; };
+		07156A31F0240645EDFB7337 /* AddCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCameraView.swift; sourceTree = "<group>"; };
+		0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B84AC2A1D148FA67883099D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1AC405B87E75857AD6EDF6E3 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		2613C84D5C2C7993F5488C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		33E7B771925A60BBA2F2553D /* FrameGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameGrabber.swift; sourceTree = "<group>"; };
+		3447670B2BB555F88ABA85A7 /* AudioOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOut.swift; sourceTree = "<group>"; };
+		3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiUITests.swift; sourceTree = "<group>"; };
+		402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		531BA091864AFBA41BEDD472 /* ThinginoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoClient.swift; sourceTree = "<group>"; };
+		56721688A90AAC6E2162BB39 /* CamFetti.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CamFetti.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSurface.swift; sourceTree = "<group>"; };
+		633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTile.swift; sourceTree = "<group>"; };
+		6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		6FFBD78987905F15660414FA /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		7F52F1D0C9019C8343182E16 /* H26xTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H26xTests.swift; sourceTree = "<group>"; };
+		849FE83A1817BEDAE6D2A4B9 /* LiveStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStream.swift; sourceTree = "<group>"; };
+		85A1E813FCAF189A84BA44E0 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
+		893849674B70015061665239 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		95E1C28241C1F4E914752FED /* CamFettiUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDetailsView.swift; sourceTree = "<group>"; };
+		9C253F55BB19D9EF0149F280 /* H26x.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H26x.swift; sourceTree = "<group>"; };
+		A034DAD254130BA61AECAE54 /* CameraStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStore.swift; sourceTree = "<group>"; };
+		A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationClientTests.swift; sourceTree = "<group>"; };
+		AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
+		B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnvifClient.swift; sourceTree = "<group>"; };
+		C796516D06463C0715479659 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealCameraTests.swift; sourceTree = "<group>"; };
+		CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScreenshots.swift; sourceTree = "<group>"; };
+		CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiApp.swift; sourceTree = "<group>"; };
+		E0C4BCD17F6BB08B17863301 /* CamerasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamerasView.swift; sourceTree = "<group>"; };
+		E438A482E765942F7E236712 /* CameraProber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraProber.swift; sourceTree = "<group>"; };
+		E97FCD48B6E106A432881F33 /* CameraFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFinder.swift; sourceTree = "<group>"; };
+		F37B3A0490833AF68636EE64 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		77CA4170C99B25F3C775529C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77679D683020C3AA95A7088A /* IPCamKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		281AD7F0C5C160937E4A548B /* Integrations */ = {
+			isa = PBXGroup;
+			children = (
+				011F8B7EEC94B263392E9256 /* BrandTemplates.swift */,
+				E438A482E765942F7E236712 /* CameraProber.swift */,
+				B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */,
+				531BA091864AFBA41BEDD472 /* ThinginoClient.swift */,
+				85A1E813FCAF189A84BA44E0 /* XML.swift */,
+			);
+			path = Integrations;
+			sourceTree = "<group>";
+		};
+		28E64D71D087538FFADD194F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2613C84D5C2C7993F5488C9F /* Info.plist */,
+				FD4E75F0694EFA3FB47B23CA /* App */,
+				8C472F4583EBBD07A5447B4B /* Discovery */,
+				281AD7F0C5C160937E4A548B /* Integrations */,
+				614704CFAD21D71BE32F221C /* Model */,
+				91F1CA2505DD5A8B7C5C321C /* Streaming */,
+				7CCF5E7955D37CC5C6582646 /* UI */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		2E6A00AEFA7302C0E3FD7BBD /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				7F52F1D0C9019C8343182E16 /* H26xTests.swift */,
+				A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */,
+				893849674B70015061665239 /* ModelTests.swift */,
+				C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		3A425ED2B763EAA29A00A18D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0B84AC2A1D148FA67883099D /* Assets.xcassets */,
+				402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		614704CFAD21D71BE32F221C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F37B3A0490833AF68636EE64 /* Camera.swift */,
+				A034DAD254130BA61AECAE54 /* CameraStore.swift */,
+				6FFBD78987905F15660414FA /* Keychain.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7CCF5E7955D37CC5C6582646 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				07156A31F0240645EDFB7337 /* AddCameraView.swift */,
+				1AC405B87E75857AD6EDF6E3 /* Brand.swift */,
+				9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */,
+				AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */,
+				E0C4BCD17F6BB08B17863301 /* CamerasView.swift */,
+				633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */,
+				6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		8C472F4583EBBD07A5447B4B /* Discovery */ = {
+			isa = PBXGroup;
+			children = (
+				E97FCD48B6E106A432881F33 /* CameraFinder.swift */,
+			);
+			path = Discovery;
+			sourceTree = "<group>";
+		};
+		91F1CA2505DD5A8B7C5C321C /* Streaming */ = {
+			isa = PBXGroup;
+			children = (
+				3447670B2BB555F88ABA85A7 /* AudioOut.swift */,
+				33E7B771925A60BBA2F2553D /* FrameGrabber.swift */,
+				9C253F55BB19D9EF0149F280 /* H26x.swift */,
+				849FE83A1817BEDAE6D2A4B9 /* LiveStream.swift */,
+				5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */,
+			);
+			path = Streaming;
+			sourceTree = "<group>";
+		};
+		AA42EE81175E99683F97EF52 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				56721688A90AAC6E2162BB39 /* CamFetti.app */,
+				0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */,
+				95E1C28241C1F4E914752FED /* CamFettiUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CF3D7DD9397CE44A3F9A9D87 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */,
+				CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		EFE1FB9E224A06A530F79BC2 = {
+			isa = PBXGroup;
+			children = (
+				3A425ED2B763EAA29A00A18D /* Resources */,
+				28E64D71D087538FFADD194F /* Sources */,
+				2E6A00AEFA7302C0E3FD7BBD /* Tests */,
+				CF3D7DD9397CE44A3F9A9D87 /* UITests */,
+				AA42EE81175E99683F97EF52 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FD4E75F0694EFA3FB47B23CA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C796516D06463C0715479659 /* AppModel.swift */,
+				CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		475F3F3EC270B13FF81701D1 /* CamFetti */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CBEC0F1F3B4861892A2B67D /* Build configuration list for PBXNativeTarget "CamFetti" */;
+			buildPhases = (
+				B643BCA0F5E460BD2B1EA910 /* Sources */,
+				F7CCF19541F96FD3E6E3D674 /* Resources */,
+				77CA4170C99B25F3C775529C /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CamFetti;
+			packageProductDependencies = (
+				CA88FB965796D6BC0D283E9A /* IPCamKit */,
+			);
+			productName = CamFetti;
+			productReference = 56721688A90AAC6E2162BB39 /* CamFetti.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7542836004DD01DA1664AA8D /* CamFettiUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E5CD0FC62CCE41BDBCD5515 /* Build configuration list for PBXNativeTarget "CamFettiUITests" */;
+			buildPhases = (
+				1BD1BD87027D4318286E49B8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D41177B9F3285E3D7972B88A /* PBXTargetDependency */,
+			);
+			name = CamFettiUITests;
+			packageProductDependencies = (
+			);
+			productName = CamFettiUITests;
+			productReference = 95E1C28241C1F4E914752FED /* CamFettiUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		85933ACB0E8A4812D1CBFC00 /* CamFettiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58FDF26CC93A0C6CD08296E6 /* Build configuration list for PBXNativeTarget "CamFettiTests" */;
+			buildPhases = (
+				78E4CC54DC9E37DC6856A03B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BEA6B98259E34E3941631BB7 /* PBXTargetDependency */,
+			);
+			name = CamFettiTests;
+			packageProductDependencies = (
+			);
+			productName = CamFettiTests;
+			productReference = 0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		25D8BEB049FEEFB5B2FBE49D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2710;
+				TargetAttributes = {
+					475F3F3EC270B13FF81701D1 = {
+						DevelopmentTeam = DPFY6AHP57;
+						ProvisioningStyle = Automatic;
+					};
+					7542836004DD01DA1664AA8D = {
+						DevelopmentTeam = DPFY6AHP57;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 475F3F3EC270B13FF81701D1;
+					};
+					85933ACB0E8A4812D1CBFC00 = {
+						DevelopmentTeam = DPFY6AHP57;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 88A45A8FC9474C6452444CDB /* Build configuration list for PBXProject "CamFetti" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = EFE1FB9E224A06A530F79BC2;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1CB8FB90FA08D94E1BD6C633 /* XCRemoteSwiftPackageReference "IPCamKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AA42EE81175E99683F97EF52 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				475F3F3EC270B13FF81701D1 /* CamFetti */,
+				85933ACB0E8A4812D1CBFC00 /* CamFettiTests */,
+				7542836004DD01DA1664AA8D /* CamFettiUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F7CCF19541F96FD3E6E3D674 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				42C2B1FC7A03AFFC69F3FF3C /* Assets.xcassets in Resources */,
+				8F4A00ED555D5E8999BD3788 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1BD1BD87027D4318286E49B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */,
+				7F58B84B37B8F8BA28873920 /* StoreScreenshots.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78E4CC54DC9E37DC6856A03B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC4D83D0C7557F1FF5451379 /* H26xTests.swift in Sources */,
+				288A41E0E17A8BF9778F6CAA /* IntegrationClientTests.swift in Sources */,
+				7F3A94DAC92F590B7228EA45 /* ModelTests.swift in Sources */,
+				5D2DA32F03150354C7D7512A /* RealCameraTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B643BCA0F5E460BD2B1EA910 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3E439F29FA25C21368B5A04 /* AddCameraView.swift in Sources */,
+				DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */,
+				AC914AA0B875E18CA88FCB21 /* AudioOut.swift in Sources */,
+				3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */,
+				99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */,
+				903B9EB3F2749B9B4C3A12F3 /* CamFettiApp.swift in Sources */,
+				A35B91014C855F8E3FDC1C9D /* Camera.swift in Sources */,
+				32025DAF63C7B208674F4DD6 /* CameraDetailsView.swift in Sources */,
+				1AE8E461FB56167F0E409704 /* CameraFinder.swift in Sources */,
+				0A89701D5CF1603D4A6021B8 /* CameraProber.swift in Sources */,
+				17E54E35542944DA6DA2DFA6 /* CameraScreen.swift in Sources */,
+				8260143BA6A12DA146AF9F86 /* CameraStore.swift in Sources */,
+				3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */,
+				9209421332264A1001AAC213 /* CamerasView.swift in Sources */,
+				5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */,
+				F9407639C36B4F6414F37236 /* H26x.swift in Sources */,
+				FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */,
+				93B497DFACD141F69CB5CF00 /* LiveStream.swift in Sources */,
+				4DDED12405493198B99D247C /* OnvifClient.swift in Sources */,
+				1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */,
+				4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */,
+				C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */,
+				0BAECD039979A000D7E67004 /* XML.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BEA6B98259E34E3941631BB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 475F3F3EC270B13FF81701D1 /* CamFetti */;
+			targetProxy = 2ABE1557889C3642B352DA9E /* PBXContainerItemProxy */;
+		};
+		D41177B9F3285E3D7972B88A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 475F3F3EC270B13FF81701D1 /* CamFetti */;
+			targetProxy = F989BB8BBE38C9A9A92ABA9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2194AD1C677C1F03B3C9E630 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CamFetti;
+			};
+			name = Debug;
+		};
+		5086EF2F2A494788482AE6AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = DPFY6AHP57;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		51B16BB36AA829579D82D727 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CamFetti;
+			};
+			name = Release;
+		};
+		56B6DD7888A8C62C99358EC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = DPFY6AHP57;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		8F5C2B0288D634519F6FB92D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CamFetti.app/CamFetti";
+			};
+			name = Release;
+		};
+		9BE864B6860174716EF61E3B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Sources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9FBFBB03685849EFB247C51B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CamFetti.app/CamFetti";
+			};
+			name = Debug;
+		};
+		B4B73E2EB9B85432347EBED9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Sources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = sh.lacy.camfetti;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E5CD0FC62CCE41BDBCD5515 /* Build configuration list for PBXNativeTarget "CamFettiUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2194AD1C677C1F03B3C9E630 /* Debug */,
+				51B16BB36AA829579D82D727 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		58FDF26CC93A0C6CD08296E6 /* Build configuration list for PBXNativeTarget "CamFettiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9FBFBB03685849EFB247C51B /* Debug */,
+				8F5C2B0288D634519F6FB92D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		88A45A8FC9474C6452444CDB /* Build configuration list for PBXProject "CamFetti" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5086EF2F2A494788482AE6AC /* Debug */,
+				56B6DD7888A8C62C99358EC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8CBEC0F1F3B4861892A2B67D /* Build configuration list for PBXNativeTarget "CamFetti" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BE864B6860174716EF61E3B /* Debug */,
+				B4B73E2EB9B85432347EBED9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1CB8FB90FA08D94E1BD6C633 /* XCRemoteSwiftPackageReference "IPCamKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/steelbrain/IPCamKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CA88FB965796D6BC0D283E9A /* IPCamKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1CB8FB90FA08D94E1BD6C633 /* XCRemoteSwiftPackageReference "IPCamKit" */;
+			productName = IPCamKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 25D8BEB049FEEFB5B2FBE49D /* Project object */;
+}
