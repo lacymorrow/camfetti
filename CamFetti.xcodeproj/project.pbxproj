@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A89701D5CF1603D4A6021B8 /* CameraProber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438A482E765942F7E236712 /* CameraProber.swift */; };
 		0BAECD039979A000D7E67004 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A1E813FCAF189A84BA44E0 /* XML.swift */; };
+		0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD13A76821ACBB47B939768 /* AwayTunnel.swift */; };
 		17E54E35542944DA6DA2DFA6 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */; };
 		1AE8E461FB56167F0E409704 /* CameraFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97FCD48B6E106A432881F33 /* CameraFinder.swift */; };
 		1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */; };
@@ -18,6 +19,7 @@
 		3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC405B87E75857AD6EDF6E3 /* Brand.swift */; };
 		42C2B1FC7A03AFFC69F3FF3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B84AC2A1D148FA67883099D /* Assets.xcassets */; };
 		4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531BA091864AFBA41BEDD472 /* ThinginoClient.swift */; };
+		4CA7D58DCCCB788094B0452E /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CCC4B9AD3D08C0450C067 /* BridgeView.swift */; };
 		4DDED12405493198B99D247C /* OnvifClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */; };
 		5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E7B771925A60BBA2F2553D /* FrameGrabber.swift */; };
 		5D2DA32F03150354C7D7512A /* RealCameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */; };
@@ -33,10 +35,13 @@
 		99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011F8B7EEC94B263392E9256 /* BrandTemplates.swift */; };
 		A35B91014C855F8E3FDC1C9D /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37B3A0490833AF68636EE64 /* Camera.swift */; };
 		AC914AA0B875E18CA88FCB21 /* AudioOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3447670B2BB555F88ABA85A7 /* AudioOut.swift */; };
+		C1E808FBD973FDCDBB6491A9 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7594412CD555C765D23E9E /* Pipe.swift */; };
 		C3E439F29FA25C21368B5A04 /* AddCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07156A31F0240645EDFB7337 /* AddCameraView.swift */; };
 		C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */; };
 		DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C796516D06463C0715479659 /* AppModel.swift */; };
+		E1E6A8F7A197FAF484BBEE50 /* AwayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE442F00254689461024956 /* AwayConfig.swift */; };
 		EC4D83D0C7557F1FF5451379 /* H26xTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52F1D0C9019C8343182E16 /* H26xTests.swift */; };
+		EE6EF5C7F3AA2272A1428421 /* BridgeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13D3A981B2AE6B2A21FB1F3 /* BridgeService.swift */; };
 		F9407639C36B4F6414F37236 /* H26x.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C253F55BB19D9EF0149F280 /* H26x.swift */; };
 		FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFBD78987905F15660414FA /* Keychain.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +72,7 @@
 		2613C84D5C2C7993F5488C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		33E7B771925A60BBA2F2553D /* FrameGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameGrabber.swift; sourceTree = "<group>"; };
 		3447670B2BB555F88ABA85A7 /* AudioOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOut.swift; sourceTree = "<group>"; };
+		3A7594412CD555C765D23E9E /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
 		3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiUITests.swift; sourceTree = "<group>"; };
 		402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		531BA091864AFBA41BEDD472 /* ThinginoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoClient.swift; sourceTree = "<group>"; };
@@ -79,6 +85,8 @@
 		849FE83A1817BEDAE6D2A4B9 /* LiveStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveStream.swift; sourceTree = "<group>"; };
 		85A1E813FCAF189A84BA44E0 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
 		893849674B70015061665239 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		8DE442F00254689461024956 /* AwayConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayConfig.swift; sourceTree = "<group>"; };
+		950CCC4B9AD3D08C0450C067 /* BridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeView.swift; sourceTree = "<group>"; };
 		95E1C28241C1F4E914752FED /* CamFettiUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDetailsView.swift; sourceTree = "<group>"; };
 		9C253F55BB19D9EF0149F280 /* H26x.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H26x.swift; sourceTree = "<group>"; };
@@ -86,6 +94,7 @@
 		A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationClientTests.swift; sourceTree = "<group>"; };
 		AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
 		B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnvifClient.swift; sourceTree = "<group>"; };
+		BDD13A76821ACBB47B939768 /* AwayTunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayTunnel.swift; sourceTree = "<group>"; };
 		C796516D06463C0715479659 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealCameraTests.swift; sourceTree = "<group>"; };
 		CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreScreenshots.swift; sourceTree = "<group>"; };
@@ -93,6 +102,7 @@
 		E0C4BCD17F6BB08B17863301 /* CamerasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamerasView.swift; sourceTree = "<group>"; };
 		E438A482E765942F7E236712 /* CameraProber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraProber.swift; sourceTree = "<group>"; };
 		E97FCD48B6E106A432881F33 /* CameraFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFinder.swift; sourceTree = "<group>"; };
+		F13D3A981B2AE6B2A21FB1F3 /* BridgeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeService.swift; sourceTree = "<group>"; };
 		F37B3A0490833AF68636EE64 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +135,7 @@
 			children = (
 				2613C84D5C2C7993F5488C9F /* Info.plist */,
 				FD4E75F0694EFA3FB47B23CA /* App */,
+				713EB44BB7F3D1ABBB036D5E /* Away */,
 				8C472F4583EBBD07A5447B4B /* Discovery */,
 				281AD7F0C5C160937E4A548B /* Integrations */,
 				614704CFAD21D71BE32F221C /* Model */,
@@ -164,11 +175,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		713EB44BB7F3D1ABBB036D5E /* Away */ = {
+			isa = PBXGroup;
+			children = (
+				8DE442F00254689461024956 /* AwayConfig.swift */,
+				BDD13A76821ACBB47B939768 /* AwayTunnel.swift */,
+				F13D3A981B2AE6B2A21FB1F3 /* BridgeService.swift */,
+				3A7594412CD555C765D23E9E /* Pipe.swift */,
+			);
+			path = Away;
+			sourceTree = "<group>";
+		};
 		7CCF5E7955D37CC5C6582646 /* UI */ = {
 			isa = PBXGroup;
 			children = (
 				07156A31F0240645EDFB7337 /* AddCameraView.swift */,
 				1AC405B87E75857AD6EDF6E3 /* Brand.swift */,
+				950CCC4B9AD3D08C0450C067 /* BridgeView.swift */,
 				9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */,
 				AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */,
 				E0C4BCD17F6BB08B17863301 /* CamerasView.swift */,
@@ -384,8 +407,12 @@
 				C3E439F29FA25C21368B5A04 /* AddCameraView.swift in Sources */,
 				DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */,
 				AC914AA0B875E18CA88FCB21 /* AudioOut.swift in Sources */,
+				E1E6A8F7A197FAF484BBEE50 /* AwayConfig.swift in Sources */,
+				0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */,
 				3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */,
 				99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */,
+				EE6EF5C7F3AA2272A1428421 /* BridgeService.swift in Sources */,
+				4CA7D58DCCCB788094B0452E /* BridgeView.swift in Sources */,
 				903B9EB3F2749B9B4C3A12F3 /* CamFettiApp.swift in Sources */,
 				A35B91014C855F8E3FDC1C9D /* Camera.swift in Sources */,
 				32025DAF63C7B208674F4DD6 /* CameraDetailsView.swift in Sources */,
@@ -400,6 +427,7 @@
 				FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */,
 				93B497DFACD141F69CB5CF00 /* LiveStream.swift in Sources */,
 				4DDED12405493198B99D247C /* OnvifClient.swift in Sources */,
+				C1E808FBD973FDCDBB6491A9 /* Pipe.swift in Sources */,
 				1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */,
 				4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */,
 				C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */,

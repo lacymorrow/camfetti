@@ -15,6 +15,10 @@ final class AppModel {
     private(set) var isOnline = true
     /// Fires once, when the very first camera goes live.
     var celebrate = false
+    /// Away spike: this device is the bridge at home. Survives relaunch.
+    var bridgeMode = UserDefaults.standard.bool(forKey: "away.bridge") && AwayConfig.isAvailable {
+        didSet { UserDefaults.standard.set(bridgeMode, forKey: "away.bridge") }
+    }
 
     private var gridStreams: [UUID: LiveStream] = [:]
     private let monitor = NWPathMonitor()
@@ -53,8 +57,11 @@ final class AppModel {
                           thumbnailSink: { Thumbnails.save($0, for: id) })
     }
 
-    /// Home address first, away address second.
+    /// Home address first, away address second. With Away routing on, only the relay tunnel.
     nonisolated static func addresses(for camera: Camera, url: String) -> [String] {
+        if AwayConfig.routeThroughRelay, let tunneled = AwayTunnel.shared.localURL(for: url) {
+            return [tunneled]
+        }
         var urls = [url]
         if let away = camera.awayHost?.trimmingCharacters(in: .whitespaces), !away.isEmpty {
             urls.append(Camera.replacingHost(in: url, with: away))
@@ -74,6 +81,12 @@ final class AppModel {
 
     func stopAll() {
         gridStreams.values.forEach { $0.stop() }
+    }
+
+    /// Drop every stream so the next appearance picks up a routing change.
+    func resetAllStreams() {
+        stopAll()
+        gridStreams.removeAll()
     }
 
     func remove(_ camera: Camera) {

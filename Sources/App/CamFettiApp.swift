@@ -11,6 +11,7 @@ struct CamFettiApp: App {
             try? FileManager.default.removeItem(at: dir.appendingPathComponent("cameras.json"))
         }
         AppModel.configureAudioSession()
+        AwayConfig.installFromLaunchArguments()
         let model = AppModel()
         #if DEBUG
         Self.seedDemoCameras(into: model.store)
@@ -57,9 +58,15 @@ struct CamFettiApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CamerasView()
-                .environment(model)
-                .tint(Brand.pink)
+            Group {
+                if model.bridgeMode {
+                    BridgeView()
+                } else {
+                    CamerasView()
+                }
+            }
+            .environment(model)
+            .tint(Brand.pink)
         }
     }
 }

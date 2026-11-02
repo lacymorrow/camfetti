@@ -3,11 +3,30 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(AppModel.self) private var model
     @State private var tips = TipJar()
+    @State private var routeThroughRelay = AwayConfig.routeThroughRelay
 
     var body: some View {
         NavigationStack {
             Form {
+                if AwayConfig.isAvailable {
+                    Section {
+                        Toggle("Watch Through Away", isOn: $routeThroughRelay)
+                            .onChange(of: routeThroughRelay) { _, on in
+                                AwayConfig.routeThroughRelay = on
+                                model.resetAllStreams()
+                            }
+                        Button("Use This Device as Bridge") {
+                            dismiss()
+                            model.bridgeMode = true
+                        }
+                    } header: {
+                        Text("Away Preview")
+                    } footer: {
+                        Text("Plays every camera through the CamFetti relay and the bridge at home, even on Wi-Fi.")
+                    }
+                }
                 Section {
                     Link("Get Tailscale", destination: URL(string: "https://tailscale.com/download/ios")!)
                 } header: {
