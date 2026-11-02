@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07294CB8C418160A44A538BB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AABC52D50A0B17BAF6EBEFB /* Theme.swift */; };
 		0A89701D5CF1603D4A6021B8 /* CameraProber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438A482E765942F7E236712 /* CameraProber.swift */; };
 		0BAECD039979A000D7E67004 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A1E813FCAF189A84BA44E0 /* XML.swift */; };
 		0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD13A76821ACBB47B939768 /* AwayTunnel.swift */; };
@@ -16,7 +17,6 @@
 		288A41E0E17A8BF9778F6CAA /* IntegrationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */; };
 		3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */; };
 		32025DAF63C7B208674F4DD6 /* CameraDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */; };
-		3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC405B87E75857AD6EDF6E3 /* Brand.swift */; };
 		42C2B1FC7A03AFFC69F3FF3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B84AC2A1D148FA67883099D /* Assets.xcassets */; };
 		4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531BA091864AFBA41BEDD472 /* ThinginoClient.swift */; };
 		4CA7D58DCCCB788094B0452E /* BridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950CCC4B9AD3D08C0450C067 /* BridgeView.swift */; };
@@ -72,9 +72,9 @@
 		07156A31F0240645EDFB7337 /* AddCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCameraView.swift; sourceTree = "<group>"; };
 		0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B84AC2A1D148FA67883099D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1AC405B87E75857AD6EDF6E3 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		210A47F34A7C39FB816476BC /* AwayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayController.swift; sourceTree = "<group>"; };
 		2613C84D5C2C7993F5488C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2AABC52D50A0B17BAF6EBEFB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		33E7B771925A60BBA2F2553D /* FrameGrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameGrabber.swift; sourceTree = "<group>"; };
 		3447670B2BB555F88ABA85A7 /* AudioOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOut.swift; sourceTree = "<group>"; };
 		3A7594412CD555C765D23E9E /* Pipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
@@ -210,13 +210,13 @@
 			isa = PBXGroup;
 			children = (
 				07156A31F0240645EDFB7337 /* AddCameraView.swift */,
-				1AC405B87E75857AD6EDF6E3 /* Brand.swift */,
 				950CCC4B9AD3D08C0450C067 /* BridgeView.swift */,
 				9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */,
 				AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */,
 				E0C4BCD17F6BB08B17863301 /* CamerasView.swift */,
 				633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */,
 				6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */,
+				2AABC52D50A0B17BAF6EBEFB /* Theme.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -439,7 +439,6 @@
 				A05BA50F2EF99334CF069D37 /* AwayController.swift in Sources */,
 				DCF54DE62068BCB14C5DFDDF /* AwayMenu.swift in Sources */,
 				0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */,
-				3A8A5C176F2D2BE45B488BD6 /* Brand.swift in Sources */,
 				99FFB9F8A5B3CA3FF5DC96B7 /* BrandTemplates.swift in Sources */,
 				EE6EF5C7F3AA2272A1428421 /* BridgeService.swift in Sources */,
 				4CA7D58DCCCB788094B0452E /* BridgeView.swift in Sources */,
@@ -461,6 +460,7 @@
 				4DDED12405493198B99D247C /* OnvifClient.swift in Sources */,
 				C1E808FBD973FDCDBB6491A9 /* Pipe.swift in Sources */,
 				1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */,
+				07294CB8C418160A44A538BB /* Theme.swift in Sources */,
 				4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */,
 				C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */,
 				0BAECD039979A000D7E67004 /* XML.swift in Sources */,

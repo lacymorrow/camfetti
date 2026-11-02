@@ -72,7 +72,7 @@ struct CamFettiApp: App {
                 }
             }
             .environment(model)
-            .tint(Brand.pink)
+            .tint(Theme.accent)
         }
         #else
         Window("CamFetti", id: "main") {
@@ -87,16 +87,17 @@ struct CamFettiApp: App {
                 CamerasView()
                 #endif
             }
-            .frame(minWidth: 520, minHeight: 360)
+            .background(MainWindowHook())
+            .frame(minWidth: Theme.windowMin.width, minHeight: Theme.windowMin.height)
             .environment(model)
-            .tint(Brand.pink)
+            .tint(Theme.accent)
         }
-        .defaultSize(width: 960, height: 640)
+        .defaultSize(width: Theme.windowDefault.width, height: Theme.windowDefault.height)
         Settings {
             SettingsView()
                 .environment(model)
-                .frame(width: 480, height: 420)
-                .tint(Brand.pink)
+                .frame(width: Theme.settingsSize.width, height: Theme.settingsSize.height)
+                .tint(Theme.accent)
         }
         AwayMenuScene()
         #endif

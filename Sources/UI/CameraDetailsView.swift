@@ -47,7 +47,7 @@ struct CameraDetailsView: View {
                         Text("Camera Controls")
                     } footer: {
                         Text(webError ?? "The password for the camera's web page. It turns on day/night and pan, and CamFetti doesn't keep it.")
-                            .foregroundStyle(webError == nil ? Color.secondary : Color.red)
+                            .foregroundStyle(Theme.noteColor(isError: webError != nil))
                     }
                 }
                 Section("Camera") {

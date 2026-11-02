@@ -6,6 +6,7 @@ struct CameraScreen: View {
     @Environment(\.scenePhase) private var scenePhase
     let camera: Camera
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var stream: LiveStream?
     #if os(iOS)
     @State private var pip = PiPController()
@@ -23,14 +24,14 @@ struct CameraScreen: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Theme.videoBackground.ignoresSafeArea(edges: Theme.videoSafeAreaEdges)
             video
                 .scaleEffect(zoom)
                 .offset(offset)
-                .ignoresSafeArea()
+                .ignoresSafeArea(edges: Theme.videoSafeAreaEdges)
                 .gesture(magnify)
                 .simultaneousGesture(drag)
-                .onTapGesture(count: 2) { withAnimation(.easeOut(duration: 0.2)) { doubleTap() } }
+                .onTapGesture(count: 2) { withAnimation(fade(Theme.Motion.quick)) { doubleTap() } }
                 .onTapGesture { toggleControls() }
             status
             if controlsVisible { controls.transition(.opacity) }
@@ -38,10 +39,10 @@ struct CameraScreen: View {
                 VStack {
                     Spacer()
                     Text(toast)
-                        .font(.subheadline.weight(.semibold))
-                        .padding(.horizontal, 16).padding(.vertical, 10)
-                        .background(.thinMaterial, in: Capsule())
-                        .padding(.bottom, 96)
+                        .font(Theme.pillFont)
+                        .padding(.horizontal, Theme.Space.lg).padding(.vertical, Theme.Space.snug)
+                        .background(Theme.pillMaterial, in: Capsule())
+                        .padding(.bottom, Theme.toastBottomInset)
                 }
                 .transition(.opacity)
             }
@@ -63,7 +64,7 @@ struct CameraScreen: View {
     @ViewBuilder private var video: some View {
         ZStack {
             if let data = stream?.thumbnail, let image = Image(imageData: data), stream?.phase != .live {
-                image.resizable().aspectRatio(contentMode: fill ? .fill : .fit).opacity(0.7)
+                image.resizable().aspectRatio(contentMode: fill ? .fill : .fit).opacity(Theme.placeholderOpacityLarge)
             }
             if let stream {
                 VideoSurface(stream: stream, fill: fill)
@@ -77,12 +78,12 @@ struct CameraScreen: View {
     @ViewBuilder private var status: some View {
         switch stream?.phase {
         case .connecting:
-            ProgressView().tint(.white).controlSize(.large)
+            ProgressView().tint(Theme.onVideo).controlSize(.large)
         case .reconnecting:
             Label("Reconnecting", systemImage: "arrow.triangle.2.circlepath")
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 14).padding(.vertical, 8)
-                .background(.thinMaterial, in: Capsule())
+                .font(Theme.pillFont)
+                .padding(.horizontal, Theme.Space.cozy).padding(.vertical, Theme.Space.sm)
+                .background(Theme.pillMaterial, in: Capsule())
         case .failed(.wrongPassword):
             failure("Wrong password", action: "Sign In Again") {
                 model.editing = camera
@@ -96,8 +97,8 @@ struct CameraScreen: View {
     }
 
     private func failure(_ text: String, action: String, perform: @escaping () -> Void) -> some View {
-        VStack(spacing: 12) {
-            Text(text).font(.headline).foregroundStyle(.white)
+        VStack(spacing: Theme.Space.md) {
+            Text(text).font(Theme.headlineFont).foregroundStyle(Theme.onVideo)
             Button(action, action: perform).buttonStyle(.borderedProminent)
         }
     }
@@ -109,13 +110,13 @@ struct CameraScreen: View {
                     .accessibilityLabel(Self.closeLabel)
                     .accessibilityIdentifier("closeCamera")
                 Spacer()
-                Text(camera.name).font(.headline).foregroundStyle(.white).shadow(radius: 4).lineLimit(1)
+                Text(camera.name).font(Theme.headlineFont).foregroundStyle(Theme.onVideo).shadow(radius: Theme.shadowRadius).lineLimit(1)
                 Spacer()
                 Button { model.editing = camera; close() } label: { ControlIcon(symbol: "info") }
                     .accessibilityLabel("Details")
             }
             Spacer()
-            HStack(spacing: 20) {
+            HStack(spacing: Theme.Space.roomy) {
                 if stream?.hasAudio == true {
                     Button { stream?.muted.toggle(); keepControls() } label: {
                         ControlIcon(symbol: stream?.muted == false ? "speaker.wave.2.fill" : "speaker.slash.fill")
@@ -145,9 +146,9 @@ struct CameraScreen: View {
                 }
                 #endif
             }
-            .padding(.bottom, 8)
+            .padding(.bottom, Theme.Space.sm)
         }
-        .padding(16)
+        .padding(Theme.Space.lg)
         .buttonStyle(.plain)
     }
 
@@ -185,6 +186,10 @@ struct CameraScreen: View {
     }
 
     private func close() { model.focused = nil }
+
+    private func fade(_ duration: Double) -> Animation? {
+        Theme.animation(duration, reduceMotion: reduceMotion)
+    }
 
     #if os(iOS)
     private func symbol(for mode: ThinginoClient.DayNight) -> String {
@@ -273,16 +278,16 @@ struct CameraScreen: View {
     }
 
     private func toggleControls() {
-        withAnimation(.easeOut(duration: 0.2)) { controlsVisible.toggle() }
+        withAnimation(fade(Theme.Motion.quick)) { controlsVisible.toggle() }
         if controlsVisible { keepControls() }
     }
 
     private func keepControls() {
         hideTask?.cancel()
         hideTask = Task {
-            try? await Task.sleep(for: .seconds(3))
+            try? await Task.sleep(for: .seconds(Theme.Timing.controlsHide))
             guard !Task.isCancelled else { return }
-            withAnimation(.easeOut(duration: 0.3)) { controlsVisible = false }
+            withAnimation(fade(Theme.Motion.relaxed)) { controlsVisible = false }
         }
     }
 
@@ -314,10 +319,10 @@ struct CameraScreen: View {
     }
 
     private func show(_ text: String) {
-        withAnimation { toast = text }
+        withAnimation(fade(Theme.Motion.quick)) { toast = text }
         Task {
-            try? await Task.sleep(for: .seconds(1.8))
-            withAnimation { if toast == text { toast = nil } }
+            try? await Task.sleep(for: .seconds(Theme.Timing.toastHold))
+            withAnimation(fade(Theme.Motion.quick)) { if toast == text { toast = nil } }
         }
     }
 }
@@ -342,10 +347,10 @@ private struct ControlIcon: View {
     let symbol: String
     var body: some View {
         Image(systemName: symbol)
-            .font(.system(size: 17, weight: .semibold))
-            .foregroundStyle(.white)
-            .frame(width: 46, height: 46)
-            .background(.ultraThinMaterial, in: Circle())
+            .font(Theme.controlGlyphFont)
+            .foregroundStyle(Theme.onVideo)
+            .frame(width: Theme.controlSize, height: Theme.controlSize)
+            .background(Theme.controlMaterial, in: Circle())
             .environment(\.colorScheme, .dark)
     }
 }

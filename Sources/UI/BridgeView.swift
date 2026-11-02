@@ -11,41 +11,41 @@ struct BridgeView: View {
     @State private var idleTask: Task<Void, Never>?
 
     var body: some View {
-        VStack(spacing: 28) {
+        VStack(spacing: Theme.Space.section) {
             Spacer()
             Image(systemName: symbol)
-                .font(.system(size: 64, weight: .regular))
+                .font(Theme.heroSymbolFont)
                 .foregroundStyle(tint)
                 .symbolEffect(.pulse, options: .repeating, isActive: service.status == .connecting)
-            VStack(spacing: 10) {
-                Text(title).font(.title2.bold())
+            VStack(spacing: Theme.Space.snug) {
+                Text(title).font(Theme.titleFont)
                 Text(detail)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
+                    .font(Theme.bodyFont)
+                    .foregroundStyle(Theme.secondaryText)
                     .multilineTextAlignment(.center)
-                    .frame(maxWidth: 320)
+                    .frame(maxWidth: Theme.readableWidth)
             }
             TimelineView(.periodic(from: .now, by: 30)) { context in
                 if let since = service.onlineSince {
                     Text(Self.uptime(from: since, to: context.date))
-                        .font(.footnote.monospacedDigit())
-                        .foregroundStyle(.secondary)
+                        .font(Theme.footnoteFont.monospacedDigit())
+                        .foregroundStyle(Theme.secondaryText)
                         .accessibilityIdentifier("bridge-uptime")
                 }
             }
             if service.activeStreams > 0 {
                 Text(service.activeStreams == 1 ? "1 camera playing" : "\(service.activeStreams) cameras playing")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .font(Theme.footnoteFont)
+                    .foregroundStyle(Theme.secondaryText)
             }
             Spacer()
             Button("Turn Off Bridge", role: .destructive) { model.bridgeMode = false }
                 .buttonStyle(.bordered)
-                .padding(.bottom, 24)
+                .padding(.bottom, Theme.Space.xl)
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, Theme.Space.xl)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.black)
+        .background(Theme.videoBackground)
         .environment(\.colorScheme, .dark)
         .contentShape(Rectangle())
         .onTapGesture { wake() }
@@ -101,9 +101,9 @@ struct BridgeView: View {
 
     private var tint: Color {
         switch service.status {
-        case .online: Brand.pink
-        case .connecting: .secondary
-        case .offline: .orange
+        case .online: Theme.accent
+        case .connecting: Theme.idle
+        case .offline: Theme.warning
         }
     }
 

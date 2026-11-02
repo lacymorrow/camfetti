@@ -51,23 +51,23 @@ struct AddCameraView: View {
                 ForEach(candidates) { camera in
                     Button { pick(camera) } label: {
                         HStack {
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: Theme.Space.xxs) {
                                 Text(camera.name).foregroundStyle(.primary)
-                                Text(camera.host).font(.caption).foregroundStyle(.secondary)
+                                Text(camera.host).font(Theme.captionFont).foregroundStyle(Theme.secondaryText)
                             }
                             Spacer()
-                            Image(systemName: "chevron.right").font(.caption.weight(.semibold)).foregroundStyle(.tertiary)
+                            Image(systemName: "chevron.right").font(Theme.tileLabelFont).foregroundStyle(Theme.tertiaryText)
                         }
                     }
                     .accessibilityIdentifier("found-\(camera.host)")
                 }
                 if finder.isSearching {
-                    HStack(spacing: 8) {
+                    HStack(spacing: Theme.Space.sm) {
                         ProgressView()
-                        Text("Looking on your Wi-Fi").foregroundStyle(.secondary)
+                        Text("Looking on your Wi-Fi").foregroundStyle(Theme.secondaryText)
                     }
                 } else if candidates.isEmpty {
-                    Text("No new cameras found on this Wi-Fi.").foregroundStyle(.secondary)
+                    Text("No new cameras found on this Wi-Fi.").foregroundStyle(Theme.secondaryText)
                 }
             } header: {
                 Text("On Your Wi-Fi")
@@ -91,7 +91,7 @@ struct AddCameraView: View {
                 Text("Add by Address")
             } footer: {
                 Text(errorText ?? "Works with Thingino, ONVIF and RTSP cameras. CamFetti figures out the rest.")
-                    .foregroundStyle(errorText == nil ? Color.secondary : Color.red)
+                    .foregroundStyle(Theme.noteColor(isError: errorText != nil))
             }
         }
     }
@@ -112,7 +112,7 @@ struct AddCameraView: View {
                     .disabled(testing)
             } footer: {
                 Text(errorText ?? (camera.isThingino ? "The password you use for the camera's web page." : "The camera's own login."))
-                    .foregroundStyle(errorText == nil ? Color.secondary : Color.red)
+                    .foregroundStyle(Theme.noteColor(isError: errorText != nil))
             }
             Section {
                 Button("Back") { picked = nil; errorText = nil; password = "" }
@@ -136,13 +136,13 @@ struct AddCameraView: View {
         Form {
             Section {
                 ZStack {
-                    Rectangle().fill(Brand.ink)
+                    Rectangle().fill(Theme.tileBackground)
                     if let preview {
                         VideoSurface(stream: preview, fill: false)
-                        if preview.phase != .live { ProgressView().tint(.white) }
+                        if preview.phase != .live { ProgressView().tint(Theme.onVideo) }
                     }
                 }
-                .aspectRatio(16.0 / 9.0, contentMode: .fit)
+                .aspectRatio(Theme.tileAspect, contentMode: .fit)
                 .listRowInsets(EdgeInsets())
                 .accessibilityIdentifier("previewVideo")
             }

@@ -30,9 +30,9 @@ enum AwayLine: Equatable {
 
     var tint: Color {
         switch self {
-        case .online: Brand.teal
-        case .offline, .sleeping: .orange
-        case .off, .connecting: .secondary
+        case .online: Theme.accent
+        case .offline, .sleeping: Theme.warning
+        case .off, .connecting: Theme.idle
         }
     }
 }
@@ -117,13 +117,37 @@ final class AwayController {
     }
 }
 
-/// Keeps the app alive with no window while Away is on.
+/// Closing the last window never quits CamFetti. The Dock icon or the menu bar brings it back.
 final class MacAppDelegate: NSObject, NSApplicationDelegate {
+    /// Set by the main window the first time it appears. Opens it again after it was closed.
+    @MainActor static var openMainWindow: (() -> Void)?
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         Task { @MainActor in AwayController.shared.resume() }
     }
 
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        MainActor.assumeIsolated { !AwayController.shared.isOn }
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag { MainActor.assumeIsolated { Self.openMainWindow?() } }
+        return true
     }
 }
+
+#if DEBUG
+extension MacAppDelegate {
+    /// `-closeWindowAfter <seconds>` closes the main window by itself, to test reopening without a click.
+    @MainActor private static var closed = false
+
+    @MainActor static func closeMainWindowIfAsked() {
+        guard !closed else { return }
+        closed = true
+        let args = ProcessInfo.processInfo.arguments
+        guard let i = args.firstIndex(of: "-closeWindowAfter"), i + 1 < args.count, let seconds = Double(args[i + 1]) else { return }
+        Task {
+            try? await Task.sleep(for: .seconds(seconds))
+            NSApp.windows.filter { $0.canBecomeMain }.forEach { $0.close() }
+        }
+    }
+}
+#endif

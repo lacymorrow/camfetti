@@ -10,12 +10,12 @@ struct CameraTile: View {
 
     var body: some View {
         // The shape comes from the empty rectangle, so a 4:3 picture can't stretch the tile.
-        Rectangle().fill(Brand.ink)
-            .aspectRatio(16.0 / 9.0, contentMode: .fit)
+        Rectangle().fill(Theme.tileBackground)
+            .aspectRatio(Theme.tileAspect, contentMode: .fit)
             .overlay {
                 if let data = stream?.thumbnail, let image = Image(imageData: data) {
                     image.resizable().scaledToFill()
-                        .opacity(stream?.phase == .live ? 1 : 0.55)
+                        .opacity(stream?.phase == .live ? 1 : Theme.placeholderOpacityTile)
                 }
             }
             .overlay {
@@ -25,8 +25,8 @@ struct CameraTile: View {
                 }
             }
             .overlay { overlay }
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.tile, style: .continuous))
+        .contentShape(RoundedRectangle(cornerRadius: Theme.Radius.tile, style: .continuous))
         .onTapGesture { model.focused = camera }
         .contextMenu {
             Button("Details", systemImage: "info.circle") { model.editing = camera }
@@ -56,7 +56,7 @@ struct CameraTile: View {
             // A camera that stays silent for a while gets a plain message instead of a spinner.
             stuck = false
             guard stream?.phase == .connecting || stream?.phase == .reconnecting else { return }
-            try? await Task.sleep(for: .seconds(8))
+            try? await Task.sleep(for: .seconds(Theme.Timing.cameraSilent))
             if !Task.isCancelled { stuck = true }
         }
     }
@@ -81,19 +81,19 @@ struct CameraTile: View {
     @ViewBuilder private var overlay: some View {
         VStack {
             Spacer()
-            HStack(spacing: 6) {
+            HStack(spacing: Theme.Space.xs) {
                 Text(camera.name)
-                    .font(.caption.weight(.semibold))
+                    .font(Theme.tileLabelFont)
                     .lineLimit(1)
                 Spacer(minLength: 4)
                 if stream?.phase == .reconnecting {
-                    Text("Reconnecting").font(.caption2)
+                    Text("Reconnecting").font(Theme.tileDetailFont)
                 }
             }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 6)
-            .background(LinearGradient(colors: [.clear, .black.opacity(0.65)], startPoint: .top, endPoint: .bottom))
+            .foregroundStyle(Theme.onVideo)
+            .padding(.horizontal, Theme.Space.snug)
+            .padding(.vertical, Theme.Space.xs)
+            .background(Theme.scrim)
         }
         switch stream?.phase {
         case .connecting, .reconnecting:
@@ -101,7 +101,7 @@ struct CameraTile: View {
                 TileMessage(text: camera.awayHost == nil ? "Can't reach this camera" : "Camera is offline",
                             action: "Retry") { stream?.retry() }
             } else if stream?.phase == .connecting {
-                ProgressView().tint(.white)
+                ProgressView().tint(Theme.onVideo)
             }
         case .failed(.wrongPassword):
             TileMessage(text: "Wrong password", action: "Sign In Again") { model.editing = camera }
@@ -119,13 +119,13 @@ private struct TileMessage: View {
     let perform: () -> Void
 
     var body: some View {
-        VStack(spacing: 6) {
-            Text(text).font(.caption.weight(.medium)).foregroundStyle(.white).multilineTextAlignment(.center)
+        VStack(spacing: Theme.Space.xs) {
+            Text(text).font(Theme.tileMessageFont).foregroundStyle(Theme.onVideo).multilineTextAlignment(.center)
             Button(action, action: perform)
-                .font(.caption.weight(.semibold))
+                .font(Theme.tileLabelFont)
                 .buttonStyle(.bordered)
-                .tint(.white)
+                .tint(Theme.onVideo)
         }
-        .padding(8)
+        .padding(Theme.Space.sm)
     }
 }

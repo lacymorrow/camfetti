@@ -22,11 +22,10 @@ struct CamerasView: View {
             .safeAreaInset(edge: .top) {
                 if !model.isOnline { OfflineBanner() }
             }
-            .navigationTitle("Cameras")
             #if os(macOS)
-            .toolbar(model.focused == nil ? .automatic : .hidden, for: .windowToolbar)
-            #endif
-            #if os(iOS)
+            .navigationTitle(model.focused?.name ?? "Cameras")
+            #else
+            .navigationTitle("Cameras")
             .toolbarTitleDisplayMode(.inlineLarge)
             #endif
             .toolbar {
@@ -36,9 +35,12 @@ struct CamerasView: View {
                         .accessibilityLabel("Settings")
                         .accessibilityIdentifier("settingsButton")
                     #endif
-                    Button { showAdd = true } label: { Image(systemName: "plus") }
-                        .accessibilityLabel("Add camera")
-                        .accessibilityIdentifier("addButton")
+                    // Adding a camera belongs to the grid, not to a camera shown large.
+                    if model.focused == nil {
+                        Button { showAdd = true } label: { Image(systemName: "plus") }
+                            .accessibilityLabel("Add camera")
+                            .accessibilityIdentifier("addButton")
+                    }
                 }
             }
         }
@@ -53,7 +55,7 @@ struct CamerasView: View {
                 ConfettiBurst()
                     .ignoresSafeArea()
                     .task {
-                        try? await Task.sleep(for: .seconds(2.6))
+                        try? await Task.sleep(for: .seconds(Theme.Timing.confettiRun))
                         model.celebrate = false
                     }
             }
@@ -84,25 +86,25 @@ struct CamerasView: View {
         #if os(macOS)
         // A resizable window: as many columns as fit, tiles stay 16:9.
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 280, maximum: 640), spacing: GridLayout.spacing)],
-                      spacing: GridLayout.spacing) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: Theme.tileMinWidth, maximum: Theme.tileMaxWidth), spacing: Theme.gridSpacing)],
+                      spacing: Theme.gridSpacing) {
                 ForEach(model.store.cameras) { CameraTile(camera: $0) }
             }
-            .padding(GridLayout.spacing)
+            .padding(Theme.gridInset)
         }
         #else
         GeometryReader { geo in
             let cameras = model.store.cameras
-            let layout = GridLayout.best(count: cameras.count, width: geo.size.width - 16, height: geo.size.height - 16)
+            let layout = GridLayout.best(count: cameras.count, width: geo.size.width - Theme.gridInset * 2, height: geo.size.height - Theme.gridInset * 2)
             ScrollView {
-                LazyVGrid(columns: Array(repeating: GridItem(.fixed(layout.tileWidth), spacing: GridLayout.spacing), count: layout.columns),
-                          spacing: GridLayout.spacing) {
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed(layout.tileWidth), spacing: Theme.gridSpacing), count: layout.columns),
+                          spacing: Theme.gridSpacing) {
                     ForEach(cameras) { camera in
                         CameraTile(camera: camera)
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
+                .padding(.vertical, Theme.gridInset)
             }
             .scrollBounceBehavior(.basedOnSize)
         }
@@ -121,7 +123,7 @@ extension View {
             if let camera = item.wrappedValue {
                 CameraScreen(camera: camera)
                     .id(camera.id)
-                    .background(.black)
+                    .background(Theme.videoBackground, ignoresSafeAreaEdges: Theme.videoSafeAreaEdges)
                     .transition(.opacity)
             }
         }
@@ -132,8 +134,8 @@ extension View {
 /// Picks the column count and tile size that shows every camera on one screen as large as possible.
 /// Tiles stay 16:9. When no layout fits, it falls back to two columns and the grid scrolls.
 enum GridLayout {
-    static let spacing: CGFloat = 8
-    static let ratio: CGFloat = 9.0 / 16.0
+    static let spacing = Theme.gridSpacing
+    static let ratio = 1 / Theme.tileAspect
 
     static func best(count: Int, width: CGFloat, height: CGFloat) -> (columns: Int, tileWidth: CGFloat) {
         guard count > 0, width > 0, height > 0 else { return (1, max(width, 1)) }
@@ -143,7 +145,7 @@ enum GridLayout {
             var w = (width - spacing * CGFloat(columns - 1)) / CGFloat(columns)
             let fitHeight = (height - spacing * (rows - 1)) / rows
             if w * ratio > fitHeight { w = fitHeight / ratio }
-            guard w >= 150 else { continue }
+            guard w >= Theme.tileMinWidth else { continue }
             if best == nil || w > best!.tileWidth { best = (columns, w) }
         }
         let twoUp = (width - spacing) / 2
@@ -154,10 +156,10 @@ enum GridLayout {
 struct OfflineBanner: View {
     var body: some View {
         Label("No connection", systemImage: "wifi.slash")
-            .font(.footnote.weight(.semibold))
+            .font(Theme.bannerFont)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 8)
-            .background(.thinMaterial)
+            .padding(.vertical, Theme.Space.sm)
+            .background(Theme.pillMaterial)
     }
 }
 
@@ -167,15 +169,15 @@ struct EmptyCamerasView: View {
     @Binding var showAdd: Bool
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: Theme.Space.lg) {
             Spacer()
-            Wordmark(size: 44)
+            Wordmark(size: Theme.wordmarkHeroSize)
             Text("Your cameras, live, in one tap.")
-                .font(.title3)
-                .foregroundStyle(.secondary)
+                .font(Theme.subtitleFont)
+                .foregroundStyle(Theme.secondaryText)
                 .multilineTextAlignment(.center)
             if finder.found.isEmpty && finder.isSearching {
-                HStack(spacing: 8) {
+                HStack(spacing: Theme.Space.sm) {
                     ProgressView()
                     Text("Looking on your Wi-Fi")
                 }
@@ -190,11 +192,11 @@ struct EmptyCamerasView: View {
                 Text(finder.found.isEmpty ? "Add a Camera" : "Add Your Cameras")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 6)
+                    .padding(.vertical, Theme.Space.xs)
             }
             .buttonStyle(.borderedProminent)
             .accessibilityIdentifier("emptyAddButton")
         }
-        .padding(24)
+        .padding(Theme.Space.xl)
     }
 }
