@@ -4,5 +4,5 @@
 // Review submission stays a click in App Store Connect.
 export default {
 	steps: { homebrew: false, npm: false, watchCi: false },
-	xcode: { scheme: "CamFetti", platforms: ["ios", "macos", "tvos", "visionos"], buildNumberOffset: 9 },
+	xcode: { scheme: "CamFetti", platforms: ["ios", "macos", "tvos", "visionos"], unsignedArchive: ["tvos", "visionos"], buildNumberOffset: 9 },
 };
