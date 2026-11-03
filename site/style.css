@@ -30,6 +30,13 @@ nav a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size
 .feature { background: var(--card); border-radius: 20px; padding: 22px; }
 .feature h3 { margin: 0 0 6px; font-size: 18px; }
 .feature p { margin: 0; color: var(--muted); font-size: 16px; }
+.devices { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; align-items: end; padding-bottom: 64px; }
+.devices figure { margin: 0; }
+.devices h3 { margin: 18px 0 6px; font-size: 18px; }
+.devices p { margin: 0; color: var(--muted); font-size: 16px; }
+.device-mac img { width: 100%; display: block; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 24px 48px -24px rgba(0,0,0,.35); }
+.watch { width: min(200px, 60vw); aspect-ratio: 416 / 496; background: #000; border-radius: 48px; padding: 12px; box-shadow: 0 24px 48px -24px rgba(0,0,0,.45); }
+.watch img { width: 100%; height: 100%; object-fit: cover; border-radius: 36px; display: block; }
 .band { border-top: 1px solid var(--line); padding: 56px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .band h2 { font: 800 30px/1.1 ui-rounded, "SF Pro Rounded", -apple-system, sans-serif; margin: 0 0 12px; }
 .band p { color: var(--muted); margin: 0 0 10px; }
@@ -43,5 +50,6 @@ footer a { color: var(--muted); }
 @media (max-width: 760px) {
   .hero { grid-template-columns: 1fr; padding-top: 24px; gap: 48px; }
   .band { grid-template-columns: 1fr; gap: 24px; }
+  .devices { grid-template-columns: 1fr; gap: 40px; }
   nav a { margin-left: 12px; }
 }
