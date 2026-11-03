@@ -79,6 +79,7 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_APPICON_NAME[sdk=appletv*]: "App Icon & Top Shelf Image"
         ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xr*]: VisionAppIcon
+        ASSETCATALOG_COMPILER_STANDALONE_ICON_BEHAVIOR: all # App Store needs every Mac size in the .icns, not only Assets.car
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
   CamFettiWatch:
     type: application
