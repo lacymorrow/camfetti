@@ -18,6 +18,7 @@
 		1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */; };
 		20377D24B63DB7BCDF406303 /* CamFettiWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668CE6BA425410789E64E49D /* CamFettiWatchApp.swift */; };
 		2395D7D8195CCD569D66DC7A /* WatchSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13FC1C266A448250E99E1BCA /* WatchSession.swift */; };
+		26BFE357E9419BA3DE037877 /* MacAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFDEA9BDE318FC296150440 /* MacAppDelegate.swift */; platformFilters = (macos, ); };
 		288A41E0E17A8BF9778F6CAA /* IntegrationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */; };
 		3041A6A0C77B7BB975785E9E /* CameraTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */; };
 		32025DAF63C7B208674F4DD6 /* CameraDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */; };
@@ -110,6 +111,7 @@
 		0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B84AC2A1D148FA67883099D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		13FC1C266A448250E99E1BCA /* WatchSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSession.swift; sourceTree = "<group>"; };
+		1CFDEA9BDE318FC296150440 /* MacAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppDelegate.swift; sourceTree = "<group>"; };
 		210A47F34A7C39FB816476BC /* AwayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayController.swift; sourceTree = "<group>"; };
 		2613C84D5C2C7993F5488C9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2AABC52D50A0B17BAF6EBEFB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				C111EA1D9446454727EA81DF /* AwayMenu.swift */,
 				F8F6294F880086127FA292A8 /* BridgeService.swift */,
 				91FAFC7DFC25E8BD0AEA51C7 /* DeviceInfo.swift */,
+				1CFDEA9BDE318FC296150440 /* MacAppDelegate.swift */,
 			);
 			path = Mac;
 			sourceTree = "<group>";
@@ -588,6 +591,7 @@
 				F9407639C36B4F6414F37236 /* H26x.swift in Sources */,
 				FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */,
 				93B497DFACD141F69CB5CF00 /* LiveStream.swift in Sources */,
+				26BFE357E9419BA3DE037877 /* MacAppDelegate.swift in Sources */,
 				4DDED12405493198B99D247C /* OnvifClient.swift in Sources */,
 				C1E808FBD973FDCDBB6491A9 /* Pipe.swift in Sources */,
 				1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */,
@@ -704,7 +708,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG AWAY";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;

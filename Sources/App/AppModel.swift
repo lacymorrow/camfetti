@@ -61,9 +61,11 @@ final class AppModel {
 
     /// Home address first, away address second. With Away routing on, only the relay tunnel.
     nonisolated static func addresses(for camera: Camera, url: String) -> [String] {
+        #if AWAY
         if AwayConfig.routeThroughRelay, let tunneled = AwayTunnel.shared.localURL(for: url) {
             return [tunneled]
         }
+        #endif
         var urls = [url]
         if let away = camera.awayHost?.trimmingCharacters(in: .whitespaces), !away.isEmpty {
             urls.append(Camera.replacingHost(in: url, with: away))

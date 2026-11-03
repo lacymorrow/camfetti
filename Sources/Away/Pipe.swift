@@ -1,3 +1,6 @@
+// Away is a paid service that has not launched. It compiles only with the AWAY flag (Debug builds),
+// so App Store builds carry none of it.
+#if AWAY
 import Foundation
 import Network
 
@@ -103,3 +106,4 @@ private final class SpliceState: @unchecked Sendable {
     func add(bToA n: Int) { lock.withLock { bToA += n } }
     var counts: (Int, Int) { lock.withLock { (aToB, bToA) } }
 }
+#endif

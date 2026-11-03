@@ -15,6 +15,10 @@ final class CameraTests: XCTestCase {
     }
 
     func testAddressesTryHomeFirstThenAway() {
+        #if AWAY
+        // A simulator used for Away testing may still route through the relay.
+        AwayConfig.routeThroughRelay = false
+        #endif
         var cam = Camera(name: "Porch", kind: .thingino, host: "192.168.1.9", mainURL: "rtsp://192.168.1.9/ch0", username: "thingino")
         XCTAssertEqual(AppModel.addresses(for: cam, url: cam.mainURL), ["rtsp://192.168.1.9/ch0"])
         cam.awayHost = "100.64.0.9"

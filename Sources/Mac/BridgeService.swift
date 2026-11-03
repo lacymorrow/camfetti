@@ -1,3 +1,6 @@
+// Away is a paid service that has not launched. It compiles only with the AWAY flag (Debug builds),
+// so App Store builds carry none of it.
+#if AWAY
 // The bridge role runs on iPhone and Mac only.
 import Foundation
 import Network
@@ -188,3 +191,4 @@ final class BridgeService {
 
     private static var deviceName: String { DeviceInfo.name }
 }
+#endif

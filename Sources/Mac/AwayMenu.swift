@@ -1,3 +1,6 @@
+// Away is a paid service that has not launched. It compiles only with the AWAY flag (Debug builds),
+// so App Store builds carry none of it.
+#if AWAY
 import AppKit
 import SwiftUI
 
@@ -75,21 +78,4 @@ struct AwayMenuPreview: View {
     }
 }
 #endif
-
-/// Lets the app delegate reopen the main window from a Dock click after it was closed.
-struct MainWindowHook: View {
-    @Environment(\.openWindow) private var openWindow
-
-    var body: some View {
-        Color.clear.frame(width: 0, height: 0)
-            .onAppear {
-                MacAppDelegate.openMainWindow = {
-                    NSApp.activate()
-                    openWindow(id: "main")
-                }
-                #if DEBUG
-                MacAppDelegate.closeMainWindowIfAsked()
-                #endif
-            }
-    }
-}
+#endif

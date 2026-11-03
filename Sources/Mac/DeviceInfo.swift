@@ -1,3 +1,6 @@
+// Away is a paid service that has not launched. It compiles only with the AWAY flag (Debug builds),
+// so App Store builds carry none of it.
+#if AWAY
 import Foundation
 import IOKit.ps
 
@@ -39,3 +42,4 @@ enum DeviceInfo {
         return Power(battery: level, source: source)
     }
 }
+#endif

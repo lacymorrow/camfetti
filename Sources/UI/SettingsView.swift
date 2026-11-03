@@ -7,7 +7,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppModel.self) private var model
     @State private var tips = TipJar()
+    #if AWAY
     @State private var routeThroughRelay = AwayConfig.routeThroughRelay
+    #endif
 
     private static let tailscaleURL: URL = {
         #if os(iOS)
@@ -20,7 +22,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                #if os(iOS) || os(visionOS)
+                #if AWAY && (os(iOS) || os(visionOS))
                 if AwayConfig.isAvailable {
                     Section {
                         Toggle("Watch Through Away", isOn: $routeThroughRelay)

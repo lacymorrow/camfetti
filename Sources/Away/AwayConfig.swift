@@ -1,3 +1,6 @@
+// Away is a paid service that has not launched. It compiles only with the AWAY flag (Debug builds),
+// so App Store builds carry none of it.
+#if AWAY
 import CryptoKit
 import Foundation
 import Network
@@ -105,3 +108,4 @@ extension NWParameters {
         return NWParameters(tls: tls, tcp: tcp)
     }
 }
+#endif

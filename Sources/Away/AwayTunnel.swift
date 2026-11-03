@@ -1,3 +1,6 @@
+// Away is a paid service that has not launched. It compiles only with the AWAY flag (Debug builds),
+// so App Store builds carry none of it.
+#if AWAY
 import Foundation
 import Network
 import os
@@ -84,3 +87,4 @@ final class AwayTunnel: @unchecked Sendable {
         s.utf8.reduce(2_166_136_261) { ($0 ^ UInt32($1)) &* 16_777_619 }
     }
 }
+#endif

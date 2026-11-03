@@ -19,7 +19,9 @@ struct CamFettiApp: App {
         #if os(iOS)
         WatchLink.shared.activate()
         #endif
+        #if AWAY
         AwayConfig.installFromLaunchArguments()
+        #endif
         let model = AppModel()
         #if DEBUG
         Self.seedDemoCameras(into: model.store)
@@ -82,7 +84,7 @@ struct CamFettiApp: App {
         #else
         Window("CamFetti", id: "main") {
             Group {
-                #if DEBUG
+                #if AWAY
                 if ProcessInfo.processInfo.arguments.contains("-awayMenuPreview") {
                     AwayMenuPreview()
                 } else {
@@ -104,7 +106,9 @@ struct CamFettiApp: App {
                 .frame(width: Theme.settingsSize.width, height: Theme.settingsSize.height)
                 .tint(Theme.accent)
         }
+        #if AWAY
         AwayMenuScene()
+        #endif
         #endif
     }
 }
