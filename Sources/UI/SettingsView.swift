@@ -28,12 +28,6 @@ struct SettingsView: View {
                                 AwayConfig.routeThroughRelay = on
                                 model.resetAllStreams()
                             }
-                        if Platform.canBridge {
-                            Button("Use This Device as Bridge") {
-                                dismiss()
-                                model.bridgeMode = true
-                            }
-                        }
                     } header: {
                         Text("Away Preview")
                     } footer: {

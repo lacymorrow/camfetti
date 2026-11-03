@@ -67,17 +67,7 @@ struct CamFettiApp: App {
     var body: some Scene {
         #if os(iOS) || os(tvOS) || os(visionOS)
         WindowGroup {
-            Group {
-                #if os(iOS)
-                if model.bridgeMode {
-                    BridgeView()
-                } else {
-                    CamerasView()
-                }
-                #else
-                CamerasView()
-                #endif
-            }
+            CamerasView()
             .environment(model)
             .tint(Theme.accent)
             .platformWindowBackground()

@@ -1,5 +1,4 @@
 // The bridge role runs on iPhone and Mac only.
-#if os(iOS) || os(macOS)
 import Foundation
 import Network
 import Observation
@@ -38,7 +37,6 @@ final class BridgeService {
         guard !running else { return }
         running = true
         status = .connecting
-        DeviceInfo.startMonitoring()
         connect()
     }
 
@@ -190,4 +188,3 @@ final class BridgeService {
 
     private static var deviceName: String { DeviceInfo.name }
 }
-#endif

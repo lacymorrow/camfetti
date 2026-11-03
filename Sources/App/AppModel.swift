@@ -19,10 +19,6 @@ final class AppModel {
     private(set) var isOnline = true
     /// Fires once, when the very first camera goes live.
     var celebrate = false
-    /// Away spike: this device is the bridge at home. Survives relaunch.
-    var bridgeMode = UserDefaults.standard.bool(forKey: "away.bridge") && AwayConfig.isAvailable {
-        didSet { UserDefaults.standard.set(bridgeMode, forKey: "away.bridge") }
-    }
 
     private var gridStreams: [UUID: LiveStream] = [:]
     private let monitor = NWPathMonitor()

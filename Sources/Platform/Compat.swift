@@ -69,14 +69,6 @@ enum Platform {
         true
         #endif
     }()
-    /// This device can take the bridge role at home. Only the phone can.
-    static let canBridge: Bool = {
-        #if os(iOS)
-        true
-        #else
-        false
-        #endif
-    }()
     /// The remote and not a pointer or finger picks things: focus moves, a focused tile lifts.
     static let usesFocus: Bool = {
         #if os(tvOS)
