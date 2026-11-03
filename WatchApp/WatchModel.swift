@@ -18,17 +18,22 @@ final class WatchModel {
         cameras = WatchCache.loadCameras() ?? []
     }
 
-    /// One request for the list and the small thumbnails. Never fetches a camera.
+    /// Asks for the list and the small thumbnails, and keeps asking while the phone can't be
+    /// reached, so walking back into range fixes it without reopening the app. Never fetches a camera.
     func refresh() async {
-        do {
-            let fresh = try await session.cameras()
-            cameras = fresh
-            heardFromPhone = true
-            link = .connected
-            WatchCache.save(cameras: fresh)
-            cameras = WatchCache.loadCameras() ?? fresh
-        } catch {
-            link = .notNearby
+        while !Task.isCancelled {
+            do {
+                let fresh = try await session.cameras()
+                cameras = fresh
+                heardFromPhone = true
+                link = .connected
+                WatchCache.save(cameras: fresh)
+                cameras = WatchCache.loadCameras() ?? fresh
+                return
+            } catch {
+                link = .notNearby
+                try? await Task.sleep(for: .seconds(Theme.Timing.snapshotRetry))
+            }
         }
     }
 

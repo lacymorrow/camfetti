@@ -29,6 +29,11 @@ struct CameraListView: View {
                 ScrollView {
                     PlaceholderTile(message: model.link == .notNearby ? "iPhone not nearby" : nil,
                                     showsProgress: model.link != .notNearby)
+                    #if DEBUG
+                    Text(WatchSession.shared.lastDetail)
+                        .font(Theme.captionFont)
+                        .foregroundStyle(Theme.secondaryText)
+                    #endif
                 }
             } else {
                 ScrollView {

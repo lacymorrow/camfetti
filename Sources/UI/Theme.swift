@@ -229,6 +229,8 @@ enum Theme {
         static let snapshotRetry = 5.0
         /// Watch: give up on the iPhone after this long.
         static let requestTimeout = 15.0
+        /// How long the watch waits for the iPhone to become reachable before sending anyway.
+        static let reachabilityWait = 3.0
         /// Watch: how often "2 min ago" is recomputed while it is on screen.
         static let ageRefresh = 30.0
         /// A silent camera gets a plain message after this long.

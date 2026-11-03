@@ -1,4 +1,5 @@
 import Foundation
+import os
 import WatchConnectivity
 
 /// The watch end of the link. Asks the iPhone for the camera list and for pictures.
@@ -13,6 +14,10 @@ final class WatchSession: NSObject, WCSessionDelegate {
     }
 
     private var waiting: [CheckedContinuation<Void, Never>] = []
+    private var waitingForPhone: [CheckedContinuation<Void, Never>] = []
+    private let log = Logger(subsystem: "sh.lacy.camfetti.watch", category: "link")
+    /// Debug builds show this under an error, so a failure on a real watch can be read off the screen.
+    private(set) var lastDetail = ""
 
     func activate() {
         guard WCSession.isSupported() else { return }
@@ -46,7 +51,13 @@ final class WatchSession: NSObject, WCSessionDelegate {
             await withCheckedContinuation { waiting.append($0) }
         }
         let session = WCSession.default
-        guard session.activationState == .activated, session.isReachable else { throw Failure.notNearby }
+        guard session.activationState == .activated else {
+            note("not activated (\(session.activationState.rawValue))")
+            throw Failure.notNearby
+        }
+        // Reachability is often false for a moment after launch, then flips. Give it a few seconds.
+        if !session.isReachable { await waitForPhone(seconds: Theme.Timing.reachabilityWait) }
+        if !session.isReachable { note("not reachable yet, sending anyway") }
         let box = MessageBox(message)
         let gate = Gate()
         let reply: ReplyBox = try await withCheckedThrowingContinuation { continuation in
@@ -57,11 +68,40 @@ final class WatchSession: NSObject, WCSessionDelegate {
             }
             session.sendMessage(box.value, replyHandler: { value in
                 if gate.claim() { continuation.resume(returning: ReplyBox(value: value)) }
-            }, errorHandler: { _ in
+            }, errorHandler: { error in
+                let code = (error as NSError).code
+                Task { @MainActor in self.note("send failed: WCError \(code)") }
                 if gate.claim() { continuation.resume(throwing: Failure.notNearby) }
             })
         }
+        lastDetail = ""
         return reply.value
+    }
+
+    private func note(_ detail: String) {
+        lastDetail = detail
+        log.error("\(detail, privacy: .public)")
+    }
+
+    private func waitForPhone(seconds: Double) async {
+        await withCheckedContinuation { continuation in
+            waitingForPhone.append(continuation)
+            Task {
+                try? await Task.sleep(for: .seconds(seconds))
+                self.resumePhoneWaiters()
+            }
+        }
+    }
+
+    private func resumePhoneWaiters() {
+        let pending = waitingForPhone
+        waitingForPhone = []
+        pending.forEach { $0.resume() }
+    }
+
+    nonisolated func sessionReachabilityDidChange(_ session: WCSession) {
+        let reachable = session.isReachable
+        Task { @MainActor in if reachable { self.resumePhoneWaiters() } }
     }
 
     nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
