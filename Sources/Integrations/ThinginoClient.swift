@@ -70,6 +70,15 @@ struct ThinginoClient: Sendable {
         return config
     }
 
+    /// One JPEG from the camera's snapshot endpoint. A 401 is never retried, because cameras lock out.
+    func snapshot() async throws -> Data {
+        let (data, response) = try await session.data(for: request("/x/ch0.jpg", method: "GET", timeout: 6))
+        let status = (response as? HTTPURLResponse)?.statusCode
+        if status == 401 { throw Failure.wrongPassword }
+        guard status == 200, !data.isEmpty else { throw Failure.badResponse }
+        return data
+    }
+
     func setDayNight(_ mode: DayNight) async throws {
         var post = request("/x/json-imp.cgi", method: "POST")
         post.setValue("application/json", forHTTPHeaderField: "Content-Type")

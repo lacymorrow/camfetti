@@ -16,6 +16,9 @@ struct CamFettiApp: App {
             try? FileManager.default.removeItem(at: dir.appendingPathComponent("cameras.json"))
         }
         AppModel.configureAudioSession()
+        #if os(iOS)
+        WatchLink.shared.activate()
+        #endif
         AwayConfig.installFromLaunchArguments()
         let model = AppModel()
         #if DEBUG

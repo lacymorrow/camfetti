@@ -128,6 +128,16 @@ enum Theme {
     static let focusScale: CGFloat = 1.08
     static let focusShadowRadius: CGFloat = 24
     static let heroSymbolSize: CGFloat = 64
+    /// The symbol above a message on a small screen (a placeholder tile, an empty state).
+    static let stateSymbolFont: Font = {
+        #if os(watchOS)
+        Font.title2
+        #else
+        Font.system(size: heroSymbolSize, weight: .regular)
+        #endif
+    }()
+    /// A camera picture that is out of date: kept, but quieter than a fresh one.
+    static let dimmedOpacity = 0.4
     /// Gap below a full-screen toast, clear of the control row.
     static let toastBottomInset: CGFloat = {
         #if os(tvOS)
@@ -221,6 +231,14 @@ enum Theme {
             #endif
         }()
         static let toastHold = 1.8
+        /// Watch: pause between one snapshot landing and the next request.
+        static let snapshotRefresh = 2.0
+        /// Watch: pause before asking again after a failure.
+        static let snapshotRetry = 5.0
+        /// Watch: give up on the iPhone after this long.
+        static let requestTimeout = 15.0
+        /// Watch: how often "2 min ago" is recomputed while it is on screen.
+        static let ageRefresh = 30.0
         /// A silent camera gets a plain message after this long.
         static let cameraSilent = 8.0
         static let confettiRun = 2.6
