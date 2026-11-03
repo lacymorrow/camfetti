@@ -180,7 +180,7 @@ struct EmptyCamerasView: View {
         VStack(spacing: Theme.Space.lg) {
             Spacer()
             Wordmark(size: Theme.wordmarkHeroSize)
-            Text("Your cameras, live, in one tap.")
+            Text(Platform.usesFocus ? "Your cameras, live, in one click." : "Your cameras, live, in one tap.")
                 .font(Theme.subtitleFont)
                 .foregroundStyle(Theme.secondaryText)
                 .multilineTextAlignment(.center)
@@ -196,13 +196,6 @@ struct EmptyCamerasView: View {
                     .font(.subheadline.weight(.medium))
             }
             Spacer()
-            if Platform.usesFocus {
-                Text("Add cameras on your iPhone and they will appear here. CamFetti also finds Thingino cameras on your Wi-Fi.")
-                    .font(Theme.bodyFont)
-                    .foregroundStyle(Theme.secondaryText)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: Theme.emptyTextWidth)
-            }
             Button { showAdd = true } label: {
                 Text(finder.found.isEmpty ? "Add a Camera" : "Add Your Cameras")
                     .font(.headline)

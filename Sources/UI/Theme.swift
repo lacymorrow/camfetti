@@ -109,14 +109,6 @@ enum Theme {
         #endif
     }()
     static let readableWidth: CGFloat = 320
-    /// Width of explanatory text on an empty screen.
-    static let emptyTextWidth: CGFloat = {
-        #if os(tvOS)
-        900
-        #else
-        480
-        #endif
-    }()
     static let controlSize: CGFloat = {
         #if os(tvOS)
         88
