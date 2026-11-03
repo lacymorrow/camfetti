@@ -39,7 +39,21 @@ enum Keychain {
     }
 
     static func get(_ key: String) -> String? {
-        var query = base(key)
+        if let value = read(base(key)) { return value }
+        #if os(macOS)
+        // A build without the data protection entitlement saved to the file keychain; look there too,
+        // or every relaunch would lose the camera passwords.
+        if useDataProtection {
+            var file = base(key)
+            file.removeValue(forKey: kSecUseDataProtectionKeychain as String)
+            return read(file)
+        }
+        #endif
+        return nil
+    }
+
+    private static func read(_ base: [String: Any]) -> String? {
+        var query = base
         query[kSecReturnData as String] = true
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         var out: AnyObject?

@@ -153,8 +153,8 @@ private struct Fixture {
         let names: [String]
         switch mode {
         case "empty": names = []
-        case "list": names = ["Front Porch", "Garage", "Back Yard"]
-        default: names = ["Front Porch"]
+        case "list": names = ["Front of House", "Back of House", "Driveway"]
+        default: names = ["Front of House"]
         }
         return names.enumerated().map { WatchProtocol.CameraSummary(id: "fixture-\($0.offset)", name: $0.element, thumbnail: image) }
     }

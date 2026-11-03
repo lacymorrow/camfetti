@@ -4,7 +4,7 @@ shots-save-camera-logins.sh. The value carries passwords: pass it straight to
 `simctl launch` or the app, never echo it. Debug builds only read it."""
 import base64, json, re, subprocess, sys
 
-NAMES = ["Front of House", "Back of House", "Driveway"]
+NAMES = ["Front of House", "Back of House", "Driveway"]  # outdoor only; "Wyze" login is saved too but it looks indoors
 items = []
 for name in NAMES:
     meta = subprocess.run(["security", "find-generic-password", "-s", "camfetti-shots", "-a", name],
