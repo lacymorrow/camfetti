@@ -102,3 +102,12 @@ final class WatchProtocolTests: XCTestCase {
         store.remove(cam)
     }
 }
+
+final class SnapshotFetcherTests: XCTestCase {
+    func testOnlyRealJPEGCounts() {
+        XCTAssertTrue(SnapshotFetcher.isJPEG(Data([0xFF, 0xD8, 0xFF, 0xE0, 0x00])))
+        // Reolink answers 200 with JSON when the snapshot needs query-string credentials.
+        XCTAssertFalse(SnapshotFetcher.isJPEG(Data(#"[{"cmd":"Snap","code":1,"error":{"rspCode":-6}}]"#.utf8)))
+        XCTAssertFalse(SnapshotFetcher.isJPEG(Data()))
+    }
+}

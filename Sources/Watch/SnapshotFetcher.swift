@@ -2,6 +2,8 @@ import Foundation
 
 /// One current picture of a camera, from the cheapest source it has:
 /// the Thingino snapshot endpoint, then the ONVIF snapshot URL, then a keyframe from the RTSP stream.
+/// A camera whose snapshot URL fails (Reolink wants the password in the query string, and answers
+/// 200 with a JSON error otherwise) still gets a picture from its stream.
 /// Home address first, away address second, like the live streams.
 @MainActor
 final class SnapshotFetcher {
@@ -41,7 +43,6 @@ final class SnapshotFetcher {
                     return data
                 }
             }
-            return nil
         }
         return await keyframe(for: camera)
     }
@@ -67,8 +68,13 @@ final class SnapshotFetcher {
         let session = URLSession(configuration: session.configuration, delegate: delegate, delegateQueue: nil)
         defer { session.finishTasksAndInvalidate() }
         guard let (data, response) = try? await session.data(from: target),
-              (response as? HTTPURLResponse)?.statusCode == 200, !data.isEmpty else { return nil }
+              (response as? HTTPURLResponse)?.statusCode == 200, isJPEG(data) else { return nil }
         return data
+    }
+
+    /// Some cameras answer 200 with an error page or JSON. Only a real JPEG counts.
+    nonisolated static func isJPEG(_ data: Data) -> Bool {
+        data.count > 3 && data.starts(with: [0xFF, 0xD8, 0xFF])
     }
 
     /// Answers a Basic or Digest challenge once. A second challenge means the password is wrong,
