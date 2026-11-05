@@ -17,6 +17,6 @@ save() {
 	echo "  saved"
 }
 
-save "Front of House" 192.168.1.71
-save "Back of House" 192.168.1.70
-save "Driveway" 192.168.1.101
+save "Front of House" "${1:?usage: $0 <front-ip> <back-ip> <driveway-ip>}"
+save "Back of House" "${2:?}"
+save "Driveway" "${3:?}"
