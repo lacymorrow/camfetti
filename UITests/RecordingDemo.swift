@@ -3,6 +3,7 @@ import XCTest
 /// Opens a camera's Details and saves screenshots of the Recording switch. Skipped unless
 /// TEST_RUNNER_CAMFETTI_SEED holds a `-seedReal` value and TEST_RUNNER_CAMFETTI_OUT names a folder.
 /// TEST_RUNNER_CAMFETTI_TOGGLE=1 also flips the switch on, then off again (use it on the rig only).
+/// TEST_RUNNER_CAMFETTI_TOGGLE=on flips it on and leaves it on.
 final class RecordingDemo: XCTestCase {
     @MainActor
     func testRecordingSwitch() throws {
@@ -28,11 +29,12 @@ final class RecordingDemo: XCTestCase {
         app.swipeUp()
         save(app, out, "recording-0-\(name)")
 
-        guard env["CAMFETTI_TOGGLE"] == "1" else { return }
+        guard let mode = env["CAMFETTI_TOGGLE"] else { return }
         toggle.switches.firstMatch.tap()
         expectation(for: NSPredicate(format: "label BEGINSWITH 'Recording now'"), evaluatedWith: note)
         waitForExpectations(timeout: 20)
         save(app, out, "recording-1-on")
+        guard mode == "1" else { return }
         toggle.switches.firstMatch.tap()
         expectation(for: NSPredicate(format: "label BEGINSWITH 'Records nonstop'"), evaluatedWith: note)
         waitForExpectations(timeout: 20)
