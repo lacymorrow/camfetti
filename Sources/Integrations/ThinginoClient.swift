@@ -111,7 +111,7 @@ struct ThinginoClient: Sendable {
         guard status == 200 else { throw Failure.badResponse }
     }
 
-    private func request(_ path: String, method: String, timeout: TimeInterval = 5) -> URLRequest {
+    func request(_ path: String, method: String, timeout: TimeInterval = 5) -> URLRequest {
         var r = URLRequest(url: URL(string: Self.authenticatedPath(path, apiKey: apiKey), relativeTo: base)!.absoluteURL,
                            timeoutInterval: timeout)
         r.httpMethod = method

@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Fake Thingino web API for CamFetti tests. Mirrors the real endpoints the app uses:
 POST /x/login.cgi, GET|POST /x/api-key.cgi, GET /x/json-config-rtsp.cgi,
-POST /x/json-imp.cgi, GET /x/json-motor.cgi, GET /x/ch0.jpg, /x/ch1.jpg.
+POST /x/json-imp.cgi, GET /x/json-motor.cgi, GET /x/ch0.jpg, /x/ch1.jpg,
+GET|POST /x/tool-record.cgi, GET /x/tool-sdcard.cgi, POST /x/json-prudynt.cgi (mp4 status/start/stop).
 Root password: root. RTSP: thingino/thingino on :8554 (MediaMTX)."""
 import base64, http.server, json, os, secrets, subprocess, sys, urllib.parse
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
-STATE = {"sessions": set(), "api_key": None, "daynight": "day", "x": 1200, "y": 300, "log": []}
+STATE = {"sessions": set(), "api_key": None, "daynight": "day", "x": 1200, "y": 300, "log": [],
+         "recorder": {"autostart": False, "channel": 0, "check_interval": 60, "cleanup_enabled": False,
+                      "device_path": "%hostname", "duration": 60, "filename": "%Y/%m/%d/%H-%M-%S", "limit": 15,
+                      "min_free_mb": 500, "mount": ""},
+         "recording": False, "card_bytes": 31_914_983_424}
+MOUNTS = ["/mnt/mmcblk0p1"]
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 def snapshot(path):
@@ -71,7 +77,16 @@ class H(http.server.BaseHTTPRequestHandler):
         if u.path in ("/x/ch0.jpg", "/x/ch1.jpg", "/image.jpg"):
             return self.send(200, snapshot("ch1" if "ch1" in u.path else "ch0"), "image/jpeg")
         if u.path == "/_state":
-            return self.send(200, {"daynight": STATE["daynight"], "x": STATE["x"], "y": STATE["y"], "log": STATE["log"][-50:]})
+            return self.send(200, {"daynight": STATE["daynight"], "x": STATE["x"], "y": STATE["y"], "log": STATE["log"][-50:],
+                                   "recorder": STATE["recorder"], "recording": STATE["recording"]})
+        if u.path == "/x/tool-record.cgi":
+            return self.send(200, {"ok": True, "data": {"video": STATE["recorder"], "mounts": MOUNTS}})
+        if u.path == "/x/tool-sdcard.cgi":
+            present = STATE["card_bytes"] > 0
+            return self.send(200, {"ok": True, "data": {"has_sdcard": present,
+                                   "device": {"name": "mmcblk0", "size_bytes": STATE["card_bytes"]} if present else None,
+                                   "reports": {"partitions_b64": base64.b64encode(
+                                       b"Filesystem Size Used Available Use% Mounted on\n/dev/mmcblk0p1 29.7G 1.2G 28.5G 4% /mnt/mmcblk0p1\n").decode()}}})
         return self.send(404, {"error": "not found"})
 
     def do_POST(self):
@@ -108,6 +123,34 @@ class H(http.server.BaseHTTPRequestHandler):
             elif cmd == "auto":
                 STATE["daynight"] = "auto"
             return self.send(200, {"code": 200, "result": "success", "message": {"cmd": cmd, "val": val}})
+        if u.path == "/x/tool-record.cgi":
+            # Like the real CGI: every field comes from the form, an empty mount is rejected.
+            f = {k: v[0] for k, v in urllib.parse.parse_qs(raw, keep_blank_values=True).items()}
+            if f.get("form") != "video":
+                return self.send(400, {"error": {"code": 400, "message": "Unsupported form submission"}})
+            if not f.get("vr_mount"):
+                return self.send(422, {"error": {"code": 422, "message": "Record mount cannot be empty."}})
+            r = STATE["recorder"]
+            r.update({"autostart": f.get("vr_autostart") == "true", "cleanup_enabled": f.get("vr_cleanup_enabled") == "true",
+                      "channel": int(f.get("vr_channel", "0")), "device_path": f.get("vr_device_path", ""),
+                      "duration": int(f.get("vr_duration", "60")), "filename": f.get("vr_filename", ""),
+                      "limit": int(f.get("vr_limit", "15")), "min_free_mb": int(f.get("vr_min_free_mb", "500")),
+                      "check_interval": int(f.get("vr_check_interval", "60")), "mount": f["vr_mount"]})
+            return self.send(200, {"ok": True, "message": "Video recorder settings updated.",
+                                   "data": {"video": r, "mounts": MOUNTS}})
+        if u.path == "/x/json-prudynt.cgi":
+            mp4 = json.loads(raw or "{}").get("mp4", {})
+            if "status" in mp4:
+                return self.send(200, {"mp4": {"status": {"ch0": STATE["recording"], "ch1": False}}})
+            if "start" in mp4:
+                if not STATE["recorder"]["mount"]:
+                    return self.send(200, {"mp4": {"start": "mount path is empty"}})
+                STATE["recording"] = True
+                return self.send(200, {"mp4": {"start": "ok"}})
+            if "stop" in mp4:
+                STATE["recording"] = False
+                return self.send(200, {"mp4": {"stop": "ok"}})
+            return self.send(200, {})
         return self.send(404, {"error": "not found"})
 
 http.server.ThreadingHTTPServer(("0.0.0.0", PORT), H).serve_forever()
