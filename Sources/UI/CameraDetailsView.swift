@@ -103,7 +103,10 @@ struct CameraDetailsView: View {
                 return
             }
         }
-        if !password.isEmpty { CameraSecrets(id: camera.id).password = password }
+        if !password.isEmpty {
+            CameraSecrets(id: camera.id).password = password
+            PlaybackModel.forgetRefusal(camera.id)
+        }
         model.store.update(camera)
         model.resetStream(camera)
         dismiss()

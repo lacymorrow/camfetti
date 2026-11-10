@@ -21,6 +21,9 @@ struct CameraScreen: View {
     @State private var toast: String?
     @State private var dayNight: ThinginoClient.DayNight?
     @State private var ptzActive = false
+    /// Set once the camera answers like one whose SD card we can read (Reolink).
+    @State private var hasRecordings = false
+    @State private var playback: PlaybackModel?
 
     var body: some View {
         ZStack {
@@ -45,7 +48,13 @@ struct CameraScreen: View {
                 .transition(.opacity)
             }
         }
-        .immersive(!controlsVisible)
+        .overlay {
+            if let playback {
+                PlaybackView(model: playback) { closePlayback() }
+                    .transition(.opacity)
+            }
+        }
+        .immersive(!controlsVisible && playback == nil)
         .backShortcut { close() }
         .onAppear(perform: begin)
         .onDisappear(perform: end)
@@ -55,7 +64,7 @@ struct CameraScreen: View {
             #endif
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { stream?.start() }
+            if phase == .active, playback == nil { stream?.start() }
         }
     }
 
@@ -129,6 +138,11 @@ struct CameraScreen: View {
                         ControlIcon(symbol: stream?.muted == false ? "speaker.wave.2.fill" : "speaker.slash.fill")
                     }
                     .accessibilityLabel(stream?.muted == false ? "Mute" : "Listen")
+                }
+                if hasRecordings {
+                    Button { openPlayback() } label: { ControlIcon(symbol: "clock.arrow.circlepath") }
+                        .accessibilityLabel("Recordings")
+                        .accessibilityIdentifier("recordingsButton")
                 }
                 if Platform.canSaveSnapshot {
                     Button { Task { await snapshot() } } label: { ControlIcon(symbol: "camera.fill") }
@@ -271,6 +285,29 @@ struct CameraScreen: View {
         stream = s
         s.start()
         keepControls()
+        Task { hasRecordings = await Self.canReadSDCard(camera) }
+    }
+
+    /// Asks without a password, so probing never counts against the camera's sign-in limit.
+    private static func canReadSDCard(_ camera: Camera) async -> Bool {
+        guard camera.kind != .thingino, let base = camera.webBase() else { return false }
+        return await ReolinkClient(base: base, username: "", password: "").isReolink()
+    }
+
+    private func openPlayback() {
+        hideTask?.cancel()
+        stream?.stop()
+        let model = PlaybackModel(camera: camera)
+        withAnimation(fade(Theme.Motion.quick)) { playback = model }
+        Task { await model.start() }
+    }
+
+    private func closePlayback() {
+        guard let model = playback else { return }
+        Task { await model.stop() }
+        withAnimation(fade(Theme.Motion.quick)) { playback = nil }
+        stream?.start()
+        keepControls()
     }
 
     private func end() {
@@ -279,6 +316,7 @@ struct CameraScreen: View {
         pip.detach()
         #endif
         stream?.stop()
+        if let playback { Task { await playback.stop() } }
     }
 
     private func toggleControls() {
