@@ -11,6 +11,7 @@
 		0A89701D5CF1603D4A6021B8 /* CameraProber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438A482E765942F7E236712 /* CameraProber.swift */; };
 		0BAECD039979A000D7E67004 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A1E813FCAF189A84BA44E0 /* XML.swift */; };
 		0CA1631B68047CB58E33E8A6 /* CamFettiWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9F458DB783D129F5862CC9ED /* CamFettiWatch.app */; platformFilters = (ios, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0E205CB95389FBF7838EA186 /* ThinginoPlaybackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 415A4E39628C1EA711C696F1 /* ThinginoPlaybackTests.swift */; };
 		0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD13A76821ACBB47B939768 /* AwayTunnel.swift */; };
 		1684914E629D89D6EE24EFE0 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D66E4C996C519493F0828E /* WatchModel.swift */; };
 		17E54E35542944DA6DA2DFA6 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */; };
@@ -30,6 +31,7 @@
 		4D510424E35A5910713AEBBA /* BridgeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F6294F880086127FA292A8 /* BridgeService.swift */; platformFilters = (macos, ); };
 		4DDED12405493198B99D247C /* OnvifClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */; };
 		4FB9A2ACB7CECFD594D42073 /* WatchProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B659C12DE050DB075EBCF847 /* WatchProtocol.swift */; };
+		57DB4F9B002C701F9D9F09A4 /* ThinginoPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2201E875E07C0BF20E0C0 /* ThinginoPlayback.swift */; };
 		5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E7B771925A60BBA2F2553D /* FrameGrabber.swift */; };
 		584E21BC1E999725FAF50D36 /* PlaybackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21207217A2F5D73CAC4D06ED /* PlaybackTests.swift */; };
 		5D010AFFEF6B4789CFF64288 /* SnapshotEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B7D5CAA1F7222D466353F /* SnapshotEncoder.swift */; };
@@ -133,6 +135,7 @@
 		3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiUITests.swift; sourceTree = "<group>"; };
 		3F9C1D8959DB020939E76E2D /* ThinginoRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoRecorder.swift; sourceTree = "<group>"; };
 		402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		415A4E39628C1EA711C696F1 /* ThinginoPlaybackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoPlaybackTests.swift; sourceTree = "<group>"; };
 		42D66E4C996C519493F0828E /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
 		531BA091864AFBA41BEDD472 /* ThinginoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoClient.swift; sourceTree = "<group>"; };
 		56721688A90AAC6E2162BB39 /* CamFetti.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CamFetti.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,6 +166,7 @@
 		A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationClientTests.swift; sourceTree = "<group>"; };
 		AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScreen.swift; sourceTree = "<group>"; };
 		B0BA3AB95D84E9C3A740A3B2 /* SnapshotFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotFetcher.swift; sourceTree = "<group>"; };
+		B1C2201E875E07C0BF20E0C0 /* ThinginoPlayback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoPlayback.swift; sourceTree = "<group>"; };
 		B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnvifClient.swift; sourceTree = "<group>"; };
 		B659C12DE050DB075EBCF847 /* WatchProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProtocol.swift; sourceTree = "<group>"; };
 		BDD13A76821ACBB47B939768 /* AwayTunnel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayTunnel.swift; sourceTree = "<group>"; };
@@ -229,6 +233,7 @@
 				B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */,
 				724ADA70DBCBFC3443B2AB14 /* ReolinkClient.swift */,
 				531BA091864AFBA41BEDD472 /* ThinginoClient.swift */,
+				B1C2201E875E07C0BF20E0C0 /* ThinginoPlayback.swift */,
 				3F9C1D8959DB020939E76E2D /* ThinginoRecorder.swift */,
 				85A1E813FCAF189A84BA44E0 /* XML.swift */,
 			);
@@ -262,6 +267,7 @@
 				21207217A2F5D73CAC4D06ED /* PlaybackTests.swift */,
 				C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */,
 				ED31F5F5BDA9DA7FC28D1EEC /* RecordingSettingsTests.swift */,
+				415A4E39628C1EA711C696F1 /* ThinginoPlaybackTests.swift */,
 				E8FD96D3C0490FC4CF3A84A8 /* WatchTests.swift */,
 			);
 			path = Tests;
@@ -588,6 +594,7 @@
 				584E21BC1E999725FAF50D36 /* PlaybackTests.swift in Sources */,
 				5D2DA32F03150354C7D7512A /* RealCameraTests.swift in Sources */,
 				8273BD9F3BD47888F01CC0BD /* RecordingSettingsTests.swift in Sources */,
+				0E205CB95389FBF7838EA186 /* ThinginoPlaybackTests.swift in Sources */,
 				DA5213481329E96C8DA3F7E3 /* WatchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,6 +641,7 @@
 				9D87709EFEE07F7DA10E9B21 /* SnapshotFetcher.swift in Sources */,
 				07294CB8C418160A44A538BB /* Theme.swift in Sources */,
 				4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */,
+				57DB4F9B002C701F9D9F09A4 /* ThinginoPlayback.swift in Sources */,
 				F0B3EC426F4D89DA4A7A57A5 /* ThinginoRecorder.swift in Sources */,
 				C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */,
 				7ED88CCB570F470F8BB3985F /* WatchLink.swift in Sources */,

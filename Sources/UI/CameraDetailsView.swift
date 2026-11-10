@@ -151,6 +151,7 @@ struct CameraDetailsView: View {
             do {
                 let key = try await ThinginoClient(base: base).mintAPIKey(password: webPassword)
                 CameraSecrets(id: camera.id).apiKey = key
+                PlaybackModel.forgetRefusal(camera.id)
                 camera.canPan = await ThinginoClient(base: base, apiKey: key).hasMotors()
             } catch ThinginoClient.Failure.wrongPassword {
                 webError = "That password didn't work."

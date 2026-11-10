@@ -288,9 +288,11 @@ struct CameraScreen: View {
         Task { hasRecordings = await Self.canReadSDCard(camera) }
     }
 
-    /// Asks without a password, so probing never counts against the camera's sign-in limit.
+    /// Thingino needs the web API key. Others are asked without a password, so probing never counts
+    /// against the camera's sign-in limit.
     private static func canReadSDCard(_ camera: Camera) async -> Bool {
-        guard camera.kind != .thingino, let base = camera.webBase() else { return false }
+        if camera.kind == .thingino { return CameraSecrets(id: camera.id).apiKey != nil }
+        guard let base = camera.webBase() else { return false }
         return await ReolinkClient(base: base, username: "", password: "").isReolink()
     }
 

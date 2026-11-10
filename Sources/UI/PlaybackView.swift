@@ -44,8 +44,18 @@ struct PlaybackView: View {
         case .ready:
             VideoPlayer(player: model.player)
                 .accessibilityIdentifier("playbackVideo")
+                .overlay {
+                    if model.preparing {
+                        ProgressView().tint(Theme.onVideo).controlSize(.large)
+                    } else if model.clipFailed {
+                        message("Couldn't load this clip", detail: "Pick it again, or try another clip.")
+                            .background(Theme.videoBackground)
+                    }
+                }
         case .noCard:
             message("No SD card", detail: "This camera has no memory card, so there's nothing recorded to play back.")
+        case .notRecording:
+            message("Not recording", detail: "This camera isn't recording to its SD card. Turn on Record to SD Card in the camera's details.")
         case .noRecordings:
             message("No recordings yet", detail: "The SD card is in, but the camera hasn't recorded anything in the last 90 days.")
         case .wrongPassword:
