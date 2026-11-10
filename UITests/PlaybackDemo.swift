@@ -28,6 +28,12 @@ final class PlaybackDemo: XCTestCase {
             if tile.exists, tile.isHittable { tile.tap() } else { app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
         }
 
+        if env["CAMFETTI_EXPECT"] == "notrecording" {
+            XCTAssertTrue(app.staticTexts["Not recording"].waitForExistence(timeout: 20), "says the camera isn't recording")
+            save(app, out, "playback-notrecording")
+            app.buttons["backToLive"].tap()
+            return
+        }
         if env["CAMFETTI_EXPECT"] == "nocard" {
             XCTAssertTrue(app.staticTexts["No SD card"].waitForExistence(timeout: 20), "says the camera has no card")
             save(app, out, "playback-nocard")
@@ -40,7 +46,8 @@ final class PlaybackDemo: XCTestCase {
 
         let chips = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Event at'"))
         if chips.count > 1 {
-            chips.element(boundBy: 0).tap()
+            // The strip opens scrolled to the newest clip, so the one before it is on screen.
+            chips.element(boundBy: chips.count - 2).tap()
             sleep(6)
             save(app, out, "playback-2-earlier")
         }
