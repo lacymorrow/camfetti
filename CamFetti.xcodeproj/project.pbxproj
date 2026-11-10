@@ -416,6 +416,7 @@
 				F7CCF19541F96FD3E6E3D674 /* Resources */,
 				77CA4170C99B25F3C775529C /* Frameworks */,
 				49962839CD98E394FB7D3348 /* Embed Watch Content */,
+				EFC2E5D2EAA771C9C28D5BF6 /* Background audio on iOS only */,
 			);
 			buildRules = (
 			);
@@ -556,6 +557,30 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EFC2E5D2EAA771C9C28D5BF6 /* Background audio on iOS only */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Background audio on iOS only";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/background-audio.stamp",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "case \"$PLATFORM_NAME\" in iphoneos|iphonesimulator) exit 0 ;; esac\n/usr/libexec/PlistBuddy -c \"Delete :UIBackgroundModes\" \"$TARGET_BUILD_DIR/$INFOPLIST_PATH\" 2>/dev/null || true\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1BD1BD87027D4318286E49B8 /* Sources */ = {

@@ -36,6 +36,18 @@ targets:
         destinationFilters: [macOS]
       - path: Resources
         excludes: ["*.storekit"]
+    postBuildScripts:
+      # Picture in Picture keeps playing after you leave the app, and only the iPhone and iPad app has it.
+      # App Review rejects background audio anywhere else (Apple TV, 2.5.4, 2026-11-08).
+      - name: Background audio on iOS only
+        script: |
+          case "$PLATFORM_NAME" in iphoneos|iphonesimulator) exit 0 ;; esac
+          /usr/libexec/PlistBuddy -c "Delete :UIBackgroundModes" "$TARGET_BUILD_DIR/$INFOPLIST_PATH" 2>/dev/null || true
+        inputFiles:
+          - $(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)
+        outputFiles:
+          - $(DERIVED_FILE_DIR)/background-audio.stamp
+        basedOnDependencyAnalysis: false
     dependencies:
       - package: IPCamKit
       - target: CamFettiWatch
