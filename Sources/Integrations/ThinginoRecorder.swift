@@ -65,6 +65,15 @@ extension ThinginoClient {
         return ((reply["mp4"] as? [String: Any])?["status"] as? [String: Any])?["ch0"] as? Bool ?? false
     }
 
+    /// Puts back settings the camera lost while it kept recording, and returns them.
+    /// A Wyze v3 went back to an empty storage location on its own overnight (2026-11-10). Left alone,
+    /// it would stop recording at the next reboot and never delete old clips.
+    func restoreRecorder(_ current: RecorderSettings, card: Card) async throws -> RecorderSettings? {
+        guard let next = Self.recordingOn(current, card: card) else { return nil }
+        try await saveRecorder(next)
+        return next
+    }
+
     func startRecording() async throws { try await recorderCommand("start") }
 
     func stopRecording() async throws { try await recorderCommand("stop") }
@@ -140,6 +149,10 @@ extension ThinginoClient {
         if let unit = human.last, let scale = units[unit], let n = Double(human.dropLast()) { return Int64(n * scale) }
         return Int64(human)
     }
+
+    /// The camera's own form refuses an empty storage location, so recording with none saved means
+    /// the settings were lost, not that someone turned them off.
+    static func lostSettings(_ s: RecorderSettings, recording: Bool) -> Bool { recording && s.mount.isEmpty }
 
     /// Where recordings go: the saved mount if it's still there, else the SD card.
     static func recordingMount(_ s: RecorderSettings) -> String? {
