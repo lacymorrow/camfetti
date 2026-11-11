@@ -16,6 +16,7 @@ struct CamFettiApp: App {
             try? FileManager.default.removeItem(at: dir.appendingPathComponent("cameras.json"))
         }
         AppModel.configureAudioSession()
+        Telemetry.appOpen()
         #if os(iOS)
         WatchLink.shared.activate()
         #endif
