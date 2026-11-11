@@ -7,6 +7,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppModel.self) private var model
     @State private var tips = TipJar()
+    @AppStorage(Telemetry.defaultsKey) private var shareUsage = true
     #if AWAY
     @State private var routeThroughRelay = AwayConfig.routeThroughRelay
     #endif
@@ -60,6 +61,13 @@ struct SettingsView: View {
                         Text(tips.thanked ? "Thank you. Truly." : "CamFetti is free and open source. Tips keep it going.")
                     }
                 }
+                Section {
+                    Toggle("Share anonymous usage data", isOn: $shareUsage)
+                } header: {
+                    Text("Privacy")
+                } footer: {
+                    Text("Counts when CamFetti opens, which features you use, tips started or completed, and the kind of error that happened. Never your cameras, passwords, or video, and nothing that identifies you.")
+                }
                 Section("About") {
                     Link("Help", destination: URL(string: "https://camfetti.lacy.sh/support")!)
                     Link("Privacy", destination: URL(string: "https://camfetti.lacy.sh/privacy")!)
@@ -105,10 +113,12 @@ final class TipJar {
     /// Vision Pro buys through a different StoreKit call and has no tip rows yet, so the section stays hidden there.
     func buy(_ product: Product) async {
         #if !os(visionOS)
+        Telemetry.purchaseStarted()
         guard case let .success(verification)? = try? await product.purchase(),
               case let .verified(transaction) = verification else { return }
         await transaction.finish()
         thanked = true
+        Telemetry.purchaseCompleted()
         #endif
     }
 }

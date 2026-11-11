@@ -15,6 +15,7 @@
 		0FAC79AA9D008AADE6D3A3A8 /* AwayTunnel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD13A76821ACBB47B939768 /* AwayTunnel.swift */; };
 		1684914E629D89D6EE24EFE0 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D66E4C996C519493F0828E /* WatchModel.swift */; };
 		17E54E35542944DA6DA2DFA6 /* CameraScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEFF4F171582E8264A0B1AB /* CameraScreen.swift */; };
+		1A0498BBEBDB71E8B966AD53 /* Telemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA5491E3D111CBDD826054A /* Telemetry.swift */; };
 		1AE8E461FB56167F0E409704 /* CameraFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97FCD48B6E106A432881F33 /* CameraFinder.swift */; };
 		1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */; };
 		1FFB9D38F081027E1B350D2E /* ReolinkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724ADA70DBCBFC3443B2AB14 /* ReolinkClient.swift */; };
@@ -63,6 +64,7 @@
 		C1E808FBD973FDCDBB6491A9 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7594412CD555C765D23E9E /* Pipe.swift */; };
 		C3E439F29FA25C21368B5A04 /* AddCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07156A31F0240645EDFB7337 /* AddCameraView.swift */; };
 		C5872DA096E2F53AD6BF5446 /* WatchViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6233C68B5B6A4CD27A6EA712 /* WatchViews.swift */; };
+		C6ADECE9590FF8A66BF0B901 /* TelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A40B94204605DCD1AA750E6 /* TelemetryTests.swift */; };
 		C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */; };
 		CFA4B48BE6BB012D28A4C284 /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BE16635F0681DBB4E8BA47 /* RecordingSettings.swift */; };
 		DA5213481329E96C8DA3F7E3 /* WatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FD96D3C0490FC4CF3A84A8 /* WatchTests.swift */; };
@@ -158,9 +160,11 @@
 		91FAFC7DFC25E8BD0AEA51C7 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		95E1C28241C1F4E914752FED /* CamFettiUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDetailsView.swift; sourceTree = "<group>"; };
+		9A40B94204605DCD1AA750E6 /* TelemetryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryTests.swift; sourceTree = "<group>"; };
 		9AEE8632AA2DD8A584AEF91E /* PlaybackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackModel.swift; sourceTree = "<group>"; };
 		9C253F55BB19D9EF0149F280 /* H26x.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H26x.swift; sourceTree = "<group>"; };
 		9F458DB783D129F5862CC9ED /* CamFettiWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamFettiWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FA5491E3D111CBDD826054A /* Telemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Telemetry.swift; sourceTree = "<group>"; };
 		A034DAD254130BA61AECAE54 /* CameraStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStore.swift; sourceTree = "<group>"; };
 		A359E92CC51D69183AADB7FB /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
 		A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationClientTests.swift; sourceTree = "<group>"; };
@@ -267,6 +271,7 @@
 				21207217A2F5D73CAC4D06ED /* PlaybackTests.swift */,
 				C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */,
 				ED31F5F5BDA9DA7FC28D1EEC /* RecordingSettingsTests.swift */,
+				9A40B94204605DCD1AA750E6 /* TelemetryTests.swift */,
 				415A4E39628C1EA711C696F1 /* ThinginoPlaybackTests.swift */,
 				E8FD96D3C0490FC4CF3A84A8 /* WatchTests.swift */,
 			);
@@ -401,6 +406,7 @@
 				CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */,
 				9AEE8632AA2DD8A584AEF91E /* PlaybackModel.swift */,
 				90BE16635F0681DBB4E8BA47 /* RecordingSettings.swift */,
+				9FA5491E3D111CBDD826054A /* Telemetry.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -619,6 +625,7 @@
 				584E21BC1E999725FAF50D36 /* PlaybackTests.swift in Sources */,
 				5D2DA32F03150354C7D7512A /* RealCameraTests.swift in Sources */,
 				8273BD9F3BD47888F01CC0BD /* RecordingSettingsTests.swift in Sources */,
+				C6ADECE9590FF8A66BF0B901 /* TelemetryTests.swift in Sources */,
 				0E205CB95389FBF7838EA186 /* ThinginoPlaybackTests.swift in Sources */,
 				DA5213481329E96C8DA3F7E3 /* WatchTests.swift in Sources */,
 			);
@@ -664,6 +671,7 @@
 				1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */,
 				5D010AFFEF6B4789CFF64288 /* SnapshotEncoder.swift in Sources */,
 				9D87709EFEE07F7DA10E9B21 /* SnapshotFetcher.swift in Sources */,
+				1A0498BBEBDB71E8B966AD53 /* Telemetry.swift in Sources */,
 				07294CB8C418160A44A538BB /* Theme.swift in Sources */,
 				4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */,
 				57DB4F9B002C701F9D9F09A4 /* ThinginoPlayback.swift in Sources */,
