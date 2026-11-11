@@ -81,8 +81,11 @@ struct CamerasView: View {
             if ProcessInfo.processInfo.arguments.contains("-openSettings") { showSettings = true }
             let args = ProcessInfo.processInfo.arguments
             if let i = args.firstIndex(of: "-focusCamera"), i + 1 < args.count {
-                try? await Task.sleep(for: .seconds(1))
-                model.focused = model.store.cameras.first { $0.name == args[i + 1] }
+                // Seeded cameras arrive as their sign-ins finish, so wait for this one.
+                for _ in 0..<120 where model.focused == nil {
+                    try? await Task.sleep(for: .seconds(1))
+                    model.focused = model.store.cameras.first { $0.name == args[i + 1] }
+                }
             }
             #endif
         }

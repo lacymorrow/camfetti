@@ -25,6 +25,40 @@ final class ThinginoPlaybackTests: XCTestCase {
         XCTAssertEqual(entries[1].size, 0)
     }
 
+    private func minutes(_ sizes: [Int]) -> [Recording] {
+        sizes.enumerated().map { index, size in
+            let start = day().addingTimeInterval(Double(index) * 60)
+            return Recording(name: "\(index).mp4", start: start, end: start.addingTimeInterval(60), size: size)
+        }
+    }
+
+    func testActivityPicksClipsAboveTheirNeighbors() {
+        var sizes = Array(repeating: 2_700_000, count: 40)
+        sizes[10] = 3_500_000
+        sizes[30] = 3_100_000
+        XCTAssertEqual(ThinginoRecordings.activity(in: minutes(sizes)).map(\.name), ["10.mp4", "30.mp4"])
+    }
+
+    func testActivityFollowsDayAndNightBaselines() {
+        // Night vision settles near 5.6 MB and daylight near 2.7 MB. Neither level is activity by itself.
+        let sizes = Array(repeating: 5_600_000, count: 40) + Array(repeating: 2_700_000, count: 40)
+        XCTAssertEqual(ThinginoRecordings.activity(in: minutes(sizes)), [])
+    }
+
+    func testActivityIgnoresSmallWobbleAndShortClips() {
+        var sizes = Array(repeating: 900_000, count: 40)
+        sizes[5] = 1_020_000 // 13% up, but only 120 KB
+        var clips = minutes(sizes)
+        XCTAssertEqual(ThinginoRecordings.activity(in: clips), [])
+        let start = clips[20].start
+        clips[20] = Recording(name: "short.mp4", start: start, end: start.addingTimeInterval(5), size: 900_000)
+        XCTAssertEqual(ThinginoRecordings.activity(in: clips), [], "a cut-off clip's rate isn't comparable")
+    }
+
+    func testActivityNeedsEnoughClipsToCompare() {
+        XCTAssertEqual(ThinginoRecordings.activity(in: minutes([2_700_000, 3_600_000, 2_700_000])), [])
+    }
+
     func testClipsEndAtTheNextClipAndSkipTheOneBeingWritten() {
         let entries = [entry("14-06-54.mp4"), entry("14-05-54.mp4"), entry("14-07-54.mp4"), entry("notes.txt"), entry("14-08-00.mp4", size: 0)]
         let now = day().addingTimeInterval(14 * 3600 + 8 * 60 + 10) // 14:08:10, the 14:07:54 clip is still recording
