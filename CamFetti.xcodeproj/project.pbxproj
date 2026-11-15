@@ -69,6 +69,7 @@
 		DCF54DE62068BCB14C5DFDDF /* AwayMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111EA1D9446454727EA81DF /* AwayMenu.swift */; platformFilters = (macos, ); };
 		DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C796516D06463C0715479659 /* AppModel.swift */; };
 		E1E6A8F7A197FAF484BBEE50 /* AwayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE442F00254689461024956 /* AwayConfig.swift */; };
+		E637D4205ECF2B1558C5B650 /* StoreMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601D3F240683D453D82B7FC7 /* StoreMedia.swift */; };
 		EC4D83D0C7557F1FF5451379 /* H26xTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52F1D0C9019C8343182E16 /* H26xTests.swift */; };
 		F00E3F7034BF1EBDBDB5A7F5 /* WatchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9BA05D99981CC8D23BFDCF /* WatchCache.swift */; };
 		F010C86C015B8F57C6C4322B /* PlaybackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEE8632AA2DD8A584AEF91E /* PlaybackModel.swift */; };
@@ -141,6 +142,7 @@
 		56721688A90AAC6E2162BB39 /* CamFetti.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CamFetti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5823564C3BCA513DF90138DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSurface.swift; sourceTree = "<group>"; };
+		601D3F240683D453D82B7FC7 /* StoreMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMedia.swift; sourceTree = "<group>"; };
 		6233C68B5B6A4CD27A6EA712 /* WatchViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViews.swift; sourceTree = "<group>"; };
 		633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTile.swift; sourceTree = "<group>"; };
 		668CE6BA425410789E64E49D /* CamFettiWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiWatchApp.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */,
 				F3AF931192EED6A6FED6128C /* PlaybackDemo.swift */,
 				1534CA8FFBB61D9F969DDB26 /* RecordingDemo.swift */,
+				601D3F240683D453D82B7FC7 /* StoreMedia.swift */,
 				CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */,
 			);
 			path = UITests;
@@ -590,6 +593,7 @@
 				913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */,
 				62F1A4A787048CD1FAC9009C /* PlaybackDemo.swift in Sources */,
 				C07DEE0AF2C6AC090D032BEC /* RecordingDemo.swift in Sources */,
+				E637D4205ECF2B1558C5B650 /* StoreMedia.swift in Sources */,
 				7F58B84B37B8F8BA28873920 /* StoreScreenshots.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

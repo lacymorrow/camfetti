@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CamFetti store tiles</title>
+<!-- One App Store tile per #hash, rendered at 1320x2868 by render.sh. Shots come from
+     UITests/StoreMedia.swift (iPhone) and the Watch fixture, copied into ./shots. -->
+<style>
+@font-face { font-family: "Rounded"; src: url("file:///System/Library/Fonts/SFNSRounded.ttf"); font-weight: 100 1000; }
+:root { --ink: #121219; --line: #2c2c38; --fg: #f4f4f7; --muted: #a2a2b0;
+        --pink: #ff4f78; --yellow: #ffc93c; --teal: #2ec4b5; --blue: #3a87ff; }
+* { box-sizing: border-box; margin: 0; }
+html, body { width: 1320px; height: 2868px; overflow: hidden; background: var(--ink); }
+body { position: relative; color: var(--fg); font-family: -apple-system, "SF Pro Text", sans-serif; -webkit-font-smoothing: antialiased; }
+.tile { display: none; position: absolute; inset: 0; overflow: hidden; }
+.tile.on { display: block; }
+/* Brand light: a soft pink wash behind the headline, fading into ink. */
+.tile::before { content: ""; position: absolute; left: -200px; right: -200px; top: -500px; height: 1500px;
+  background: radial-gradient(closest-side, rgba(255,79,120,.20), rgba(255,79,120,0)); }
+.copy { position: absolute; left: 110px; right: 110px; top: 220px; text-align: center; z-index: 2; }
+h1 { font: 800 136px/1.02 "Rounded", -apple-system, sans-serif; letter-spacing: -0.025em; }
+h1 em { font-style: normal; color: var(--pink); }
+p { margin-top: 36px; font-size: 52px; line-height: 1.3; color: var(--muted); }
+/* A phone screen, not product art: rounded like the display, hairline edge. */
+.screen { position: absolute; z-index: 1; border-radius: 104px; overflow: hidden; border: 4px solid var(--line); background: #000; }
+.screen img { display: block; width: 100%; height: 100%; }
+.portrait { left: 140px; width: 1040px; height: 2260px; top: 830px; }
+.landscape { left: 70px; width: 1180px; height: 543px; border-radius: 56px; }
+.watch { width: 640px; height: 763px; border-radius: 170px; border-width: 4px; }
+/* Confetti: the app's four colors, a handful of pieces, placed by hand. */
+.c { position: absolute; z-index: 0; border-radius: 6px; }
+.note { position: absolute; left: 110px; right: 110px; text-align: center; font-size: 46px; color: var(--muted); z-index: 2; }
+.note b { color: var(--fg); font-weight: 600; }
+.chips { position: absolute; left: 70px; right: 70px; display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; z-index: 2; }
+.chips span { display: inline-flex; align-items: center; gap: 18px; padding: 26px 40px; border-radius: 999px; background: #1f1f2a; border: 3px solid var(--line); font-size: 46px; font-weight: 600; }
+.chips i, .facts i { width: 22px; height: 22px; border-radius: 50%; flex: none; }
+.icon { position: absolute; left: 50%; top: 380px; width: 440px; height: 440px; margin-left: -220px; border-radius: 99px; z-index: 2; }
+.facts { position: absolute; left: 150px; right: 150px; list-style: none; padding: 0; z-index: 2; }
+.facts li { display: flex; align-items: center; gap: 32px; padding: 40px 0; border-top: 3px solid var(--line); font-size: 52px; font-weight: 600; }
+.facts li:last-child { border-bottom: 3px solid var(--line); }
+</style>
+</head>
+<body>
+
+<section class="tile" id="grid">
+  <div class="copy"><h1>Every camera,<br><em>one screen</em></h1><p>Reolink, Wyze on Thingino, and any ONVIF or RTSP camera.</p></div>
+  <div class="screen portrait"><img src="shots/1-grid.png" alt=""></div>
+</section>
+
+<section class="tile" id="full">
+  <div class="copy"><h1>Tap in for<br><em>full screen</em></h1><p>Turn your phone and the camera fills it.</p></div>
+  <div class="screen landscape" style="left:40px; width:1240px; height:930px; top:1080px; border-radius:72px"><img src="shots/3-landscape-video.png" alt=""></div>
+  <div class="chips" style="top:2140px"><span><i style="background:var(--pink)"></i>Sound</span><span><i style="background:var(--yellow)"></i>Snapshots</span><span><i style="background:var(--teal)"></i>Picture in Picture</span></div>
+</section>
+
+<section class="tile" id="recordings">
+  <div class="copy"><h1>Rewind the<br><em>SD card</em></h1><p>Play back what your camera recorded.</p></div>
+  <div class="screen portrait" style="left:180px; width:960px; height:2086px; top:740px; border-radius:96px"><img src="shots/4-recordings.png" alt=""></div>
+</section>
+
+<section class="tile" id="watch">
+  <div class="copy"><h1>On your<br><em>wrist</em>, too</h1><p>Check any camera from your Apple Watch.</p></div>
+  <div class="screen watch" style="left:50px; top:860px"><img src="shots/watch-list.png" alt=""></div>
+  <div class="screen watch" style="left:630px; top:1330px"><img src="shots/watch-cam.png" alt=""></div>
+  <div class="note" style="top:2300px">Also on <b>Apple TV</b> and <b>Apple Vision Pro</b>.</div>
+</section>
+
+<section class="tile" id="free">
+  <img class="icon" src="shots/icon.png" alt="">
+  <div class="copy" style="top:940px"><h1>Free.<br><em>No account.</em></h1><p>No subscription either. CamFetti talks straight to your cameras, and the code is open source.</p></div>
+  <ul class="facts" style="top:1760px">
+    <li><i style="background:var(--pink)"></i>As many cameras as you have</li>
+    <li><i style="background:var(--yellow)"></i>Finds them on your Wi-Fi</li>
+    <li><i style="background:var(--teal)"></i>iPhone, Watch, TV and Vision Pro</li>
+    <li><i style="background:var(--blue)"></i>Open source on GitHub</li>
+  </ul>
+</section>
+
+<script>
+// Same confetti on every tile, kept to the edges so it never sits on a screen or a word.
+const pieces = [
+  [70, 150, 34, 14, 'pink', 28], [1180, 120, 26, 26, 'yellow', 0], [1230, 420, 38, 14, 'teal', -35],
+  [60, 560, 22, 22, 'blue', 0], [1250, 700, 30, 12, 'pink', 60], [40, 860, 34, 14, 'yellow', -20],
+  [610, 90, 24, 10, 'teal', 15], [330, 140, 18, 18, 'blue', 0], [960, 70, 30, 12, 'pink', -50],
+];
+for (const tile of document.querySelectorAll('.tile')) {
+  for (const [x, y, w, h, color, turn] of pieces) {
+    const c = document.createElement('i');
+    c.className = 'c';
+    Object.assign(c.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px',
+      background: `var(--${color})`, transform: `rotate(${turn}deg)`, borderRadius: w === h ? '50%' : '6px' });
+    tile.appendChild(c);
+  }
+}
+const show = () => {
+  const id = location.hash.slice(1) || 'grid';
+  document.querySelectorAll('.tile').forEach(t => t.classList.toggle('on', t.id === id));
+};
+addEventListener('hashchange', show);
+show();
+</script>
+</body>
+</html>

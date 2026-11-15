@@ -92,21 +92,23 @@ struct CameraSnapshotView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        // The picture sits centered below the title, never under the clock.
+        ZStack {
             if let image = loader.image {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .opacity(loader.isError ? Theme.dimmedOpacity : 1)
-                    .ignoresSafeArea()
             } else {
                 PlaceholderTile(message: nil, showsProgress: false)
             }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .overlay(alignment: .bottom) {
             if let message = loader.message {
                 ErrorNote(message: message, date: loader.imageDate)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Theme.videoBackground.ignoresSafeArea())
         .overlay(alignment: .topTrailing) {
             if !loader.hasFresh && !loader.isError {
