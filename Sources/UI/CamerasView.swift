@@ -89,16 +89,6 @@ struct CamerasView: View {
     }
 
     private var grid: some View {
-        #if os(macOS)
-        // A resizable window: as many columns as fit, tiles stay 16:9.
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: Theme.tileMinWidth, maximum: Theme.tileMaxWidth), spacing: Theme.gridSpacing)],
-                      spacing: Theme.gridSpacing) {
-                ForEach(model.store.cameras) { CameraTile(camera: $0) }
-            }
-            .padding(Theme.gridInset)
-        }
-        #else
         GeometryReader { geo in
             let cameras = model.store.cameras
             let layout = GridLayout.best(count: cameras.count, width: geo.size.width - Theme.gridInset * 2, height: geo.size.height - Theme.gridInset * 2)
@@ -114,7 +104,6 @@ struct CamerasView: View {
             }
             .scrollBounceBehavior(.basedOnSize)
         }
-        #endif
     }
 }
 
