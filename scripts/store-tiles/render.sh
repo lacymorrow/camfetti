@@ -6,7 +6,7 @@ cd "${0:A:h}"
 mkdir -p out
 chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 n=1
-for id in grid full recordings watch free; do
+for id in grid find full recordings watch free; do
   "$chrome" --headless=new --disable-gpu --hide-scrollbars --allow-file-access-from-files \
     --force-device-scale-factor=1 --window-size=1320,2868 \
     --screenshot="$PWD/out/$n-$id.png" "file://$PWD/tiles.html#$id" 2>/dev/null
