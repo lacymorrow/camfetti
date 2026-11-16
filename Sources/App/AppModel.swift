@@ -19,6 +19,9 @@ final class AppModel {
     private(set) var isOnline = true
     /// Fires once, when the very first camera goes live.
     var celebrate = false
+    /// The login that last worked, per brand, so the next camera of that brand opens filled in.
+    /// Memory only: never written to disk, and never sent until the person taps Connect.
+    var lastLogin: [String: (username: String, password: String)] = [:]
 
     private var gridStreams: [UUID: LiveStream] = [:]
     private let monitor = NWPathMonitor()

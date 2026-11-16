@@ -3,15 +3,22 @@
 <main class="wrap doc">
 <h1>Help</h1>
 <p id="testflight">Get CamFetti free on the <a href="https://apps.apple.com/us/app/camfetti-ip-camera-viewer/id6829295028">App Store</a> for iPhone, Apple TV and Vision Pro. The Apple Watch app comes with the iPhone app, and the Mac app is in review.</p>
-<h2>My Thingino camera doesn't show up</h2>
-<p>Your phone and the camera need to be on the same Wi-Fi. Thingino cameras announce themselves on the network, so they normally appear within a few seconds. If yours doesn't, tap the plus button and type the camera's IP address.</p>
+<h2 id="find">CamFetti doesn't find my camera</h2>
+<p>CamFetti looks for cameras on whatever Wi-Fi your device is on. Thingino cameras announce themselves, so they usually show up within a few seconds, and other brands can take a little longer. If yours never appears, it's almost always one of these:</p>
+<ul>
+<li>Local Network is off. Open Settings, then Privacy &amp; Security, then Local Network, and turn on CamFetti. Until you do, iOS won't let the app see anything on your Wi-Fi.</li>
+<li>The camera is on a different network. Your phone and the camera have to share one, and guest networks or a separate camera network usually keep them apart.</li>
+<li>The camera's stream is switched off. Some cameras ship with RTSP and ONVIF turned off. On a Reolink you can turn them on in the Reolink app under Network, Advanced, Server Settings, and Hikvision and Dahua have the same switches on their web page.</li>
+<li>It's a Wyze. Stock Wyze firmware has no standard stream (see <a href="#wyze">Stock Wyze cameras</a> below).</li>
+</ul>
+<p>If it still doesn't show up, tap Add by Address and type the camera's IP address. Your router's app lists every device on your network along with its address. CamFetti tries the usual stream addresses for you, or you can paste the full rtsp:// link from the camera's manual.</p>
 <h2>Which password do I use for Thingino?</h2>
 <p>Use the password for the camera's web page, the one you log in with as root. CamFetti uses it once to create an API key and then forgets it.</p>
 <h2>Adding another brand</h2>
 <p>Type the camera's IP address with its username and password. CamFetti tries ONVIF first and then the usual stream addresses for Reolink, Hikvision, Dahua and Tapo. If that doesn't work, paste the full rtsp:// link from the camera's manual.</p>
 <h2>Watching away from home</h2>
 <p>Install Tailscale on your phone and on a computer or server at home that can see your cameras. Then open a camera's details in CamFetti and add its Tailscale address under Away from Home. CamFetti tries the home address first and switches automatically.</p>
-<h2>Stock Wyze cameras</h2>
+<h2 id="wyze">Stock Wyze cameras</h2>
 <p>Wyze's own firmware doesn't offer a standard video stream. Flash the camera with <a href="https://thingino.com">Thingino</a> or run docker-wyze-bridge, and then add it like any other camera.</p>
 <h2>Still stuck?</h2>
 <p>Email <a href="mailto:me@lacymorrow.com">me@lacymorrow.com</a> with your camera model, and I'll take a look.</p>

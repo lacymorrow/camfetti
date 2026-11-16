@@ -58,7 +58,12 @@ final class CameraStore {
 
     /// True when a camera with this host is already added.
     func contains(host: String) -> Bool {
-        cameras.contains { $0.host.caseInsensitiveCompare(host) == .orderedSame }
+        camera(host: host) != nil
+    }
+
+    /// The added camera at this host, if any.
+    func camera(host: String) -> Camera? {
+        cameras.first { $0.host.caseInsensitiveCompare(host) == .orderedSame }
     }
 
     private func load() {

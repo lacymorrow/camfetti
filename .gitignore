@@ -5,3 +5,5 @@ DerivedData/
 .DS_Store
 .vercel
 rig/.clip.mp4
+scripts/store-tiles/shots/
+scripts/store-tiles/out/

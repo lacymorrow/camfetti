@@ -136,27 +136,41 @@ private final class Gate: @unchecked Sendable {
 
 #if DEBUG
 /// Screenshots on a simulator whose WatchConnectivity link is unreliable: `-watchFixture <mode>
-/// <jpeg path>` answers from a local picture instead of asking the phone. Debug builds only.
+/// <jpeg path or folder>` answers from local pictures instead of asking the phone. A folder
+/// holds one JPEG per camera, named like `1-Front of House.jpg`. Debug builds only.
 /// Modes: list, camera, cantReach, notNearby, empty.
 private struct Fixture {
     let mode: String
-    let image: Data?
+    let named: [(name: String, image: Data?)]
+    var image: Data? { named.first?.image }
 
     static let current: Fixture? = {
         let args = ProcessInfo.processInfo.arguments
         guard let i = args.firstIndex(of: "-watchFixture"), i + 2 < args.count else { return nil }
-        return Fixture(mode: args[i + 1], image: try? Data(contentsOf: URL(fileURLWithPath: args[i + 2])))
+        let url = URL(fileURLWithPath: args[i + 2])
+        let files = ((try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? [])
+            .filter { $0.pathExtension == "jpg" }
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+        if files.isEmpty {
+            let image = try? Data(contentsOf: url)
+            return Fixture(mode: args[i + 1], named: ["Front of House", "Back of House", "Driveway"].map { ($0, image) })
+        }
+        return Fixture(mode: args[i + 1], named: files.map { file in
+            let base = file.deletingPathExtension().lastPathComponent
+            let name = base.split(separator: "-", maxSplits: 1).last.map(String.init) ?? base
+            return (name, try? Data(contentsOf: file))
+        })
     }()
 
     func cameras() throws -> [WatchProtocol.CameraSummary] {
         if mode == "notNearby" { throw WatchSession.Failure.notNearby }
-        let names: [String]
+        let list: [(name: String, image: Data?)]
         switch mode {
-        case "empty": names = []
-        case "list": names = ["Front of House", "Back of House", "Driveway"]
-        default: names = ["Front of House"]
+        case "empty": list = []
+        case "list": list = named
+        default: list = Array(named.prefix(1))
         }
-        return names.enumerated().map { WatchProtocol.CameraSummary(id: "fixture-\($0.offset)", name: $0.element, thumbnail: image) }
+        return list.enumerated().map { WatchProtocol.CameraSummary(id: "fixture-\($0.offset)", name: $0.element.name, thumbnail: $0.element.image) }
     }
 
     func snapshot() throws -> Data {

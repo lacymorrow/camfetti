@@ -46,6 +46,7 @@
 		8260143BA6A12DA146AF9F86 /* CameraStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A034DAD254130BA61AECAE54 /* CameraStore.swift */; };
 		8273BD9F3BD47888F01CC0BD /* RecordingSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED31F5F5BDA9DA7FC28D1EEC /* RecordingSettingsTests.swift */; };
 		8F4A00ED555D5E8999BD3788 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */; };
+		8FBEA3A99C298794B81C9EEC /* OnboardingDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822A36727DC110B173E7526 /* OnboardingDemo.swift */; };
 		903B9EB3F2749B9B4C3A12F3 /* CamFettiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA84DD35CEC4538D2810E3A /* CamFettiApp.swift */; };
 		913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */; };
 		9209421332264A1001AAC213 /* CamerasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C4BCD17F6BB08B17863301 /* CamerasView.swift */; };
@@ -69,7 +70,9 @@
 		DCF54DE62068BCB14C5DFDDF /* AwayMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111EA1D9446454727EA81DF /* AwayMenu.swift */; platformFilters = (macos, ); };
 		DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C796516D06463C0715479659 /* AppModel.swift */; };
 		E1E6A8F7A197FAF484BBEE50 /* AwayConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE442F00254689461024956 /* AwayConfig.swift */; };
+		E637D4205ECF2B1558C5B650 /* StoreMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601D3F240683D453D82B7FC7 /* StoreMedia.swift */; };
 		EC4D83D0C7557F1FF5451379 /* H26xTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F52F1D0C9019C8343182E16 /* H26xTests.swift */; };
+		ED555B9BBA6757CD30BEBD3E /* FoundCameras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486AD176095C879BF06DE89E /* FoundCameras.swift */; };
 		F00E3F7034BF1EBDBDB5A7F5 /* WatchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9BA05D99981CC8D23BFDCF /* WatchCache.swift */; };
 		F010C86C015B8F57C6C4322B /* PlaybackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEE8632AA2DD8A584AEF91E /* PlaybackModel.swift */; };
 		F0B3EC426F4D89DA4A7A57A5 /* ThinginoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C1D8959DB020939E76E2D /* ThinginoRecorder.swift */; };
@@ -137,10 +140,13 @@
 		402699AD2D070B9FFA4AA3CB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		415A4E39628C1EA711C696F1 /* ThinginoPlaybackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoPlaybackTests.swift; sourceTree = "<group>"; };
 		42D66E4C996C519493F0828E /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
+		4822A36727DC110B173E7526 /* OnboardingDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDemo.swift; sourceTree = "<group>"; };
+		486AD176095C879BF06DE89E /* FoundCameras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundCameras.swift; sourceTree = "<group>"; };
 		531BA091864AFBA41BEDD472 /* ThinginoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinginoClient.swift; sourceTree = "<group>"; };
 		56721688A90AAC6E2162BB39 /* CamFetti.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CamFetti.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5823564C3BCA513DF90138DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSurface.swift; sourceTree = "<group>"; };
+		601D3F240683D453D82B7FC7 /* StoreMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreMedia.swift; sourceTree = "<group>"; };
 		6233C68B5B6A4CD27A6EA712 /* WatchViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViews.swift; sourceTree = "<group>"; };
 		633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTile.swift; sourceTree = "<group>"; };
 		668CE6BA425410789E64E49D /* CamFettiWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiWatchApp.swift; sourceTree = "<group>"; };
@@ -311,6 +317,7 @@
 				E0C4BCD17F6BB08B17863301 /* CamerasView.swift */,
 				633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */,
 				D7CA0E61DF03520D67AF8A28 /* CameraWindow.swift */,
+				486AD176095C879BF06DE89E /* FoundCameras.swift */,
 				A359E92CC51D69183AADB7FB /* PlaybackView.swift */,
 				6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */,
 				2AABC52D50A0B17BAF6EBEFB /* Theme.swift */,
@@ -361,8 +368,10 @@
 			isa = PBXGroup;
 			children = (
 				3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */,
+				4822A36727DC110B173E7526 /* OnboardingDemo.swift */,
 				F3AF931192EED6A6FED6128C /* PlaybackDemo.swift */,
 				1534CA8FFBB61D9F969DDB26 /* RecordingDemo.swift */,
+				601D3F240683D453D82B7FC7 /* StoreMedia.swift */,
 				CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */,
 			);
 			path = UITests;
@@ -588,8 +597,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */,
+				8FBEA3A99C298794B81C9EEC /* OnboardingDemo.swift in Sources */,
 				62F1A4A787048CD1FAC9009C /* PlaybackDemo.swift in Sources */,
 				C07DEE0AF2C6AC090D032BEC /* RecordingDemo.swift in Sources */,
+				E637D4205ECF2B1558C5B650 /* StoreMedia.swift in Sources */,
 				7F58B84B37B8F8BA28873920 /* StoreScreenshots.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -650,6 +661,7 @@
 				9209421332264A1001AAC213 /* CamerasView.swift in Sources */,
 				B868AC0A747BA9C8FFB9FCCF /* Compat.swift in Sources */,
 				A51BA7082D2171D26A604157 /* DeviceInfo.swift in Sources */,
+				ED555B9BBA6757CD30BEBD3E /* FoundCameras.swift in Sources */,
 				5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */,
 				F9407639C36B4F6414F37236 /* H26x.swift in Sources */,
 				FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */,
