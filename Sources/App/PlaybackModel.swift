@@ -10,7 +10,13 @@ protocol RecordingSource: Sendable {
     func clips(on day: Date) async throws -> [Recording]
     /// Something the system player can open: a stream that seeks, or a local copy.
     func media(for clip: Recording) async throws -> URL
+    /// The clips worth watching, for a camera that records nonstop. Nil when every clip is already an event.
+    func highlights(in clips: [Recording]) -> [Recording]?
     func close() async
+}
+
+extension RecordingSource {
+    func highlights(in clips: [Recording]) -> [Recording]? { nil }
 }
 
 struct ReolinkSource: RecordingSource {
@@ -42,6 +48,8 @@ extension ThinginoRecordings: RecordingSource {
         return file
     }
 
+    func highlights(in clips: [Recording]) -> [Recording]? { Self.activity(in: clips) }
+
     func close() async { try? FileManager.default.removeItem(at: Self.cacheFolder) }
 
     static var cacheFolder: URL { FileManager.default.temporaryDirectory.appending(path: "camfetti-playback") }
@@ -68,6 +76,10 @@ final class PlaybackModel {
     private(set) var day: Date?
     /// Clips on `day`, oldest first, so the timeline reads left to right.
     private(set) var clips: [Recording] = []
+    /// Clips on `day` with activity, for a camera that records nonstop. Nil when every clip is an event.
+    private(set) var highlights: [Recording]?
+    /// Shows only `highlights`. The choice carries from day to day.
+    var activityOnly = true
     private(set) var loadingDay = false
     private(set) var current: Recording?
     /// True while the picked clip is being fetched.
@@ -75,6 +87,8 @@ final class PlaybackModel {
     /// The picked clip couldn't be fetched.
     private(set) var clipFailed = false
     let player = AVPlayer()
+    /// What the strip shows and what plays next.
+    var visibleClips: [Recording] { activityOnly ? highlights ?? clips : clips }
     private var playTask: Task<Void, Never>?
 
     private var source: RecordingSource?
@@ -151,13 +165,18 @@ final class PlaybackModel {
         for host in hosts {
             guard let base = camera.webBase(host: host) else { continue }
             let client = ThinginoClient(base: base, apiKey: key)
-            let settings: ThinginoClient.RecorderSettings
+            var settings: ThinginoClient.RecorderSettings
             do {
                 settings = try await client.recorderSettings()
             } catch ThinginoClient.Failure.wrongPassword {
                 throw ThinginoClient.Failure.wrongPassword
             } catch {
                 continue
+            }
+            if settings.mount.isEmpty, (try? await client.isRecording()) == true,
+               let card = try? await client.card(),
+               let restored = try? await client.restoreRecorder(settings, card: card) {
+                settings = restored
             }
             guard !settings.mount.isEmpty else { phase = .notRecording; return nil }
             guard settings.mounts.contains(settings.mount) else { phase = .noCard; return nil }
@@ -178,7 +197,8 @@ final class PlaybackModel {
         loadingDay = true
         defer { loadingDay = false }
         clips = (try? await source.clips(on: day)) ?? []
-        if let pick = playLatest ? clips.last : clips.first { play(pick) }
+        highlights = source.highlights(in: clips)
+        if let pick = playLatest ? visibleClips.last : visibleClips.first { play(pick) }
     }
 
     func play(_ clip: Recording) {
@@ -210,15 +230,24 @@ final class PlaybackModel {
         }
         player.play()
         // Fetch the next clip now, so playback rolls on without a pause.
-        if let index = clips.firstIndex(of: clip), index + 1 < clips.count {
-            _ = try? await source.media(for: clips[index + 1])
+        let upcoming = visibleClips
+        if let index = upcoming.firstIndex(of: clip), index + 1 < upcoming.count {
+            _ = try? await source.media(for: upcoming[index + 1])
         }
     }
 
     /// Clips follow each other in time, so the next one is what happened next.
     func playNext() {
-        guard let current, let index = clips.firstIndex(of: current), index + 1 < clips.count else { return }
-        play(clips[index + 1])
+        let upcoming = visibleClips
+        guard let current, let index = upcoming.firstIndex(of: current), index + 1 < upcoming.count else { return }
+        play(upcoming[index + 1])
+    }
+
+    /// Switches between activity and every clip, and starts the newest clip if the playing one left the strip.
+    func toggleActivityOnly() {
+        activityOnly.toggle()
+        if let current, visibleClips.contains(current) { return }
+        if let newest = visibleClips.last { play(newest) }
     }
 
     func stop() async {

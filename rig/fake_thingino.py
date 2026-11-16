@@ -14,7 +14,9 @@ STATE = {"sessions": set(), "api_key": None, "daynight": "day", "x": 1200, "y": 
                       "min_free_mb": 500, "mount": ""},
          "recording": False, "card_bytes": 31_914_983_424}
 MOUNTS = ["/mnt/mmcblk0p1"]
-CLIP_TIMES = {0: ["08-15-00", "08-16-00", "12-30-00"], 1: ["21-05-00"]}  # days ago -> clip start times
+# Days ago -> clip start times. Today is a nonstop stretch with two busy minutes, which come out larger.
+CLIP_TIMES = {0: ["08-%02d-00" % m for m in range(10, 30)] + ["12-30-00"], 1: ["21-05-00"]}
+BUSY_CLIPS = {"08-15-00", "08-22-00"}
 
 def clip_file():
     out = os.path.join(HERE, ".clip.mp4")
@@ -27,7 +29,7 @@ def card_tree():
     """Folder path -> [(name, is_dir, size)] for <mount>/cam-rig/YYYY/MM/DD/HH-MM-SS.mp4."""
     import datetime
     root = MOUNTS[0] + "/cam-rig"
-    size = os.path.getsize(clip_file())
+    clip_file()
     tree = {MOUNTS[0]: [("cam-rig", True, 0), ("thingino-firmware.bin", False, 4096)]}
     for ago, times in CLIP_TIMES.items():
         d = datetime.date.today() - datetime.timedelta(days=ago)
@@ -38,7 +40,7 @@ def card_tree():
             if (p, True, 0) not in tree[path]:
                 tree[path].append((p, True, 0))
             path += "/" + p
-        tree.setdefault(path, []).extend((t + ".mp4", False, size) for t in times)
+        tree.setdefault(path, []).extend((t + ".mp4", False, 3_600_000 if t in BUSY_CLIPS else 2_700_000) for t in times)
     return tree
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -106,6 +108,10 @@ class H(http.server.BaseHTTPRequestHandler):
         if u.path == "/_state":
             return self.send(200, {"daynight": STATE["daynight"], "x": STATE["x"], "y": STATE["y"], "log": STATE["log"][-50:],
                                    "recorder": STATE["recorder"], "recording": STATE["recording"]})
+        if u.path == "/_lose_settings":
+            # What a real Wyze did overnight: the saved settings go blank while it keeps recording.
+            STATE["recorder"].update({"autostart": False, "cleanup_enabled": False, "mount": ""})
+            return self.send(200, {"ok": True})
         if u.path == "/x/tool-record.cgi":
             return self.send(200, {"ok": True, "data": {"video": STATE["recorder"], "mounts": MOUNTS}})
         if u.path == "/x/tool-file-manager.cgi":

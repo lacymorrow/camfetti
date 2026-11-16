@@ -281,6 +281,9 @@ struct CameraScreen: View {
     // MARK: Actions
 
     private func begin() {
+        #if DEBUG
+        defer { if ProcessInfo.processInfo.arguments.contains("-openRecordings") { openPlayback() } }
+        #endif
         let s = model.mainStream(for: camera)
         stream = s
         s.start()

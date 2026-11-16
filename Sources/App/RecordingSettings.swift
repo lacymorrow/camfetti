@@ -36,13 +36,17 @@ final class RecordingSettings {
         do {
             let card = try await client.card()
             guard card.present else { phase = .noCard; return }
-            let settings = try await client.recorderSettings()
+            var settings = try await client.recorderSettings()
             let usable = ThinginoClient.recordingMount(settings).map(card.usableBytes) ?? card.sizeBytes
             guard usable >= ThinginoClient.smallestCardBytes else {
                 phase = .cardTooSmall(usable: usable, card: card.sizeBytes)
                 return
             }
             let recording = try await client.isRecording()
+            if ThinginoClient.lostSettings(settings, recording: recording),
+               let restored = try await client.restoreRecorder(settings, card: card) {
+                settings = restored
+            }
             phase = .ready(on: settings.autostart, recordingNow: recording)
         } catch {
             phase = Self.describe(error)

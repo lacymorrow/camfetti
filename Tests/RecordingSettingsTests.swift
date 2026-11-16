@@ -61,6 +61,14 @@ final class RecorderParsingTests: XCTestCase {
         XCTAssertFalse(form.contains("/"), "slashes are encoded too")
     }
 
+    func testSettingsAreLostOnlyWhileRecordingWithNoMount() throws {
+        var s = try XCTUnwrap(ThinginoClient.parseRecorderSettings(realSettings))
+        XCTAssertTrue(ThinginoClient.lostSettings(s, recording: true))
+        XCTAssertFalse(ThinginoClient.lostSettings(s, recording: false), "never set up, so nothing to restore")
+        s.mount = "/mnt/mmcblk0p1"
+        XCTAssertFalse(ThinginoClient.lostSettings(s, recording: true), "turned off at boot on purpose")
+    }
+
     func testCameraErrorsAreRead() {
         XCTAssertEqual(ThinginoClient.errorMessage(Data(#"{"error":{"code":422,"message":"Record mount cannot be empty."}}"#.utf8)),
                        "Record mount cannot be empty.")
@@ -104,6 +112,31 @@ final class RecorderRigTests: XCTestCase {
         XCTAssertEqual(settings.phase, .ready(on: false, recordingNow: false))
         let off = try await client.recorderSettings()
         XCTAssertFalse(off.autostart)
+    }
+
+    @MainActor
+    func testLostSettingsComeBackWhileRecording() async throws {
+        var probe = URLRequest(url: base, timeoutInterval: 4)
+        probe.httpMethod = "GET"
+        guard (try? await URLSession.shared.data(for: probe)) != nil else { throw XCTSkip("test rig not running") }
+        let key = try await ThinginoClient(base: base).mintAPIKey(password: "root")
+        let client = ThinginoClient(base: base, apiKey: key)
+        let settings = RecordingSettings(client: client)
+        await settings.load()
+        await settings.set(true)
+        defer { Task { @MainActor in await settings.set(false) } }
+
+        let lose = URL(string: "_lose_settings?token=\(key)", relativeTo: base)!.absoluteURL
+        _ = try await URLSession.shared.data(from: lose)
+        let lost = try await client.recorderSettings()
+        XCTAssertEqual(lost.mount, "")
+
+        await settings.load()
+        XCTAssertEqual(settings.phase, .ready(on: true, recordingNow: true), "the switch still shows on")
+        let saved = try await client.recorderSettings()
+        XCTAssertTrue(saved.autostart)
+        XCTAssertTrue(saved.cleanupEnabled)
+        XCTAssertEqual(saved.mount, "/mnt/mmcblk0p1")
     }
 
     @MainActor

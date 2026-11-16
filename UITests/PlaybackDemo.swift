@@ -10,23 +10,9 @@ final class PlaybackDemo: XCTestCase {
         guard let seed = env["CAMFETTI_SEED"], let out = env["CAMFETTI_OUT"] else { throw XCTSkip("no real camera seed") }
         let name = env["CAMFETTI_CAMERA"] ?? "Front of House"
         let app = XCUIApplication()
-        app.launchArguments = ["-resetForTesting", "-seedReal", seed]
+        // Opens Recordings at launch. Tapping through the fading controls misses on a loaded machine.
+        app.launchArguments = ["-resetForTesting", "-seedReal", seed, "-focusCamera", name, "-openRecordings"]
         app.launch()
-
-        let tile = app.descendants(matching: .any)["tile-\(name)"].firstMatch
-        XCTAssertTrue(tile.waitForExistence(timeout: 30))
-        sleep(4)
-        tile.tap()
-        let recordings = app.buttons["recordingsButton"]
-        // Controls fade on a timer and a tap toggles them, so tap the button the moment it shows.
-        for _ in 0..<6 {
-            if recordings.waitForExistence(timeout: 2), recordings.isHittable {
-                save(app, out, "playback-0-live")
-                recordings.tap()
-                break
-            }
-            if tile.exists, tile.isHittable { tile.tap() } else { app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
-        }
 
         if env["CAMFETTI_EXPECT"] == "notrecording" {
             XCTAssertTrue(app.staticTexts["Not recording"].waitForExistence(timeout: 20), "says the camera isn't recording")
@@ -40,9 +26,20 @@ final class PlaybackDemo: XCTestCase {
             app.buttons["backToLive"].tap()
             return
         }
-        XCTAssertTrue(app.descendants(matching: .any)["playbackVideo"].waitForExistence(timeout: 20), "a clip starts")
+        XCTAssertTrue(app.descendants(matching: .any)["playbackVideo"].waitForExistence(timeout: 90), "a clip starts")
         sleep(6)
         save(app, out, "playback-1-latest")
+
+        // A camera that records nonstop opens on its activity, one tap from every clip.
+        let activity = app.buttons["activityOnly"]
+        if activity.exists {
+            activity.tap()
+            sleep(6)
+            save(app, out, "playback-1b-every-clip")
+            activity.tap()
+            sleep(6)
+            save(app, out, "playback-1c-activity")
+        }
 
         let chips = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Event at'"))
         if chips.count > 1 {

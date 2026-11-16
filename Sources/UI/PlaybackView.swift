@@ -89,29 +89,44 @@ struct PlaybackView: View {
                 }
                 .padding(.horizontal, Theme.Space.lg)
             }
-            ScrollViewReader { proxy in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: Theme.Space.xs) {
-                        if model.loadingDay {
-                            ProgressView().tint(Theme.onVideo).padding(.horizontal, Theme.Space.lg)
-                        } else if model.clips.isEmpty {
-                            Text("Nothing recorded this day").font(Theme.captionFont).foregroundStyle(Theme.onVideo.opacity(0.7))
-                        }
-                        ForEach(model.clips) { clip in
-                            chip(Self.clipLabel(clip), selected: clip == model.current) { model.play(clip) }
-                                .id(clip.id)
-                                .accessibilityLabel("Event at \(clip.start.formatted(date: .omitted, time: .shortened)), \(Self.durationText(clip.duration))")
-                        }
-                    }
-                    .padding(.horizontal, Theme.Space.lg)
+            HStack(spacing: 0) {
+                if model.highlights != nil {
+                    chip("Activity", selected: model.activityOnly) { model.toggleActivityOnly() }
+                        .accessibilityIdentifier("activityOnly")
+                        .accessibilityValue(model.activityOnly ? "Showing activity" : "Showing every clip")
+                        .padding(.leading, Theme.Space.lg)
                 }
-                .onChange(of: model.current) { _, clip in
-                    if let clip { withAnimation { proxy.scrollTo(clip.id, anchor: .center) } }
-                }
-                .onAppear { if let id = model.current?.id { proxy.scrollTo(id, anchor: .center) } }
+                clipStrip
             }
         }
         .padding(.vertical, Theme.Space.md)
+    }
+
+    private var clipStrip: some View {
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: Theme.Space.xs) {
+                    if model.loadingDay {
+                        ProgressView().tint(Theme.onVideo).padding(.horizontal, Theme.Space.lg)
+                    } else if model.clips.isEmpty {
+                        Text("Nothing recorded this day").font(Theme.captionFont).foregroundStyle(Theme.onVideo.opacity(0.7))
+                    } else if model.visibleClips.isEmpty {
+                        Text("No activity this day. Tap Activity to see every clip.")
+                            .font(Theme.captionFont).foregroundStyle(Theme.onVideo.opacity(0.7))
+                    }
+                    ForEach(model.visibleClips) { clip in
+                        chip(Self.clipLabel(clip), selected: clip == model.current) { model.play(clip) }
+                            .id(clip.id)
+                            .accessibilityLabel("Event at \(clip.start.formatted(date: .omitted, time: .shortened)), \(Self.durationText(clip.duration))")
+                    }
+                }
+                .padding(.horizontal, Theme.Space.lg)
+            }
+            .onChange(of: model.current) { _, clip in
+                if let clip { withAnimation { proxy.scrollTo(clip.id, anchor: .center) } }
+            }
+            .onAppear { if let id = model.current?.id { proxy.scrollTo(id, anchor: .center) } }
+        }
     }
 
     private func chip(_ text: String, selected: Bool, action: @escaping () -> Void) -> some View {
