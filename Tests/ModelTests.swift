@@ -1,4 +1,5 @@
 import XCTest
+import Network
 @testable import CamFetti
 
 final class CameraTests: XCTestCase {
@@ -109,5 +110,47 @@ final class ProberTests: XCTestCase {
         XCTAssertEqual(SubnetSweep.brand(inPage: "<title>Reolink</title>"), "Reolink")
         XCTAssertEqual(SubnetSweep.brand(inPage: "<html>thingino</html>"), "Thingino")
         XCTAssertNil(SubnetSweep.brand(inPage: "<html>router</html>"))
+    }
+}
+
+final class FoundCameraTests: XCTestCase {
+    private func cam(_ name: String, _ host: String, _ brand: String?) -> FoundCamera {
+        FoundCamera(name: name, host: host, httpPort: nil, isThingino: brand == "Thingino", streamer: nil, brand: brand)
+    }
+
+    func testAnnouncedNameShowsBrandNotAddress() {
+        let c = cam("cam-e", "192.168.1.163", "Thingino")
+        XCTAssertEqual(c.detail(among: [c]), "Thingino")
+    }
+
+    func testBrandOnlyNameNeedsNoDetailWhenAlone() {
+        let c = cam("Reolink camera", "192.168.1.70", "Reolink")
+        XCTAssertNil(c.detail(among: [c]))
+    }
+
+    func testTwinsShowTheirAddresses() {
+        let a = cam("Reolink camera", "192.168.1.70", "Reolink")
+        let b = cam("Reolink camera", "192.168.1.71", "Reolink")
+        XCTAssertEqual(a.detail(among: [a, b]), "192.168.1.70")
+        XCTAssertEqual(b.detail(among: [a, b]), "192.168.1.71")
+    }
+
+    func testUnknownBrandShowsAddress() {
+        let c = cam("Camera", "192.168.1.9", nil)
+        XCTAssertEqual(c.detail(among: [c]), "192.168.1.9")
+    }
+
+    func testAnnouncedNameSurvivesTheSweep() {
+        var bonjour = cam("cam-e", "192.168.1.163", "Thingino")
+        bonjour.announced = true
+        let sweep = cam("Thingino camera", "192.168.1.163", "Thingino")
+        XCTAssertFalse(CameraFinder.prefers(sweep, over: bonjour), "sweep arriving second keeps the name")
+        XCTAssertTrue(CameraFinder.prefers(bonjour, over: sweep), "Bonjour arriving second takes over")
+    }
+
+    func testPolicyDeniedIsTheLocalNetworkRefusal() {
+        XCTAssertTrue(CameraFinder.isPolicyDenied(.dns(-65570)))
+        XCTAssertFalse(CameraFinder.isPolicyDenied(.dns(-65537)))
+        XCTAssertFalse(CameraFinder.isPolicyDenied(.posix(.ECONNREFUSED)))
     }
 }

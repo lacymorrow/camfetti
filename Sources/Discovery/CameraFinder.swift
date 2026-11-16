@@ -11,6 +11,21 @@ struct FoundCamera: Identifiable, Hashable, Sendable {
     var isThingino: Bool
     var streamer: String?
     var brand: String?
+    /// The camera announced itself over Bonjour, so `name` is the one its owner gave it.
+    var announced = false
+
+    /// The camera's own name when it announced one, else its brand.
+    var title: String { name }
+
+    /// The small line under the title. The address only shows when the title alone can't
+    /// tell this camera apart (no brand, or another camera on the list has the same title).
+    func detail(among others: [FoundCamera]) -> String? {
+        var parts: [String] = []
+        if let brand, !name.localizedCaseInsensitiveContains(brand) { parts.append(brand) }
+        let twin = others.contains { $0.host != host && $0.title == title }
+        if brand == nil || twin { parts.append(host) }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
 }
 
 /// Finds cameras two ways: Bonjour for those that announce themselves (Thingino), and a quick
@@ -19,16 +34,33 @@ struct FoundCamera: Identifiable, Hashable, Sendable {
 final class CameraFinder {
     private(set) var found: [FoundCamera] = []
     private(set) var isSearching = false
+    /// True once iOS says CamFetti may not use the local network. There's no API to ask, but
+    /// a denied Bonjour browser waits with PolicyDenied.
+    private(set) var isBlocked = false
     private var browser: NWBrowser?
     private var sweep: Task<Void, Never>?
 
     func start() {
         guard browser == nil else { return }
+        #if DEBUG
+        // Screenshots of the states a simulator can't reach: -finderState blocked | empty.
+        let args = ProcessInfo.processInfo.arguments
+        if let i = args.firstIndex(of: "-finderState"), i + 1 < args.count {
+            isBlocked = args[i + 1] == "blocked"
+            isSearching = false
+            return
+        }
+        #endif
         isSearching = true
         let browser = NWBrowser(for: .bonjourWithTXTRecord(type: "_thingino._tcp", domain: nil), using: .tcp)
         browser.browseResultsChangedHandler = { [weak self] results, _ in
             MainActor.assumeIsolated {
                 for result in results { self?.resolveAndMerge(result) }
+            }
+        }
+        browser.stateUpdateHandler = { [weak self] state in
+            MainActor.assumeIsolated {
+                if case .waiting(let error) = state, Self.isPolicyDenied(error) { self?.isBlocked = true }
             }
         }
         browser.start(queue: .main)
@@ -42,6 +74,18 @@ final class CameraFinder {
             }
             sink.finished()
         }
+    }
+
+    /// Starts over, for "Search Again" and for coming back from Settings.
+    func searchAgain() {
+        stop()
+        isBlocked = false
+        start()
+    }
+
+    nonisolated static func isPolicyDenied(_ error: NWError) -> Bool {
+        if case .dns(let code) = error { return code == -65570 } // kDNSServiceErr_PolicyDenied
+        return false
     }
 
     func stop() {
@@ -63,11 +107,17 @@ final class CameraFinder {
 
     fileprivate func merge(_ camera: FoundCamera) {
         if let i = found.firstIndex(where: { $0.host == camera.host }) {
-            // Bonjour knows more than the sweep. Never downgrade.
-            if camera.isThingino || !found[i].isThingino { found[i] = camera }
+            // Bonjour knows the camera's own name and port; the sweep only knows its brand.
+            // Whichever arrives second, never downgrade.
+            if Self.prefers(camera, over: found[i]) { found[i] = camera }
         } else {
             found.append(camera)
         }
+    }
+
+    nonisolated static func prefers(_ new: FoundCamera, over old: FoundCamera) -> Bool {
+        if old.announced { return false }
+        return new.announced || new.isThingino || !old.isThingino
     }
 
     /// Connects briefly to learn the service's address.
@@ -103,7 +153,7 @@ final class CameraFinder {
         connection.cancel()
         guard let address else { return nil }
         return FoundCamera(name: name, host: address.0, httpPort: address.1, isThingino: true,
-                           streamer: txt["streamer"], brand: "Thingino")
+                           streamer: txt["streamer"], brand: "Thingino", announced: true)
     }
 
     nonisolated static func clean(_ host: NWEndpoint.Host) -> String {
@@ -183,7 +233,7 @@ enum SubnetSweep {
                     guard await isOpen(host: host, port: port) else { return }
                     let brand = await identify(host: host)
                     let thingino = brand == "Thingino"
-                    await onFound(FoundCamera(name: brand.map { "\($0) camera" } ?? "Camera at \(host)", host: host,
+                    await onFound(FoundCamera(name: brand.map { "\($0) camera" } ?? "Camera", host: host,
                                               httpPort: thingino ? 80 : nil, isThingino: thingino, streamer: nil, brand: brand))
                 }
                 return true

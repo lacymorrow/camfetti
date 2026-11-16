@@ -5,6 +5,7 @@ struct AddCameraView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dismiss) private var dismiss
     let finder: CameraFinder
+    var start: AddStart = .pick
 
     @State private var address = ""
     @State private var username = ""
@@ -15,9 +16,20 @@ struct AddCameraView: View {
     @State private var errorText: String?
     @State private var result: CameraProber.Result?
     @State private var preview: LiveStream?
+    @State private var showsAddress = false
 
     private var candidates: [FoundCamera] {
         finder.found.filter { !model.store.contains(host: $0.host) }
+    }
+
+    /// Cameras still to add come first; ones already in the app follow, checked.
+    private var listed: [FoundCamera] {
+        candidates + finder.found.filter { model.store.contains(host: $0.host) }
+    }
+
+    /// The typing form opens on its own when there's nothing to tap instead.
+    private var addressOpen: Bool {
+        showsAddress || finder.isBlocked || (candidates.isEmpty && !finder.isSearching)
     }
 
     var body: some View {
@@ -39,7 +51,14 @@ struct AddCameraView: View {
                 }
             }
         }
-        .onAppear { finder.start() }
+        .onAppear {
+            finder.start()
+            switch start {
+            case .pick: break
+            case .address: showsAddress = true
+            case .camera(let camera): pick(camera)
+            }
+        }
         .onDisappear { preview?.stop() }
     }
 
@@ -47,51 +66,65 @@ struct AddCameraView: View {
 
     private var pickStep: some View {
         Form {
-            Section {
-                ForEach(candidates) { camera in
-                    Button { pick(camera) } label: {
+            if finder.isBlocked {
+                Section { LocalNetworkNote() }
+            } else {
+                Section {
+                    ForEach(listed) { camera in
+                        FoundCameraRow(camera: camera, others: finder.found,
+                                       addedAs: model.store.camera(host: camera.host)?.name) { pick(camera) }
+                    }
+                    if finder.isSearching {
+                        HStack(spacing: Theme.Space.sm) {
+                            ProgressView()
+                            Text("Looking on your Wi-Fi").foregroundStyle(Theme.secondaryText)
+                        }
+                    } else if finder.found.isEmpty {
+                        Text("No cameras found on this Wi-Fi.").foregroundStyle(Theme.secondaryText)
+                    }
+                } header: {
+                    Text("On Your Wi-Fi")
+                } footer: {
+                    if !finder.isSearching {
                         HStack {
-                            VStack(alignment: .leading, spacing: Theme.Space.xxs) {
-                                Text(camera.name).foregroundStyle(.primary)
-                                Text(camera.host).font(Theme.captionFont).foregroundStyle(Theme.secondaryText)
-                            }
+                            #if !os(tvOS)
+                            FindHelpLink()
+                            #endif
                             Spacer()
-                            Image(systemName: "chevron.right").font(Theme.tileLabelFont).foregroundStyle(Theme.tertiaryText)
+                            Button("Search Again") { finder.searchAgain() }
+                                .font(Theme.footnoteFont)
+                                .accessibilityIdentifier("searchAgainButton")
                         }
                     }
-                    .accessibilityIdentifier("found-\(camera.host)")
                 }
-                if finder.isSearching {
-                    HStack(spacing: Theme.Space.sm) {
-                        ProgressView()
-                        Text("Looking on your Wi-Fi").foregroundStyle(Theme.secondaryText)
-                    }
-                } else if candidates.isEmpty {
-                    Text("No new cameras found on this Wi-Fi.").foregroundStyle(Theme.secondaryText)
-                }
-            } header: {
-                Text("On Your Wi-Fi")
             }
-            Section {
-                TextField("Address or rtsp:// link", text: $address)
-                    .plainTextEntry(url: true)
-                    .autocorrectionDisabled()
-                    .accessibilityIdentifier("addressField")
-                TextField("Username", text: $username)
-                    .plainTextEntry()
-                    .autocorrectionDisabled()
-                    .accessibilityIdentifier("usernameField")
-                SecureField("Password", text: $password)
-                    .accessibilityIdentifier("passwordField")
-                testButton {
-                    run(.init(address: address, username: username, password: password))
+            if addressOpen {
+                Section {
+                    TextField("Address or rtsp:// link", text: $address)
+                        .plainTextEntry(url: true)
+                        .autocorrectionDisabled()
+                        .accessibilityIdentifier("addressField")
+                    TextField("Username", text: $username)
+                        .plainTextEntry()
+                        .autocorrectionDisabled()
+                        .accessibilityIdentifier("usernameField")
+                    SecureField("Password", text: $password)
+                        .accessibilityIdentifier("passwordField")
+                    testButton {
+                        run(.init(address: address, username: username, password: password))
+                    }
+                    .disabled(address.trimmingCharacters(in: .whitespaces).isEmpty || testing)
+                } header: {
+                    Text("Add by Address")
+                } footer: {
+                    Text(errorText ?? "Works with Thingino, ONVIF and RTSP cameras. CamFetti figures out the rest.")
+                        .foregroundStyle(Theme.noteColor(isError: errorText != nil))
                 }
-                .disabled(address.trimmingCharacters(in: .whitespaces).isEmpty || testing)
-            } header: {
-                Text("Add by Address")
-            } footer: {
-                Text(errorText ?? "Works with Thingino, ONVIF and RTSP cameras. CamFetti figures out the rest.")
-                    .foregroundStyle(Theme.noteColor(isError: errorText != nil))
+            } else {
+                Section {
+                    Button("Add by Address") { showsAddress = true }
+                        .accessibilityIdentifier("showAddressButton")
+                }
             }
         }
     }
@@ -101,7 +134,12 @@ struct AddCameraView: View {
     private func signInStep(_ camera: FoundCamera) -> some View {
         Form {
             Section {
-                LabeledContent("Camera", value: camera.name)
+                LabeledContent("Camera") {
+                    VStack(alignment: .trailing, spacing: Theme.Space.xxs) {
+                        Text(camera.title)
+                        Text(camera.host).font(Theme.captionFont).foregroundStyle(Theme.secondaryText)
+                    }
+                }
                 if !camera.isThingino {
                     TextField("Username", text: $username)
                         .plainTextEntry()
@@ -111,7 +149,7 @@ struct AddCameraView: View {
                 testButton { run(input(for: camera)) }
                     .disabled(testing)
             } footer: {
-                Text(errorText ?? (camera.isThingino ? "The password you use for the camera's web page." : "The camera's own login."))
+                Text(errorText ?? Self.loginHint(for: camera))
                     .foregroundStyle(Theme.noteColor(isError: errorText != nil))
             }
             Section {
@@ -162,6 +200,9 @@ struct AddCameraView: View {
                     let trimmed = name.trimmingCharacters(in: .whitespaces)
                     if !trimmed.isEmpty { camera.name = trimmed }
                     model.store.add(camera, password: result.password, apiKey: result.apiKey)
+                    if let brand = picked?.brand, !password.isEmpty {
+                        model.lastLogin[brand] = (username, password)
+                    }
                     preview?.stop()
                     dismiss()
                 } label: {
@@ -179,9 +220,15 @@ struct AddCameraView: View {
         errorText = nil
         username = camera.brand == "Reolink" || camera.brand == "Hikvision" || camera.brand == "Dahua" || camera.brand == "Amcrest" ? "admin" : ""
         password = ""
-        // Fresh Thingino cameras use root / root. One quiet try saves typing.
+        let known = camera.brand.flatMap { model.lastLogin[$0] }
+        if let known, !camera.isThingino {
+            username = known.username
+            password = known.password
+        }
+        // Fresh Thingino cameras use root / root, and a second one usually shares the first one's
+        // password. One quiet try saves typing; a miss just leaves the field empty.
         if camera.isThingino {
-            password = "root"
+            password = known?.password ?? "root"
             var attempt = input(for: camera)
             attempt.fallbackToDefaultStream = true
             run(attempt, quiet: true)
@@ -211,6 +258,13 @@ struct AddCameraView: View {
                 errorText = Self.words(for: .unreachable)
             }
         }
+    }
+
+    /// Where this camera's password comes from, in the words its owner would recognize.
+    static func loginHint(for camera: FoundCamera) -> String {
+        if camera.isThingino { return "The password you use for the camera's web page." }
+        if let brand = camera.brand { return "The login you set up in the \(brand) app or on the camera's web page." }
+        return "The username and password you set up for this camera."
     }
 
     static func words(for failure: CameraProber.Failure) -> String {
