@@ -98,8 +98,11 @@ final class CameraFinder {
 
     private func resolveAndMerge(_ result: NWBrowser.Result) {
         Task {
-            guard let camera = await Self.resolve(result) else { return }
-            merge(camera)
+            // Busy Wi-Fi can miss the first lookup; one more try keeps the camera's own name.
+            for attempt in 0..<2 {
+                if attempt > 0 { try? await Task.sleep(for: .seconds(2)) }
+                if let camera = await Self.resolve(result) { merge(camera); return }
+            }
         }
     }
 

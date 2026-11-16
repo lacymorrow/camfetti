@@ -30,8 +30,16 @@ final class OnboardingDemo: XCTestCase {
         XCTAssertTrue(app.buttons["addButton"].waitForExistence(timeout: 30))
         // -seedReal signs in to each camera in the background; give the slow ones time.
         sleep(25)
-        app.buttons["addButton"].tap()
-        XCTAssertTrue(app.buttons["found-\(pick)"].waitForExistence(timeout: 30))
+        // A tap can land while the grid is still settling; try again before giving up.
+        let sheet = app.navigationBars["Add Camera"]
+        for _ in 0..<3 where !sheet.exists {
+            app.buttons["addButton"].tap()
+            _ = sheet.waitForExistence(timeout: 5)
+        }
+        // Only save the sheet. The grid behind it shows live cameras, which can catch people.
+        guard sheet.exists, app.buttons["found-\(pick)"].waitForExistence(timeout: 30) else {
+            return XCTFail("add sheet with found cameras")
+        }
         sleep(8)
         save(out, "add-sheet-with-added")
     }
