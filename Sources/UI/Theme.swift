@@ -109,6 +109,14 @@ enum Theme {
         #endif
     }()
     static let readableWidth: CGFloat = 320
+    /// The first-run column. A TV is read from across the room, so it gets far more room.
+    static let onboardingWidth: CGFloat = {
+        #if os(tvOS)
+        1100
+        #else
+        520
+        #endif
+    }()
     static let controlSize: CGFloat = {
         #if os(tvOS)
         88

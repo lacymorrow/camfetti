@@ -185,12 +185,18 @@ struct EmptyCamerasView: View {
                 }
                 .padding(.top, Theme.Space.section * 2)
                 found
+                #if os(tvOS)
+                // No bottom bar on a TV: the remote moves down the list and lands on these.
+                actions
+                #endif
             }
             .padding(.horizontal, Theme.Space.xl)
-            .frame(maxWidth: 520)
+            .frame(maxWidth: Theme.onboardingWidth)
             .frame(maxWidth: .infinity)
         }
+        #if !os(tvOS)
         .safeAreaInset(edge: .bottom) { actions }
+        #endif
     }
 
     @ViewBuilder private var found: some View {
@@ -221,6 +227,13 @@ struct EmptyCamerasView: View {
                     Spacer()
                     if finder.isSearching { ProgressView() }
                 }
+                #if os(tvOS)
+                VStack(spacing: Theme.Space.md) {
+                    ForEach(finder.found) { camera in
+                        FoundCameraRow(camera: camera, others: finder.found) { add(.camera(camera)) }
+                    }
+                }
+                #else
                 VStack(spacing: 0) {
                     ForEach(finder.found) { camera in
                         FoundCameraRow(camera: camera, others: finder.found) { add(.camera(camera)) }
@@ -230,7 +243,8 @@ struct EmptyCamerasView: View {
                     }
                 }
                 .background(.fill.quaternary, in: RoundedRectangle(cornerRadius: Theme.Radius.card * 1.5))
-                Text("Tap a camera to sign in to it.")
+                #endif
+                Text(Platform.usesFocus ? "Select a camera to sign in to it." : "Tap a camera to sign in to it.")
                     .font(Theme.footnoteFont)
                     .foregroundStyle(Theme.secondaryText)
             }
@@ -255,7 +269,7 @@ struct EmptyCamerasView: View {
         }
         .padding(.horizontal, Theme.Space.xl)
         .padding(.vertical, Theme.Space.lg)
-        .frame(maxWidth: 520)
+        .frame(maxWidth: Theme.onboardingWidth)
         .frame(maxWidth: .infinity)
         #if !os(tvOS)
         .background(.bar)
