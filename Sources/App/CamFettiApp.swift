@@ -100,6 +100,7 @@ struct CamFettiApp: App {
             .tint(Theme.accent)
         }
         .defaultSize(width: Theme.windowDefault.width, height: Theme.windowDefault.height)
+        .commands { MainWindowCommands() }
         Settings {
             SettingsView()
                 .environment(model)
