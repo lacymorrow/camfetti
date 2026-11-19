@@ -63,8 +63,10 @@ struct FoundCameraRow: View {
             }
             .contentShape(Rectangle())
         }
-        #if !os(tvOS)
-        .buttonStyle(.plain) // tvOS keeps the default so focus still shows
+        #if os(tvOS)
+        .buttonStyle(RowFocusStyle())
+        #else
+        .buttonStyle(.plain)
         #endif
         .disabled(added)
         .accessibilityIdentifier("found-\(camera.host)")
@@ -104,3 +106,20 @@ struct FindHelpLink: View {
         .accessibilityIdentifier("findHelpLink")
     }
 }
+
+#if os(tvOS)
+/// A found camera on Apple TV: a quiet platter that brightens and lifts when the remote lands
+/// on it, with the text staying readable instead of taking the accent color.
+struct RowFocusStyle: ButtonStyle {
+    @Environment(\.isFocused) private var focused
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal, Theme.Space.xl)
+            .padding(.vertical, Theme.Space.md)
+            .background(.white.opacity(focused ? 0.22 : 0.06), in: RoundedRectangle(cornerRadius: Theme.Radius.card * 1.5))
+            .scaleEffect(focused ? 1.03 : 1)
+            .animation(.easeOut(duration: Theme.Motion.quick), value: focused)
+    }
+}
+#endif
