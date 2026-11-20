@@ -17,7 +17,7 @@ final class AppModel {
     /// Camera whose details sheet is open.
     var editing: Camera?
     private(set) var isOnline = true
-    /// Fires once, when the very first camera goes live.
+    /// Set when the person adds a camera; the grid throws confetti, then clears it.
     var celebrate = false
     /// The login that last worked, per brand, so the next camera of that brand opens filled in.
     /// Memory only: never written to disk, and never sent until the person taps Connect.

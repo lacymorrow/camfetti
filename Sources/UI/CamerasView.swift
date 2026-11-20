@@ -7,7 +7,6 @@ struct CamerasView: View {
     @State private var adding: AddStart?
     @State private var showSettings = false
     @State private var finder = CameraFinder()
-    @AppStorage("hasCelebrated") private var hasCelebrated = false
 
     var body: some View {
         @Bindable var model = model
@@ -70,12 +69,6 @@ struct CamerasView: View {
             if phase == .background { model.stopAll() }
             // Back from Settings after turning Local Network on: look again right away.
             if phase == .active, finder.isBlocked { finder.searchAgain() }
-        }
-        .onChange(of: model.store.cameras.count) { old, new in
-            if old == 0, new == 1, !hasCelebrated {
-                hasCelebrated = true
-                model.celebrate = true
-            }
         }
         .task {
             finder.start()

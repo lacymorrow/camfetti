@@ -204,6 +204,7 @@ struct AddCameraView: View {
                         model.lastLogin[brand] = (username, password)
                     }
                     preview?.stop()
+                    model.celebrate = true
                     dismiss()
                 } label: {
                     Text("Add Camera").fontWeight(.semibold)
