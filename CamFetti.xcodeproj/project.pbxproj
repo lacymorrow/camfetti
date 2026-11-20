@@ -76,6 +76,7 @@
 		F00E3F7034BF1EBDBDB5A7F5 /* WatchCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9BA05D99981CC8D23BFDCF /* WatchCache.swift */; };
 		F010C86C015B8F57C6C4322B /* PlaybackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEE8632AA2DD8A584AEF91E /* PlaybackModel.swift */; };
 		F0B3EC426F4D89DA4A7A57A5 /* ThinginoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C1D8959DB020939E76E2D /* ThinginoRecorder.swift */; };
+		F5D5AABB86CD31B308495B46 /* ConfettiDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EAC51ED04D5523F6D92292A /* ConfettiDemo.swift */; };
 		F9407639C36B4F6414F37236 /* H26x.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C253F55BB19D9EF0149F280 /* H26x.swift */; };
 		FA8F969DFCE55B6CF2A43B89 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FFBD78987905F15660414FA /* Keychain.swift */; };
 		FF572DC9941FB75871500129 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A73FAB37CEECA85AD3731DD /* Assets.xcassets */; };
@@ -151,6 +152,7 @@
 		633CB5DF6842BBB9EA6B6313 /* CameraTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTile.swift; sourceTree = "<group>"; };
 		668CE6BA425410789E64E49D /* CamFettiWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamFettiWatchApp.swift; sourceTree = "<group>"; };
 		6BDDAEAB5FF747DEEB66EF40 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		6EAC51ED04D5523F6D92292A /* ConfettiDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiDemo.swift; sourceTree = "<group>"; };
 		6F9BA05D99981CC8D23BFDCF /* WatchCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCache.swift; sourceTree = "<group>"; };
 		6FFBD78987905F15660414FA /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		724ADA70DBCBFC3443B2AB14 /* ReolinkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReolinkClient.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */,
+				6EAC51ED04D5523F6D92292A /* ConfettiDemo.swift */,
 				4822A36727DC110B173E7526 /* OnboardingDemo.swift */,
 				F3AF931192EED6A6FED6128C /* PlaybackDemo.swift */,
 				1534CA8FFBB61D9F969DDB26 /* RecordingDemo.swift */,
@@ -597,6 +600,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */,
+				F5D5AABB86CD31B308495B46 /* ConfettiDemo.swift in Sources */,
 				8FBEA3A99C298794B81C9EEC /* OnboardingDemo.swift in Sources */,
 				62F1A4A787048CD1FAC9009C /* PlaybackDemo.swift in Sources */,
 				C07DEE0AF2C6AC090D032BEC /* RecordingDemo.swift in Sources */,
