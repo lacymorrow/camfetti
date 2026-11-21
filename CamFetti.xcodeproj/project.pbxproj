@@ -30,6 +30,8 @@
 		4AF0782E442671FE43ADEA45 /* ThinginoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531BA091864AFBA41BEDD472 /* ThinginoClient.swift */; };
 		4D510424E35A5910713AEBBA /* BridgeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F6294F880086127FA292A8 /* BridgeService.swift */; platformFilters = (macos, ); };
 		4DDED12405493198B99D247C /* OnvifClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */; };
+		4F0D7F7C895C075F17861A4A /* ReolinkRecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC8811076B9F3E8954930E6 /* ReolinkRecorderTests.swift */; };
+		4F4946583C6AC9DBD16629A2 /* ReolinkRecordingDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBF3E06D0393C49CF42A411 /* ReolinkRecordingDemo.swift */; };
 		4FB9A2ACB7CECFD594D42073 /* WatchProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B659C12DE050DB075EBCF847 /* WatchProtocol.swift */; };
 		57DB4F9B002C701F9D9F09A4 /* ThinginoPlayback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2201E875E07C0BF20E0C0 /* ThinginoPlayback.swift */; };
 		5815244EB58DC155650EC6AA /* FrameGrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E7B771925A60BBA2F2553D /* FrameGrabber.swift */; };
@@ -66,6 +68,7 @@
 		C5872DA096E2F53AD6BF5446 /* WatchViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6233C68B5B6A4CD27A6EA712 /* WatchViews.swift */; };
 		C9DC6E933AD97F2E8AEB9E10 /* VideoSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBFA846FEA5D9152BBD414C /* VideoSurface.swift */; };
 		CFA4B48BE6BB012D28A4C284 /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BE16635F0681DBB4E8BA47 /* RecordingSettings.swift */; };
+		D8918D725295901C75543118 /* ReolinkRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9456D08A69F1ACF7C43F0617 /* ReolinkRecorder.swift */; };
 		DA5213481329E96C8DA3F7E3 /* WatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FD96D3C0490FC4CF3A84A8 /* WatchTests.swift */; };
 		DCF54DE62068BCB14C5DFDDF /* AwayMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = C111EA1D9446454727EA81DF /* AwayMenu.swift */; platformFilters = (macos, ); };
 		DE91A7C4078DCBF5E113DC73 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C796516D06463C0715479659 /* AppModel.swift */; };
@@ -125,6 +128,7 @@
 		07156A31F0240645EDFB7337 /* AddCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCameraView.swift; sourceTree = "<group>"; };
 		0B52B63D95B26A84DB3A6E72 /* CamFettiTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B84AC2A1D148FA67883099D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0FC8811076B9F3E8954930E6 /* ReolinkRecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReolinkRecorderTests.swift; sourceTree = "<group>"; };
 		13FC1C266A448250E99E1BCA /* WatchSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSession.swift; sourceTree = "<group>"; };
 		1534CA8FFBB61D9F969DDB26 /* RecordingDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDemo.swift; sourceTree = "<group>"; };
 		1CFDEA9BDE318FC296150440 /* MacAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppDelegate.swift; sourceTree = "<group>"; };
@@ -164,11 +168,13 @@
 		8DE442F00254689461024956 /* AwayConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayConfig.swift; sourceTree = "<group>"; };
 		90BE16635F0681DBB4E8BA47 /* RecordingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSettings.swift; sourceTree = "<group>"; };
 		91FAFC7DFC25E8BD0AEA51C7 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		9456D08A69F1ACF7C43F0617 /* ReolinkRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReolinkRecorder.swift; sourceTree = "<group>"; };
 		95E1C28241C1F4E914752FED /* CamFettiUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CamFettiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9983C4B9129DBB1AD603F4D6 /* CameraDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDetailsView.swift; sourceTree = "<group>"; };
 		9AEE8632AA2DD8A584AEF91E /* PlaybackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackModel.swift; sourceTree = "<group>"; };
 		9C253F55BB19D9EF0149F280 /* H26x.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H26x.swift; sourceTree = "<group>"; };
 		9F458DB783D129F5862CC9ED /* CamFettiWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamFettiWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FBF3E06D0393C49CF42A411 /* ReolinkRecordingDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReolinkRecordingDemo.swift; sourceTree = "<group>"; };
 		A034DAD254130BA61AECAE54 /* CameraStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStore.swift; sourceTree = "<group>"; };
 		A359E92CC51D69183AADB7FB /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
 		A4F7403C05BC8DDA4DE0293D /* IntegrationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationClientTests.swift; sourceTree = "<group>"; };
@@ -240,6 +246,7 @@
 				E438A482E765942F7E236712 /* CameraProber.swift */,
 				B2BECAB3CBB1221AC7FF436C /* OnvifClient.swift */,
 				724ADA70DBCBFC3443B2AB14 /* ReolinkClient.swift */,
+				9456D08A69F1ACF7C43F0617 /* ReolinkRecorder.swift */,
 				531BA091864AFBA41BEDD472 /* ThinginoClient.swift */,
 				B1C2201E875E07C0BF20E0C0 /* ThinginoPlayback.swift */,
 				3F9C1D8959DB020939E76E2D /* ThinginoRecorder.swift */,
@@ -275,6 +282,7 @@
 				21207217A2F5D73CAC4D06ED /* PlaybackTests.swift */,
 				C89BCD10C05F84A04DDDC0B9 /* RealCameraTests.swift */,
 				ED31F5F5BDA9DA7FC28D1EEC /* RecordingSettingsTests.swift */,
+				0FC8811076B9F3E8954930E6 /* ReolinkRecorderTests.swift */,
 				415A4E39628C1EA711C696F1 /* ThinginoPlaybackTests.swift */,
 				E8FD96D3C0490FC4CF3A84A8 /* WatchTests.swift */,
 			);
@@ -374,6 +382,7 @@
 				4822A36727DC110B173E7526 /* OnboardingDemo.swift */,
 				F3AF931192EED6A6FED6128C /* PlaybackDemo.swift */,
 				1534CA8FFBB61D9F969DDB26 /* RecordingDemo.swift */,
+				9FBF3E06D0393C49CF42A411 /* ReolinkRecordingDemo.swift */,
 				601D3F240683D453D82B7FC7 /* StoreMedia.swift */,
 				CB059ABC7A847D3FE746AAC1 /* StoreScreenshots.swift */,
 			);
@@ -604,6 +613,7 @@
 				8FBEA3A99C298794B81C9EEC /* OnboardingDemo.swift in Sources */,
 				62F1A4A787048CD1FAC9009C /* PlaybackDemo.swift in Sources */,
 				C07DEE0AF2C6AC090D032BEC /* RecordingDemo.swift in Sources */,
+				4F4946583C6AC9DBD16629A2 /* ReolinkRecordingDemo.swift in Sources */,
 				E637D4205ECF2B1558C5B650 /* StoreMedia.swift in Sources */,
 				7F58B84B37B8F8BA28873920 /* StoreScreenshots.swift in Sources */,
 			);
@@ -634,6 +644,7 @@
 				584E21BC1E999725FAF50D36 /* PlaybackTests.swift in Sources */,
 				5D2DA32F03150354C7D7512A /* RealCameraTests.swift in Sources */,
 				8273BD9F3BD47888F01CC0BD /* RecordingSettingsTests.swift in Sources */,
+				4F0D7F7C895C075F17861A4A /* ReolinkRecorderTests.swift in Sources */,
 				0E205CB95389FBF7838EA186 /* ThinginoPlaybackTests.swift in Sources */,
 				DA5213481329E96C8DA3F7E3 /* WatchTests.swift in Sources */,
 			);
@@ -677,6 +688,7 @@
 				6468A4106D19B3B662163242 /* PlaybackView.swift in Sources */,
 				CFA4B48BE6BB012D28A4C284 /* RecordingSettings.swift in Sources */,
 				1FFB9D38F081027E1B350D2E /* ReolinkClient.swift in Sources */,
+				D8918D725295901C75543118 /* ReolinkRecorder.swift in Sources */,
 				1B4D5A3E69401B1B185B2793 /* SettingsView.swift in Sources */,
 				5D010AFFEF6B4789CFF64288 /* SnapshotEncoder.swift in Sources */,
 				9D87709EFEE07F7DA10E9B21 /* SnapshotFetcher.swift in Sources */,

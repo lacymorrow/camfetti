@@ -32,15 +32,19 @@ struct CamFettiApp: App {
 
     #if DEBUG
     /// `-seedDemo <host>` fills the grid with the test rig's cameras, for screenshots.
+    /// With `-reolinkRig`, all four answer as the rig's fake Reolinks: Driveway new firmware, Back Yard 2020 firmware,
+    /// Garage refuses changes, Front Porch has no card.
     private static func seedDemoCameras(into store: CameraStore) {
         let args = ProcessInfo.processInfo.arguments
         guard let i = args.firstIndex(of: "-seedDemo"), i + 1 < args.count, store.cameras.isEmpty else { return }
         let host = args[i + 1]
         let demo: [(String, String, String?)] = [("Front Porch", "ch0", "ch1"), ("Driveway", "hevc", nil),
                                                  ("Back Yard", "ch1", nil), ("Garage", "ch0", "ch1")]
+        let reolinkPorts = args.contains("-reolinkRig") ? ["Driveway": 8081, "Back Yard": 8082, "Garage": 8083, "Front Porch": 8084] : [:]
         for (name, main, sub) in demo {
-            let cam = Camera(name: name, kind: .rtsp, host: host, mainURL: "rtsp://\(host):8554/\(main)",
+            var cam = Camera(name: name, kind: .rtsp, host: host, mainURL: "rtsp://\(host):8554/\(main)",
                              subURL: sub.map { "rtsp://\(host):8554/\($0)" }, username: "thingino")
+            cam.httpPort = reolinkPorts[name]
             store.add(cam, password: "thingino")
         }
     }
