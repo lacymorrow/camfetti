@@ -5,6 +5,8 @@ struct CameraTile: View {
     @Environment(AppModel.self) private var model
     @Environment(\.scenePhase) private var scenePhase
     let camera: Camera
+    /// Too small for a name bar: the picture alone, with the name kept for VoiceOver.
+    var compact = false
     @State private var stream: LiveStream?
     @State private var stuck = false
 
@@ -79,34 +81,36 @@ struct CameraTile: View {
     }
 
     @ViewBuilder private var overlay: some View {
-        VStack {
-            Spacer()
-            HStack(spacing: Theme.Space.xs) {
-                Text(camera.name)
-                    .font(Theme.tileLabelFont)
-                    .lineLimit(1)
-                Spacer(minLength: 4)
-                if stream?.phase == .reconnecting {
-                    Text("Reconnecting").font(Theme.tileDetailFont)
+        if !compact {
+            VStack {
+                Spacer()
+                HStack(spacing: Theme.Space.xs) {
+                    Text(camera.name)
+                        .font(Theme.tileLabelFont)
+                        .lineLimit(1)
+                    Spacer(minLength: 4)
+                    if stream?.phase == .reconnecting {
+                        Text("Reconnecting").font(Theme.tileDetailFont)
+                    }
                 }
+                .foregroundStyle(Theme.onVideo)
+                .padding(.horizontal, Theme.Space.snug)
+                .padding(.vertical, Theme.Space.xs)
+                .background(Theme.scrim)
             }
-            .foregroundStyle(Theme.onVideo)
-            .padding(.horizontal, Theme.Space.snug)
-            .padding(.vertical, Theme.Space.xs)
-            .background(Theme.scrim)
         }
         switch stream?.phase {
         case .connecting, .reconnecting:
             if stuck {
                 TileMessage(text: camera.awayHost == nil ? "Can't reach this camera" : "Camera is offline",
-                            action: "Retry") { stream?.retry() }
+                            action: "Retry", symbol: "wifi.slash", compact: compact) { stream?.retry() }
             } else if stream?.phase == .connecting {
-                ProgressView().tint(Theme.onVideo)
+                ProgressView().tint(Theme.onVideo).controlSize(compact ? .small : .regular)
             }
         case .failed(.wrongPassword):
-            TileMessage(text: "Wrong password", action: "Sign In Again") { model.editing = camera }
+            TileMessage(text: "Wrong password", action: "Sign In Again", symbol: "lock.fill", compact: compact) { model.editing = camera }
         case .failed:
-            TileMessage(text: "No video from this camera", action: "Details") { model.editing = camera }
+            TileMessage(text: "No video from this camera", action: "Details", symbol: "video.slash", compact: compact) { model.editing = camera }
         default:
             EmptyView()
         }
@@ -116,9 +120,21 @@ struct CameraTile: View {
 private struct TileMessage: View {
     let text: String
     let action: String
+    let symbol: String
+    var compact = false
     let perform: () -> Void
 
     var body: some View {
+        // A thumbnail too small for words shows just the symbol; tapping the tile opens the camera,
+        // which explains the problem in full.
+        if compact {
+            Image(systemName: symbol).font(Theme.tileLabelFont).foregroundStyle(Theme.onVideo)
+        } else {
+            full
+        }
+    }
+
+    private var full: some View {
         VStack(spacing: Theme.Space.xs) {
             Text(text).font(Theme.tileMessageFont).foregroundStyle(Theme.onVideo).multilineTextAlignment(.center)
             Button(action, action: perform)

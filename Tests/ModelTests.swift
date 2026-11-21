@@ -89,6 +89,16 @@ final class ProberTests: XCTestCase {
         XCTAssertEqual(GridLayout.best(count: 4, width: 900, height: 380).columns, 2, "landscape goes wide")
     }
 
+    func testPhoneGridFillsTheWidth() {
+        // iPhone 17 Pro portrait grid is about 386 points wide.
+        let one = GridLayout.filling(columns: 1, width: 386)
+        XCTAssertEqual(one.tileWidth, 386, "one column is the full width, however many cameras there are")
+        let three = GridLayout.filling(columns: 3, width: 386)
+        XCTAssertEqual(three.tileWidth * 3 + GridLayout.spacing * 2, 386, accuracy: 0.01)
+        XCTAssertEqual(GridLayout.phoneDefault(count: 3), 1)
+        XCTAssertEqual(GridLayout.phoneDefault(count: 8), 2)
+    }
+
     func testPanMathMovesOppositeToFinger() {
         let steps = PanMath.motorSteps(for: CGSize(width: 50, height: -25))
         XCTAssertEqual(steps.dx, -200)

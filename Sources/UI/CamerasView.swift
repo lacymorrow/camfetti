@@ -89,20 +89,62 @@ struct CamerasView: View {
     private var grid: some View {
         GeometryReader { geo in
             let cameras = model.store.cameras
-            let layout = GridLayout.best(count: cameras.count, width: geo.size.width - Theme.gridInset * 2, height: geo.size.height - Theme.gridInset * 2)
+            let width = geo.size.width - Theme.gridInset * 2
+            let layout = Platform.isPhone
+                ? GridLayout.filling(columns: phoneColumns(landscape: geo.size.width > geo.size.height), width: width)
+                : GridLayout.best(count: cameras.count, width: width, height: geo.size.height - Theme.gridInset * 2)
             ScrollView {
                 LazyVGrid(columns: Array(repeating: GridItem(.fixed(layout.tileWidth), spacing: Theme.gridSpacing), count: layout.columns),
                           spacing: Theme.gridSpacing) {
                     ForEach(cameras) { camera in
-                        CameraTile(camera: camera)
+                        CameraTile(camera: camera, compact: layout.tileWidth < Theme.tileLabelMinWidth)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Theme.gridInset)
             }
             .scrollBounceBehavior(.basedOnSize)
+            #if os(iOS)
+            .simultaneousGesture(Platform.isPhone ? pinch : nil)
+            .accessibilityAction(named: "Larger Tiles") { zoom(by: -1) }
+            .accessibilityAction(named: "Smaller Tiles") { zoom(by: 1) }
+            #endif
         }
     }
+
+    // iPhone: the person picks the tile size by pinching, as in Photos. Tiles always fill the width
+    // and the grid scrolls, so adding a camera never shrinks the others.
+    @AppStorage("phoneColumns") private var savedColumns = 0
+    @State private var pinchStepped = false
+
+    private func phoneColumns(landscape: Bool) -> Int {
+        let portrait = savedColumns == 0 ? GridLayout.phoneDefault(count: model.store.cameras.count) : savedColumns
+        // Sideways, one 16:9 tile would be taller than the screen, so each size gets one more column.
+        return landscape ? portrait + 1 : portrait
+    }
+
+    private func zoom(by step: Int) {
+        let now = phoneColumns(landscape: false)
+        let next = min(max(now + step, 1), GridLayout.phoneMaxColumns)
+        guard next != now else { return }
+        withAnimation(Theme.gridZoom) { savedColumns = next }
+        #if os(iOS)
+        UISelectionFeedbackGenerator().selectionChanged()
+        #endif
+    }
+
+    #if os(iOS)
+    /// One step per pinch: spread for bigger tiles, squeeze for smaller ones.
+    private var pinch: some Gesture {
+        MagnifyGesture()
+            .onChanged { value in
+                guard !pinchStepped else { return }
+                if value.magnification > 1.2 { pinchStepped = true; zoom(by: -1) }
+                else if value.magnification < 0.83 { pinchStepped = true; zoom(by: 1) }
+            }
+            .onEnded { _ in pinchStepped = false }
+    }
+    #endif
 }
 
 extension View {
@@ -146,6 +188,17 @@ enum GridLayout {
         let twoUp = (width - spacing) / 2
         return best ?? (count == 1 ? 1 : 2, count == 1 ? width : twoUp)
     }
+
+    static let phoneMaxColumns = 4
+
+    /// Tiles that fill the width in the given number of columns.
+    static func filling(columns: Int, width: CGFloat) -> (columns: Int, tileWidth: CGFloat) {
+        let columns = max(columns, 1)
+        return (columns, max((width - spacing * CGFloat(columns - 1)) / CGFloat(columns), 1))
+    }
+
+    /// Before anyone pinches: one camera per row while a few fit, two-up after that.
+    static func phoneDefault(count: Int) -> Int { count <= 3 ? 1 : 2 }
 }
 
 struct OfflineBanner: View {
