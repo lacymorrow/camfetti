@@ -19,6 +19,11 @@ struct ReolinkClient: Sendable {
         case notReolink
         case wrongPassword
         case badResponse
+        /// The camera answered but wouldn't do it; carries its own words.
+        case refused(String)
+        /// rspCode -26, "ability error": this account may not change the setting. The RLC-410's 2020 firmware
+        /// answers this to a non-admin account even though it lets the same account read it.
+        case notAllowed
     }
 
     let base: URL
@@ -92,7 +97,7 @@ struct ReolinkClient: Sendable {
         ]]]]
     }
 
-    private func post(_ body: [[String: Any]], cmd: String, token: String?, timeout: TimeInterval = 8) async throws -> (Data, Int) {
+    func post(_ body: [[String: Any]], cmd: String, token: String?, timeout: TimeInterval = 8) async throws -> (Data, Int) {
         var comps = URLComponents(url: base.appending(path: "cgi-bin/api.cgi"), resolvingAgainstBaseURL: false)
         comps?.queryItems = [.init(name: "cmd", value: cmd)] + (token.map { [.init(name: "token", value: $0)] } ?? [])
         guard let url = comps?.url else { throw Failure.badResponse }

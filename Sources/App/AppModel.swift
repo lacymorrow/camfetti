@@ -106,6 +106,16 @@ final class AppModel {
         return ThinginoClient(base: base, apiKey: CameraSecrets(id: camera.id).apiKey)
     }
 
+    /// One per address, home first, then away.
+    func reolinkClients(for camera: Camera) -> [ReolinkClient] {
+        let password = CameraSecrets(id: camera.id).password ?? ""
+        var hosts = [camera.host]
+        if let away = camera.awayHost?.trimmingCharacters(in: .whitespaces), !away.isEmpty { hosts.append(away) }
+        return hosts.compactMap { host in
+            camera.webBase(host: host).map { ReolinkClient(base: $0, username: camera.username, password: password) }
+        }
+    }
+
     func onvifClient(for camera: Camera) -> OnvifClient? {
         guard let onvif = camera.onvif else { return nil }
         return OnvifClient(deviceURL: onvif.deviceURL, username: camera.username,

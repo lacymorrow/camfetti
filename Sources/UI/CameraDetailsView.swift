@@ -80,8 +80,16 @@ struct CameraDetailsView: View {
                 }
             }
             .task {
-                guard camera.kind == .thingino, recording == nil else { return }
-                let settings = RecordingSettings(client: model.thinginoClient(for: camera))
+                guard recording == nil else { return }
+                let settings: RecordingSettings
+                if camera.kind == .thingino {
+                    settings = RecordingSettings(client: model.thinginoClient(for: camera))
+                } else {
+                    // Asked without a password, so finding out never counts against the sign-in limit.
+                    guard let base = camera.webBase(),
+                          await ReolinkClient(base: base, username: "", password: "").isReolink() else { return }
+                    settings = RecordingSettings(reolink: model.reolinkClients(for: camera), cameraID: camera.id)
+                }
                 recording = settings
                 await settings.load()
             }
@@ -99,10 +107,25 @@ struct CameraDetailsView: View {
                     .accessibilityIdentifier("recordToggle")
                 if recording.phase == .checking || recording.busy { ProgressView().padding(.leading, Theme.Space.sm) }
             }
+            if recording.isOn, !recording.modes.isEmpty {
+                Picker("Record", selection: Binding(
+                    get: { recording.mode },
+                    set: { mode in if let mode { Task { await recording.choose(mode) } } })) {
+                    ForEach(recording.modes, id: \.self) { mode in
+                        Text(Self.modeName(mode, ai: recording.aiTriggers)).tag(Optional(mode))
+                    }
+                    if recording.mode == nil { Text("Custom").tag(ReolinkClient.RecordMode?.none) }
+                }
+                .disabled(recording.busy)
+                .accessibilityIdentifier("recordMode")
+            }
         } header: {
             Text("Recording")
         } footer: {
-            let note = Self.recordingNote(recording.phase)
+            let note = recording.isReolink
+                ? Self.reolinkNote(recording.phase, mode: recording.mode, hasModes: !recording.modes.isEmpty,
+                                   card: recording.cardBytes, ai: recording.aiTriggers)
+                : Self.recordingNote(recording.phase)
             Text(note.text)
                 .foregroundStyle(Theme.noteColor(isError: note.isError))
                 .accessibilityIdentifier("recordNote")
@@ -121,6 +144,7 @@ struct CameraDetailsView: View {
         switch phase {
         case .checking: return ("Checking the SD card.", false)
         case .needsWebPassword: return ("Enter the camera's web password above to control recording.", false)
+        case .wrongPassword: return ("The camera didn't accept its password. Enter it again above.", true)
         case .noCard: return ("Put a microSD card in the camera to record.", false)
         case .cardTooSmall(let usable, let card):
             let usableText = usable.formatted(.byteCount(style: .file))
@@ -133,6 +157,43 @@ struct CameraDetailsView: View {
         case .ready(true, false): return ("Set to record, but the camera isn't recording right now. Turn the switch off and on to try again.", true)
         case .ready(false, _): return (what, false)
         case .failed(let message): return (message, true)
+        }
+    }
+
+    /// "People and Vehicles", from the AI triggers the camera has.
+    nonisolated static func modeName(_ mode: ReolinkClient.RecordMode, ai: [String]) -> String {
+        switch mode {
+        case .nonstop: return "All the Time"
+        case .motion: return "Any Motion"
+        case .smart: return smartThings(ai, capitalized: true)
+        }
+    }
+
+    nonisolated static func smartThings(_ ai: [String], capitalized: Bool) -> String {
+        let names = ai.compactMap { ["AI_PEOPLE": "People", "AI_VEHICLE": "Vehicles", "AI_DOG_CAT": "Animals"][$0] }
+            .map { capitalized ? $0 : $0.lowercased() }
+        guard let last = names.last else { return capitalized ? "People" : "people" }
+        return names.count == 1 ? last : names.dropLast().joined(separator: ", ") + " and " + last
+    }
+
+    /// "32 GB", the way the card is labeled, rather than "32.01 GB".
+    nonisolated static func cardSize(_ bytes: Int64) -> String {
+        let gb = Double(bytes) / 1_000_000_000
+        return gb >= 1 ? "\(Int(gb.rounded())) GB" : bytes.formatted(.byteCount(style: .file))
+    }
+
+    nonisolated static func reolinkNote(_ phase: RecordingSettings.Phase, mode: ReolinkClient.RecordMode?, hasModes: Bool,
+                                        card: Int64?, ai: [String]) -> (text: String, isError: Bool) {
+        guard case .ready(let on, _) = phase else { return recordingNote(phase) }
+        let cardText = card.map { "the \(cardSize($0)) card" } ?? "the card"
+        guard on else { return ("Turn on to save clips to \(cardText). Changes the camera right away.", false) }
+        let full = " Replaces the oldest clips when the card fills."
+        guard hasModes else { return ("Records to \(cardText) when something moves." + full, false) }
+        switch mode {
+        case .nonstop: return ("Records to \(cardText) all the time." + full, false)
+        case .motion: return ("Records to \(cardText) when anything moves." + full, false)
+        case .smart: return ("Records to \(cardText) when the camera sees \(smartThings(ai, capitalized: false)), so rain and shadows don't fill it." + full, false)
+        case nil: return ("Records to \(cardText) on the schedule set in Reolink's app." + full, false)
         }
     }
 

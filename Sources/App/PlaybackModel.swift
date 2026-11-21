@@ -62,7 +62,7 @@ final class PlaybackModel {
         case loading
         case ready
         case noCard
-        /// A Thingino camera whose recorder isn't switched on.
+        /// A camera whose recording isn't switched on, with nothing recorded.
         case notRecording
         case noRecordings
         case wrongPassword
@@ -92,6 +92,8 @@ final class PlaybackModel {
     private var playTask: Task<Void, Never>?
 
     private var source: RecordingSource?
+    /// A Reolink whose recording is switched off, so an empty card means "not recording".
+    private var recorderOff = false
     private var endObserver: NSObjectProtocol?
 
     /// Cameras whose sign-in failed this session. They are never asked again until the password is edited,
@@ -99,6 +101,8 @@ final class PlaybackModel {
     private static var refused: Set<UUID> = []
 
     static func forgetRefusal(_ id: UUID) { refused.remove(id) }
+    static func isRefused(_ id: UUID) -> Bool { refused.contains(id) }
+    static func refuse(_ id: UUID) { refused.insert(id) }
 
     init(camera: Camera) {
         self.camera = camera
@@ -120,7 +124,7 @@ final class PlaybackModel {
             let from = Calendar.current.date(byAdding: .day, value: -90, to: Date()) ?? Date()
             days = try await source.days(from: from)
             guard let newest = days.first else {
-                if phase == .loading { phase = .noRecordings }
+                if phase == .loading { phase = recorderOff ? .notRecording : .noRecordings }
                 return
             }
             phase = .ready
@@ -145,6 +149,9 @@ final class PlaybackModel {
                     await client.logout(token)
                     phase = .noCard
                     return nil
+                }
+                if let config = try? await client.recordConfig(token) {
+                    recorderOff = !config.enabled || config.recordsNothing
                 }
                 return ReolinkSource(client: client, token: token)
             } catch ReolinkClient.Failure.wrongPassword {
