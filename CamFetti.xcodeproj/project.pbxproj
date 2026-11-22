@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		07294CB8C418160A44A538BB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AABC52D50A0B17BAF6EBEFB /* Theme.swift */; };
+		09E35839F181D729538EC05C /* GridZoomDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DA9758A85FF048432FABD /* GridZoomDemo.swift */; };
 		0A89701D5CF1603D4A6021B8 /* CameraProber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E438A482E765942F7E236712 /* CameraProber.swift */; };
 		0BAECD039979A000D7E67004 /* XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A1E813FCAF189A84BA44E0 /* XML.swift */; };
 		0CA1631B68047CB58E33E8A6 /* CamFettiWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 9F458DB783D129F5862CC9ED /* CamFettiWatch.app */; platformFilters = (ios, ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -166,6 +167,7 @@
 		85A1E813FCAF189A84BA44E0 /* XML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XML.swift; sourceTree = "<group>"; };
 		893849674B70015061665239 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		8DE442F00254689461024956 /* AwayConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwayConfig.swift; sourceTree = "<group>"; };
+		8E1DA9758A85FF048432FABD /* GridZoomDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridZoomDemo.swift; sourceTree = "<group>"; };
 		90BE16635F0681DBB4E8BA47 /* RecordingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSettings.swift; sourceTree = "<group>"; };
 		91FAFC7DFC25E8BD0AEA51C7 /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		9456D08A69F1ACF7C43F0617 /* ReolinkRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReolinkRecorder.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			children = (
 				3C28DD3DDB5819A404A7644D /* CamFettiUITests.swift */,
 				6EAC51ED04D5523F6D92292A /* ConfettiDemo.swift */,
+				8E1DA9758A85FF048432FABD /* GridZoomDemo.swift */,
 				4822A36727DC110B173E7526 /* OnboardingDemo.swift */,
 				F3AF931192EED6A6FED6128C /* PlaybackDemo.swift */,
 				1534CA8FFBB61D9F969DDB26 /* RecordingDemo.swift */,
@@ -610,6 +613,7 @@
 			files = (
 				913F76E12F8D50D543468A5A /* CamFettiUITests.swift in Sources */,
 				F5D5AABB86CD31B308495B46 /* ConfettiDemo.swift in Sources */,
+				09E35839F181D729538EC05C /* GridZoomDemo.swift in Sources */,
 				8FBEA3A99C298794B81C9EEC /* OnboardingDemo.swift in Sources */,
 				62F1A4A787048CD1FAC9009C /* PlaybackDemo.swift in Sources */,
 				C07DEE0AF2C6AC090D032BEC /* RecordingDemo.swift in Sources */,

@@ -75,6 +75,9 @@ enum Theme {
         #endif
     }()
     static let tileMaxWidth: CGFloat = 640
+    /// Below this a tile drops its name bar, like a Photos thumbnail.
+    static let tileLabelMinWidth: CGFloat = 110
+    static let gridZoom = Animation.smooth(duration: 0.3)
     /// Gap between tiles.
     static let gridSpacing: CGFloat = {
         #if os(macOS) || os(visionOS)

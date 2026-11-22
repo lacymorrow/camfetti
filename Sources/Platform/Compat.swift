@@ -77,6 +77,14 @@ enum Platform {
         false
         #endif
     }()
+    /// A phone: the camera grid fills the width, scrolls, and resizes by pinching.
+    @MainActor static var isPhone: Bool {
+        #if os(iOS)
+        UIDevice.current.userInterfaceIdiom == .phone
+        #else
+        false
+        #endif
+    }
 }
 
 extension View {

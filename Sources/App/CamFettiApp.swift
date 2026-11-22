@@ -14,6 +14,7 @@ struct CamFettiApp: App {
         if ProcessInfo.processInfo.arguments.contains("-resetForTesting") {
             let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
             try? FileManager.default.removeItem(at: dir.appendingPathComponent("cameras.json"))
+            UserDefaults.standard.removeObject(forKey: "phoneColumns")
         }
         AppModel.configureAudioSession()
         #if os(iOS)
@@ -38,8 +39,12 @@ struct CamFettiApp: App {
         let args = ProcessInfo.processInfo.arguments
         guard let i = args.firstIndex(of: "-seedDemo"), i + 1 < args.count, store.cameras.isEmpty else { return }
         let host = args[i + 1]
-        let demo: [(String, String, String?)] = [("Front Porch", "ch0", "ch1"), ("Driveway", "hevc", nil),
+        var demo: [(String, String, String?)] = [("Front Porch", "ch0", "ch1"), ("Driveway", "hevc", nil),
                                                  ("Back Yard", "ch1", nil), ("Garage", "ch0", "ch1")]
+        // `-manyCameras`: a dozen, to see the grid scroll and resize.
+        if args.contains("-manyCameras") {
+            demo += ["Side Gate", "Back Door", "Shed", "Kitchen", "Nursery", "Workshop", "Patio", "Mailbox"].map { ($0, "ch1", nil) }
+        }
         let reolinkPorts = args.contains("-reolinkRig") ? ["Driveway": 8081, "Back Yard": 8082, "Garage": 8083, "Front Porch": 8084] : [:]
         for (name, main, sub) in demo {
             var cam = Camera(name: name, kind: .rtsp, host: host, mainURL: "rtsp://\(host):8554/\(main)",
